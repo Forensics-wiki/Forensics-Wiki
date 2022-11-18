@@ -92,7 +92,7 @@ const config = {
             label: '零碎知识',
           },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/mcyydscc/Forensics-wiki',
             label: 'GitHub',
             position: 'right',
           },
@@ -144,7 +144,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/mcyydscc/Forensics-wiki',
               },
             ],
           },
