@@ -125,15 +125,15 @@ const config = {
               },
               {
                 label: '取证基础',
-                to: '/docs/category/取证基础',
+                to: '/docs/forensics-base',
               },
               {
                 label: '加密与解密',
-                to: '/docs/category/加密与解密',
+                to: '/docs/forensics-jiami',
               },
               {
                 label: '内存取证volatility',
-                to: '/docs/category/内存取证volatility',
+                to: '/docs/forensics-volatility',
               },
             ],
           },
