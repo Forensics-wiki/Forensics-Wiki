@@ -82,9 +82,24 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'introduce',
+            docId: 'introduce/index',
             position: 'left',
             label: '开始',
+          },
+          {
+            to: '/docs/forensics-base',
+            position: 'left',
+            label: '取证基础',
+          },
+          {
+            to: '/docs/forensics-jiami',
+            position: 'left',
+            label: '加密与解密',
+          },
+          {
+            to: '/docs/forensics-volatility',
+            position: 'left',
+            label: '内存取证',
           },
           {
             to: '/blog',
