@@ -6,8 +6,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Forensics-Wiki',
-  tagline: '电子数据取证Wiki',
+  title: '电子数据取证Wiki',
+  tagline: 'Forensics-Wiki',
   url: 'https://www.forensics-wiki.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
