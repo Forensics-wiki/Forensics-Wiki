@@ -38,7 +38,9 @@ const sidebars = {
       type: 'category',
       label: '内存取证',
       items: ['forensics-volatility/index',
-              'forensics-volatility/base'],
+              'forensics-volatility/install',
+              'forensics-volatility/use',
+              'forensics-volatility/windows'],
     },
   ],
   

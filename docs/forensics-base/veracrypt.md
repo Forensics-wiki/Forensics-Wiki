@@ -22,13 +22,13 @@ TrueCrypt 最终关闭了，但一个名为 VeraCrypt 的替代项目迅速兴�
 
 1. 打开VeraCrypt，首先在Setting中设置为中文。
    Setting-Language-简体中文-OK
-   ![image](https://www.forensics-wiki.com/assets/img/QQ%E6%88%AA%E5%9B%BE20220928134204.png)
+   ![image-20221119212930254](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221119212930254.png)
 2. 选择加密卷加载
-   ![image](https://www.forensics-wiki.com/assets/img/QQ%E6%88%AA%E5%9B%BE20220928134407.png)
+   ![image-20221119213032371](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221119213032371.png)
 3. 输入密码，如有密钥文件则使用密钥文件，如有PIM值则一同输入，选择加载即可
-   ![image](https://www.forensics-wiki.com/assets/img/QQ%E6%88%AA%E5%9B%BE20220928134611.png)
+   ![image-20221119213237860](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221119213237860.png)
 4. 加载成功后，在本地中即可显示出新加载的卷
-   ![image](https://www.forensics-wiki.com/assets/img/QQ%E6%88%AA%E5%9B%BE20220928134853.png)
+   ![image-20221119213316095](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221119213316095.png)
 
 ## 总结
 
