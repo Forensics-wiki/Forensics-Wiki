@@ -29,7 +29,7 @@ BitLocker使用AES（高级加密标准/Advanced Encryption Standard）128位或
 5. 我们需要重启电脑，驱动器锁会彻底锁上，需要输入密码或者验证密钥才能打开。
    ![image](./img/QQ%E6%88%AA%E5%9B%BE20220928171454.png)
 
-## 取证解密思路分析[¶](https://www.forensics-wiki.com/Windows取证/第7节：Bitlocker加解密/#_4)
+## 取证解密思路分析
 
 **思路1：通过密码查找解密**
 
