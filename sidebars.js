@@ -21,7 +21,8 @@ const sidebars = {
               'forensics-base/sha',
               'forensics-base/veracrypt',
               'forensics-base/file',
-              'forensics-base/img'],
+              'forensics-base/img',
+              'forensics-base/ftkfz'],
     },
   ],
     jiami: [
