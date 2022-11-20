@@ -1,0 +1,335 @@
+# Windows命令参考
+
+## 镜像识别
+
+### imageinfo
+
+如果要获得内存的高级摘要，请使用 `imageinfo` 命令。大多数情况下，此命令用于识别操作系统、服务包和硬件体系结构（32 位或 64 位），但它还包含其他有用信息，例如 DTB 地址和内存镜像制作时间。
+
+```python
+$ python vol.py -f ~/Desktop/win7_trial_64bit.raw imageinfo
+Volatility Foundation Volatility Framework 2.4
+Determining profile based on KDBG search...
+
+          Suggested Profile(s) : Win7SP0x64, Win7SP1x64, Win2008R2SP0x64, Win2008R2SP1x64
+                     AS Layer1 : AMD64PagedMemory (Kernel AS)
+                     AS Layer2 : FileAddressSpace (/Users/Michael/Desktop/win7_trial_64bit.raw)
+                      PAE type : PAE
+                           DTB : 0x187000L
+                          KDBG : 0xf80002803070
+          Number of Processors : 1
+     Image Type (Service Pack) : 0
+                KPCR for CPU 0 : 0xfffff80002804d00L
+             KUSER_SHARED_DATA : 0xfffff78000000000L
+           Image date and time : 2012-02-22 11:29:02 UTC+0000
+     Image local date and time : 2012-02-22 03:29:02 -0800
+```
+
+基础命令中的`--profile=PROFILE`，在 imageinfo 的输出中会告诉你所使用镜像的系统，因此需要你将`PROFILE`替换为得到的系统名称，如：`--profile=Win7SP0x64`，在随后的所有命令中，你都需要带上`--profile=XXXXXX`。另外`profile`有可能不止有一个建议的系统名称。
+
+:::caution
+
+`imageinfo`需要指定正确的内存镜像，如果不正确，那么他可能无法运行，或者运行出空白内容。
+
+:::
+
+### kdbgscan
+
+kdbgscan主要用于识别正确的`porfile`和正确的KDBG。该插件主要用于扫描连接到内存配置文件的KDBG Header签名，如果你已经知道了`profile`那么你完全可以直接使用此插件
+
+```python
+$ python vol.py -f Win2K3SP2x64-6f1bedec.vmem --profile=Win2003SP2x64 kdbgscan
+Volatility Foundation Volatility Framework 2.4
+**************************************************
+Instantiating KDBG using: Kernel AS Win2003SP2x64 (5.2.3791 64bit)
+Offset (V)                    : 0xf80001172cb0
+Offset (P)                    : 0x1172cb0
+KDBG owner tag check          : True
+Profile suggestion (KDBGHeader): Win2003SP2x64
+Version64                     : 0xf80001172c70 (Major: 15, Minor: 3790)
+Service Pack (CmNtCSDVersion) : 0
+Build string (NtBuildLab)     : T?
+PsActiveProcessHead           : 0xfffff800011947f0 (0 processes)
+PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
+KernelBase                    : 0xfffff80001000000 (Matches MZ: True)
+Major (OptionalHeader)        : 5
+Minor (OptionalHeader)        : 2
+
+**************************************************
+Instantiating KDBG using: Kernel AS Win2003SP2x64 (5.2.3791 64bit)
+Offset (V)                    : 0xf80001175cf0
+Offset (P)                    : 0x1175cf0
+KDBG owner tag check          : True
+Profile suggestion (KDBGHeader): Win2003SP2x64
+Version64                     : 0xf80001175cb0 (Major: 15, Minor: 3790)
+Service Pack (CmNtCSDVersion) : 2
+Build string (NtBuildLab)     : 3790.srv03_sp2_rtm.070216-1710
+PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
+PsLoadedModuleList            : 0xfffff8000119aae0 (116 modules)
+KernelBase                    : 0xfffff80001000000 (Matches MZ: True)
+Major (OptionalHeader)        : 5
+Minor (OptionalHeader)        : 2
+KPCR                          : 0xfffff80001177000 (CPU 0)
+```
+
+### kpcrscan
+
+使用本命令可以扫描到KPCR结构。在多核系统中，每个处理器都有自己的KPCR。因为通过这个命令，你可以看到每个处理器的详细信息。当前、空闲和下一个线程；CPU的型号，CR3等等
+
+```python
+$ python vol.py -f dang_win7_x64.raw --profile=Win7SP1x64 kpcrscan
+Volatility Foundation Volatility Framework 2.4
+**************************************************
+Offset (V)                    : 0xf800029ead00
+Offset (P)                    : 0x29ead00
+KdVersionBlock                : 0x0
+IDT                           : 0xfffff80000b95080
+GDT                           : 0xfffff80000b95000
+CurrentThread                 : 0xfffffa800cf694d0 TID 2148 (kd.exe:2964)
+IdleThread                    : 0xfffff800029f8c40 TID 0 (Idle:0)
+Details                       : CPU 0 (GenuineIntel @ 2128 MHz)
+CR3/DTB                       : 0x1dcec000
+**************************************************
+Offset (V)                    : 0xf880009e7000
+Offset (P)                    : 0x4d9e000
+KdVersionBlock                : 0x0
+IDT                           : 0xfffff880009f2540
+GDT                           : 0xfffff880009f24c0
+CurrentThread                 : 0xfffffa800cf694d0 TID 2148 (kd.exe:2964)
+IdleThread                    : 0xfffff880009f1f40 TID 0 (Idle:0)
+Details                       : CPU 1 (GenuineIntel @ 2220 MHz)
+CR3/DTB                       : 0x1dcec000
+```
+
+## 进程和dll
+
+### pslist
+
+如果要列出系统的进程，可以使用`pslist`命令。`PsActiveProcessHead`将显示`偏移量`，`进程名称`，`进程ID`，`父进程ID`，`线程数`，`句柄数`以及进程启动和退出时间。从2.1版本开始还将会显示进程是否为[Wow64](https://baike.baidu.com/item/WOW64/2155695)。
+
+:::caution
+
+pslist不会检测隐藏或者未启动程序，如果需要请使用[`psscan`](#psscan)
+
+:::
+
+如果看到具有 0 个线程、0 个句柄和/或非空退出时间的进程，则该进程实际上可能并未处于活动状态。
+
+还要注意这两个进程`System`并不`smss.exe`会有 Session ID，因为 System 在会话建立之前启动并且`smss.exe`是会话管理器本身。
+
+```python
+$ python vol.py -f ~/Desktop/win7_trial_64bit.raw --profile=Win7SP0x64 pslist
+Volatility Foundation Volatility Framework 2.4
+Offset(V)          Name                    PID   PPID   Thds     Hnds   Sess  Wow64 Start                Exit                
+------------------ -------------------- ------ ------ ------ -------- ------ ------ -------------------- --------------------
+0xfffffa80004b09e0 System                    4      0     78      489 ------      0 2012-02-22 19:58:20                      
+0xfffffa8000ce97f0 smss.exe                208      4      2       29 ------      0 2012-02-22 19:58:20                      
+0xfffffa8000c006c0 csrss.exe               296    288      9      385      0      0 2012-02-22 19:58:24                      
+0xfffffa8000c92300 wininit.exe             332    288      3       74      0      0 2012-02-22 19:58:30                      
+0xfffffa8000c06b30 csrss.exe               344    324      7      252      1      0 2012-02-22 19:58:30                      
+0xfffffa8000c80b30 winlogon.exe            372    324      5      136      1      0 2012-02-22 19:58:31                      
+0xfffffa8000c5eb30 services.exe            428    332      6      193      0      0 2012-02-22 19:58:32                      
+0xfffffa80011c5700 lsass.exe               444    332      6      557      0      0 2012-02-22 19:58:32                      
+0xfffffa8000ea31b0 lsm.exe                 452    332     10      133      0      0 2012-02-22 19:58:32                      
+0xfffffa8001296b30 svchost.exe             568    428     10      352      0      0 2012-02-22 19:58:34                      
+0xfffffa80012c3620 svchost.exe             628    428      6      247      0      0 2012-02-22 19:58:34                      
+0xfffffa8001325950 sppsvc.exe              816    428      5      154      0      0 2012-02-22 19:58:41                      
+0xfffffa80007b7960 svchost.exe             856    428     16      404      0      0 2012-02-22 19:58:43                      
+0xfffffa80007bb750 svchost.exe             880    428     34     1118      0      0 2012-02-22 19:58:43                      
+0xfffffa80007d09e0 svchost.exe             916    428     19      443      0      0 2012-02-22 19:58:43                      
+0xfffffa8000c64840 svchost.exe             348    428     14      338      0      0 2012-02-22 20:02:07                      
+0xfffffa8000c09630 svchost.exe             504    428     16      496      0      0 2012-02-22 20:02:07                      
+0xfffffa8000e86690 spoolsv.exe            1076    428     12      271      0      0 2012-02-22 20:02:10                      
+0xfffffa8000518b30 svchost.exe            1104    428     18      307      0      0 2012-02-22 20:02:10                      
+0xfffffa800094d960 wlms.exe               1264    428      4       43      0      0 2012-02-22 20:02:11                      
+0xfffffa8000995b30 svchost.exe            1736    428     12      200      0      0 2012-02-22 20:02:25                      
+0xfffffa8000aa0b30 SearchIndexer.         1800    428     12      757      0      0 2012-02-22 20:02:26                      
+0xfffffa8000aea630 taskhost.exe           1144    428      7      189      1      0 2012-02-22 20:02:41                      
+0xfffffa8000eafb30 dwm.exe                1476    856      3       71      1      0 2012-02-22 20:02:41                      
+0xfffffa80008f3420 explorer.exe           1652    840     21      760      1      0 2012-02-22 20:02:42                      
+0xfffffa8000c9a630 regsvr32.exe           1180   1652      0 --------      1      0 2012-02-22 20:03:05  2012-02-22 20:03:08 
+0xfffffa8000a03b30 rundll32.exe           2016    568      3       67      1      0 2012-02-22 20:03:16                      
+0xfffffa8000a4f630 svchost.exe            1432    428     12      350      0      0 2012-02-22 20:04:14                      
+0xfffffa8000999780 iexplore.exe           1892   1652     19      688      1      1 2012-02-22 11:26:12                      
+0xfffffa80010c9060 iexplore.exe           2820   1892     23      733      1      1 2012-02-22 11:26:15                      
+0xfffffa8001016060 DumpIt.exe             2860   1652      2       42      1      1 2012-02-22 11:28:59                      
+0xfffffa8000acab30 conhost.exe            2236    344      2       51      1      0 2012-02-22 11:28:59 
+```
+
+默认情况下，`pslist`显示虚拟偏移量，`_EPROCESS`但物理偏移量可以通过`-P`开关获得：
+
+```python
+$ python vol.py -f ~/Desktop/win7_trial_64bit.raw --profile=Win7SP0x64 pslist -P 
+Volatility Foundation Volatility Framework 2.4
+Offset(P)          Name                    PID   PPID   Thds     Hnds   Sess  Wow64 Start                Exit                
+------------------ -------------------- ------ ------ ------ -------- ------ ------ -------------------- --------------------
+0x0000000017fef9e0 System                    4      0     78      489 ------      0 2012-02-22 19:58:20                      
+0x00000000176e97f0 smss.exe                208      4      2       29 ------      0 2012-02-22 19:58:20                      
+0x00000000176006c0 csrss.exe               296    288      9      385      0      0 2012-02-22 19:58:24                      
+0x0000000017692300 wininit.exe             332    288      3       74      0      0 2012-02-22 19:58:30                      
+0x0000000017606b30 csrss.exe               344    324      7      252      1      0 2012-02-22 19:58:30
+... 
+```
+
+### pstree
+
+如果要以进程树的形式查看进行列表，请使用`pstree`命令。他的原理和`pslist`相同，因此不会显示隐藏或未启动的进程.子进程使用缩进和`.`表示。
+
+```python
+$ python vol.py -f ~/Desktop/win7_trial_64bit.raw --profile=Win7SP0x64 pstree
+Volatility Foundation Volatility Framework 2.4
+Name                                                  Pid   PPid   Thds   Hnds Time                
+-------------------------------------------------- ------ ------ ------ ------ --------------------
+ 0xfffffa80004b09e0:System                              4      0     78    489 2012-02-22 19:58:20 
+. 0xfffffa8000ce97f0:smss.exe                         208      4      2     29 2012-02-22 19:58:20 
+ 0xfffffa8000c006c0:csrss.exe                         296    288      9    385 2012-02-22 19:58:24 
+ 0xfffffa8000c92300:wininit.exe                       332    288      3     74 2012-02-22 19:58:30 
+. 0xfffffa8000c5eb30:services.exe                     428    332      6    193 2012-02-22 19:58:32 
+.. 0xfffffa8000aa0b30:SearchIndexer.                 1800    428     12    757 2012-02-22 20:02:26 
+.. 0xfffffa80007d09e0:svchost.exe                     916    428     19    443 2012-02-22 19:58:43 
+.. 0xfffffa8000a4f630:svchost.exe                    1432    428     12    350 2012-02-22 20:04:14 
+.. 0xfffffa800094d960:wlms.exe                       1264    428      4     43 2012-02-22 20:02:11 
+.. 0xfffffa8001325950:sppsvc.exe                      816    428      5    154 2012-02-22 19:58:41 
+.. 0xfffffa8000e86690:spoolsv.exe                    1076    428     12    271 2012-02-22 20:02:10 
+.. 0xfffffa8001296b30:svchost.exe                     568    428     10    352 2012-02-22 19:58:34 
+... 0xfffffa8000a03b30:rundll32.exe                  2016    568      3     67 2012-02-22 20:03:16
+...
+```
+
+### psscan
+
+要扫描所有的进程，请使用`psscan`命令。他可以找到之前已经终止了的进程、已经被`rootkit`隐藏的进程或者取消链接的进程。缺点就是`rookit`依然可以使用覆盖标签池的方法来隐藏进程。
+
+```python
+$ python vol.py --profile=Win7SP0x86 -f win7.dmp psscan
+Volatility Foundation Volatility Framework 2.0
+ Offset     Name             PID    PPID   PDB        Time created             Time exited             
+---------- ---------------- ------ ------ ---------- ------------------------ ------------------------ 
+0x3e025ba8 svchost.exe        1116    508 0x3ecf1220 2010-06-16 15:25:25                              
+0x3e04f070 svchost.exe        1152    508 0x3ecf1340 2010-06-16 15:27:40                              
+0x3e144c08 dwm.exe            1540    832 0x3ecf12e0 2010-06-16 15:26:58                              
+0x3e145c18 TPAutoConnSvc.     1900    508 0x3ecf1360 2010-06-16 15:25:41                              
+0x3e3393f8 lsass.exe           516    392 0x3ecf10e0 2010-06-16 15:25:18                              
+0x3e35b8f8 svchost.exe         628    508 0x3ecf1120 2010-06-16 15:25:19                              
+0x3e383770 svchost.exe         832    508 0x3ecf11a0 2010-06-16 15:25:20                              
+0x3e3949d0 svchost.exe         740    508 0x3ecf1160 2010-06-16 15:25:20                              
+0x3e3a5100 svchost.exe         872    508 0x3ecf11c0 2010-06-16 15:25:20                              
+0x3e3f64e8 svchost.exe         992    508 0x3ecf1200 2010-06-16 15:25:24                              
+0x3e45a530 wininit.exe         392    316 0x3ecf10a0 2010-06-16 15:25:15                              
+0x3e45d928 svchost.exe        1304    508 0x3ecf1260 2010-06-16 15:25:28                              
+0x3e45f530 csrss.exe           400    384 0x3ecf1040 2010-06-16 15:25:15                              
+0x3e4d89c8 vmtoolsd.exe       1436    508 0x3ecf1280 2010-06-16 15:25:30                              
+0x3e4db030 spoolsv.exe        1268    508 0x3ecf1240 2010-06-16 15:25:28                              
+0x3e50b318 services.exe        508    392 0x3ecf1080 2010-06-16 15:25:18                              
+0x3e7f3d40 csrss.exe           352    316 0x3ecf1060 2010-06-16 15:25:12                              
+0x3e7f5bc0 winlogon.exe        464    384 0x3ecf10c0 2010-06-16 15:25:18                              
+0x3eac6030 SearchProtocol     2448   1168 0x3ecf15c0 2010-06-16 23:30:52      2010-06-16 23:33:14     
+0x3eb10030 SearchFilterHo     1812   1168 0x3ecf1480 2010-06-16 23:31:02      2010-06-16 23:33:14 
+[snip]
+```
+
+如果进程在之前已经停止了，那么就会显示他的`Time exited`。
+
+### psdispscan
+
+这个插件类似于`psscan`，但是他是通过扫描`DISPATCHER_HEADER`来列举进程，而不是扫描进程池。因此，当他们通过覆盖标签池的方法来隐藏进程的话，那么他就会失效。但是这个插件没有得到很好的维护，导致了它只能在`XP ×86`下运行。如果要使用它，可以在命令行使用`--plugins=contrib/plugins`。
+
+### dlllist
+
+如果需要显示进程加载的dll，那么请使用`dlllist`命令。并且他还会告诉你这是一个静态加载还是动态加载。
+
+```python
+$ python vol.py -f ~/Desktop/win7_trial_64bit.raw --profile=Win7SP0x64 dlllist 
+************************************************************************
+wininit.exe pid:    332
+Command line : wininit.exe
+
+Base                             Size          LoadCount Path
+------------------ ------------------ ------------------ ----
+0x00000000ff530000            0x23000             0xffff C:\Windows\system32\wininit.exe
+0x0000000076d40000           0x1ab000             0xffff C:\Windows\SYSTEM32\ntdll.dll
+0x0000000076b20000           0x11f000             0xffff C:\Windows\system32\kernel32.dll
+0x000007fefcd50000            0x6b000             0xffff C:\Windows\system32\KERNELBASE.dll
+0x0000000076c40000            0xfa000             0xffff C:\Windows\system32\USER32.dll
+0x000007fefd7c0000            0x67000             0xffff C:\Windows\system32\GDI32.dll
+0x000007fefe190000             0xe000             0xffff C:\Windows\system32\LPK.dll
+0x000007fefef80000            0xca000             0xffff C:\Windows\system32\USP10.dll
+0x000007fefd860000            0x9f000             0xffff C:\Windows\system32\msvcrt.dll
+[snip]
+```
+
+:::tip
+
+如果要显示指定进程的dll，请使用`-p`或者`--pid`过滤
+
+:::
+
+```
+$ python vol.py -f ~/Desktop/win7_trial_64bit.raw --profile=Win7SP0x64 dlllist -p 1892
+Volatility Foundation Volatility Framework 2.4
+************************************************************************
+iexplore.exe pid:   1892
+Command line : "C:\Program Files (x86)\Internet Explorer\iexplore.exe" 
+Note: use ldrmodules for listing DLLs in Wow64 processes
+
+Base                             Size          LoadCount Path
+------------------ ------------------ ------------------ ----
+0x0000000000080000            0xa6000             0xffff C:\Program Files (x86)\Internet Explorer\iexplore.exe
+0x0000000076d40000           0x1ab000             0xffff C:\Windows\SYSTEM32\ntdll.dll
+0x00000000748d0000            0x3f000                0x3 C:\Windows\SYSTEM32\wow64.dll
+0x0000000074870000            0x5c000                0x1 C:\Windows\SYSTEM32\wow64win.dll
+0x0000000074940000             0x8000                0x1 C:\Windows\SYSTEM32\wow64cpu.dll
+```
+
+:::tip
+
+要显示被 rootkit 隐藏或没有链接的进程的 DLL，首先使用 `psscan` 获取 EPROCESS 对象的物理偏移量并为其提供 `--offset=OFFSET`。该插件将“反弹”并确定 `EPROCESS 的虚拟地址`，然后获取地址空间以访问 `PEB`。
+
+:::
+
+```python
+$ python vol.py -f ~/Desktop/win7_trial_64bit.raw --profile=Win7SP0x64 dlllist --offset=0x04a291a8
+```
+
+### dlldump
+
+从内存镜像中把dll转存出来，请使用`dlldump`命令。语法和上面的[`dlllist`](#dlllist)类似。该命令拥有如下功能：
+
+- 转存所有进程中的所有 DLL
+- 转存指定的进程的所有 DLL（使用`--pid=PID`）
+- 从隐藏/未链接的进程中转储所有 DLL（带有`--offset=OFFSET`）
+- 从进程内存中的任何位置转储 PE（使用`--base=BASEADDR`），此选项对于提取隐藏的 DLL 很有用
+- 转储匹配正则表达式 ( `--regex=REGEX`) 的一个或多个 DLL，区分大小写或不区分大小写 ( `--ignore-case`)
+- 要指定输出目录，请使用`--dump-dir=DIR`或`-d DIR`。
+
+```
+$ python vol.py -f ~/Desktop/win7_trial_64bit.raw --profile=Win7SP0x64 dlldump -D dlls/
+...
+Process(V)         Name                 Module Base        Module Name          Result
+------------------ -------------------- ------------------ -------------------- ------
+0xfffffa8000ce97f0 smss.exe             0x0000000047a90000 smss.exe             OK: module.208.176e97f0.47a90000.dll
+0xfffffa8000ce97f0 smss.exe             0x0000000076d40000                      Error: DllBase is paged
+0xfffffa8000c006c0 csrss.exe            0x0000000049700000 csrss.exe            OK: module.296.176006c0.49700000.dll
+0xfffffa8000c006c0 csrss.exe            0x0000000076d40000 ntdll.dll            Error: DllBase is paged
+0xfffffa8000c006c0 csrss.exe            0x000007fefd860000 msvcrt.dll           Error: DllBase is paged
+0xfffffa80011c5700 lsass.exe            0x000007fefcc40000 WINSTA.dll           Error: DllBase is paged
+0xfffffa80011c5700 lsass.exe            0x000007fefd7c0000 GDI32.dll            OK: module.444.173c5700.7fefd7c0000.dll
+0xfffffa80011c5700 lsass.exe            0x000007fefc270000 DNSAPI.dll           OK: module.444.173c5700.7fefc270000.dll
+0xfffffa80011c5700 lsass.exe            0x000007fefc5d0000 Secur32.dll          OK: module.444.173c5700.7fefc5d0000.dll
+...
+```
+
+如果提取失败，就像上面的几个 DLL 一样，这可能意味着该 DLL 中的某些内容不是存在内存中的。在这些情况下，您仍然可以使用[vaddump](#vaddump)命令提取内存段，但是你需要手动重建PE标头，并且修复这些内容。
+
+要转储 DLL 列表中不存在的 PE 文件（例如，由于代码注入或恶意取消链接），只需指定 PE 在进程内存中的基地址：
+
+```python
+$ python vol.py --profile=Win7SP0x86 -f win7.dmp dlldump --pid=492 -D out --base=0x00680000
+```
+
+如果您想要的 DLL 在隐藏进程中，您还可以指定 EPROCESS 偏移量：
+
+```python
+$ python vol.py --profile=Win7SP0x86 -f win7.dmp dlldump -o 0x3e3f64e8 -D out --base=0x00680000
+```
+
