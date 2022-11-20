@@ -107,7 +107,7 @@ const config = {
             label: '零碎知识',
           },
           {
-            href: 'https://github.com/mcyydscc/Forensics-wiki',
+            href: 'https://github.com/Forensics-wiki/Forensics-Wiki',
             label: 'GitHub',
             position: 'right',
           },
@@ -154,12 +154,12 @@ const config = {
             title: '更多',
             items: [
               {
-                label: 'My Blog',
+                label: 'DIDCTF-Blog',
                 href: 'https://blog.didctf.com',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/mcyydscc/Forensics-wiki',
+                href: 'https://github.com/Forensics-wiki/Forensics-Wiki',
               },
             ],
           },
