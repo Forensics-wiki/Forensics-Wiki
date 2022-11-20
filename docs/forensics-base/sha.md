@@ -56,3 +56,30 @@ http://www.win.tue.nl/hashclash/fastcoll_v1.0.0.5.exe.zip
    范例：原文密码：123456
    第一轮md5：e10adc3949ba59abbe56e057f20f883e
    第二轮md5：14e1b600b1fd579f47433b88e8d85291
+
+## 哈希计算工具
+
+### Windows自带
+
+在Powershell中使用此命令
+
+```powershell
+Get-FileHash 文件名 -Algorithm MD5
+```
+
+此处MD5可替代为`SHA1` `SHA256` `SHA384` `SHA512`等等
+
+### 第三方工具
+
+### HashMyFiles
+
+![image-20221121002519292](https://bu.dusays.com/2022/11/21/637a54e942152.png)
+
+> 下载地址：https://hashmyfiles.en.softonic.com/
+
+### HashCalculator
+
+![image-20221121002553900](https://bu.dusays.com/2022/11/21/637a550bd8732.png)
+
+> 下载地址：https://sourceforge.net/projects/hashcalculator/
+
