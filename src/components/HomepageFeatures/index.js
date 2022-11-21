@@ -17,7 +17,7 @@ const FeatureList = [
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        你可以前往Github：https://github.com/Forensics-wiki/Forensics-Wiki/ 通过pr的方式，对该项目做出贡献，当成功pr后，会自动同步部署到<code>forensics-wiki.com</code>。
+        你可以前往Github的仓库：<a href="https://github.com/Forensics-wiki/Forensics-Wiki">Forensics-wiki/Forensics-Wiki</a> 通过pr的方式，对该项目做出贡献，当成功pr后，会自动同步部署到<code>forensics-wiki.com</code>。
       </>
     ),
   },
