@@ -4,32 +4,29 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: '简单方便',
+    title: '创建目的',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        我们创建Forensics-Wiki的目的就是为国内的取证者，提供这么一个可学习的平台，帮助国内取证者提升自己的技术。当时这个项目也是永久免费无偿的。
       </>
     ),
   },
   {
-    title: '易于使用',
+    title: '如何贡献？',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        你可以前往Github：https://github.com/Forensics-wiki/Forensics-Wiki/ 通过pr的方式，对该项目做出贡献，当成功pr后，会自动同步部署到<code>forensics-wiki.com</code>。
       </>
     ),
   },
   {
-    title: 'Powered by DIDCTF',
+    title: '相关群聊',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        我们已为本项目创建了一个Q群：<a href="https://jq.qq.com/?_wv=1027&k=8DFUxYyK">286152000</a> 欢迎各位师傅们进群一同编写交流。
       </>
     ),
   },
