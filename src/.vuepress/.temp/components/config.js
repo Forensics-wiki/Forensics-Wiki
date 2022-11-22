@@ -1,10 +1,10 @@
 import { defineClientConfig } from "@vuepress/client";
 import { h } from "vue";
 
-import { useStyleTag } from "E:/Forensics-wiki/docs/node_modules/vuepress-plugin-components/lib/client/vueuse.js";
-import Badge from "E:/Forensics-wiki/docs/node_modules/vuepress-plugin-components/lib/client/components/Badge.js";
-import FontIcon from "E:/Forensics-wiki/docs/node_modules/vuepress-plugin-components/lib/client/components/FontIcon.js";
-import BackToTop from "E:/Forensics-wiki/docs/node_modules/vuepress-plugin-components/lib/client/components/BackToTop.js";
+import { useStyleTag } from "E:/github/Forensics-Wiki/node_modules/vuepress-plugin-components/lib/client/vueuse.js";
+import Badge from "E:/github/Forensics-Wiki/node_modules/vuepress-plugin-components/lib/client/components/Badge.js";
+import FontIcon from "E:/github/Forensics-Wiki/node_modules/vuepress-plugin-components/lib/client/components/FontIcon.js";
+import BackToTop from "E:/github/Forensics-Wiki/node_modules/vuepress-plugin-components/lib/client/components/BackToTop.js";
 
 
 export default defineClientConfig({

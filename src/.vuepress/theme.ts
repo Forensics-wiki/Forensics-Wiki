@@ -3,7 +3,7 @@ import { enNavbar, zhNavbar } from "./navbar/index.js";
 import { enSidebar, zhSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
-  hostname: "https://vuepress-theme-hope-docs-demo.netlify.app",
+  hostname: "https://www.forensics-wiki.com",
 
   author: {
     name: "Forensics-Wiki",
@@ -16,7 +16,7 @@ export default hopeTheme({
 
   repo: "Forensics-wiki/Forensics-Wiki",
 
-  docsDir: "demo/theme-docs/src",
+  docsDir: "src",
 
   pageInfo: ["Author", "Original", "Date", "ReadingTime"],
 
