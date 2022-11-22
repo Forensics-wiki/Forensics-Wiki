@@ -1,0 +1,14 @@
+export const data = JSON.parse("{\"key\":\"v-055176b0\",\"path\":\"/forensics-yinru/READMD.html\",\"title\":\"电子数据取证引入\",\"lang\":\"zh-CN\",\"frontmatter\":{\"title\":\"电子数据取证引入\",\"index\":false,\"icon\":\"yinru\",\"description\":\"概念 电子取证是指利用计算机软硬件技术，以符合法律规范的方式对计算机入侵、破坏、欺诈、攻击等犯罪行为进行证据获取、保存、分析和出示的过程。从技术方面看，计算机犯罪取证是一个对受侵计算机系统进行扫描和破解，对入侵事件进行重建的过程。具体而言，是指把计算机看作犯罪现场，运用先进的辨析技术，对计算机犯罪行为进行解剖，搜寻罪犯及其犯罪证据 特点 1. 计算机数...\",\"head\":[[\"meta\",{\"property\":\"og:url\",\"content\":\"https://vuepress-theme-hope-docs-demo.netlify.app/forensics-yinru/READMD.html\"}],[\"meta\",{\"property\":\"og:title\",\"content\":\"电子数据取证引入\"}],[\"meta\",{\"property\":\"og:description\",\"content\":\"概念 电子取证是指利用计算机软硬件技术，以符合法律规范的方式对计算机入侵、破坏、欺诈、攻击等犯罪行为进行证据获取、保存、分析和出示的过程。从技术方面看，计算机犯罪取证是一个对受侵计算机系统进行扫描和破解，对入侵事件进行重建的过程。具体而言，是指把计算机看作犯罪现场，运用先进的辨析技术，对计算机犯罪行为进行解剖，搜寻罪犯及其犯罪证据 特点 1. 计算机数...\"}],[\"meta\",{\"property\":\"og:type\",\"content\":\"article\"}],[\"meta\",{\"property\":\"og:locale\",\"content\":\"zh-CN\"}]]},\"excerpt\":\"\",\"headers\":[{\"level\":2,\"title\":\"概念\",\"slug\":\"概念\",\"link\":\"#概念\",\"children\":[]},{\"level\":2,\"title\":\"特点\",\"slug\":\"特点\",\"link\":\"#特点\",\"children\":[]},{\"level\":2,\"title\":\"基本流程\",\"slug\":\"基本流程\",\"link\":\"#基本流程\",\"children\":[{\"level\":3,\"title\":\"现场勘查阶段\",\"slug\":\"现场勘查阶段\",\"link\":\"#现场勘查阶段\",\"children\":[]},{\"level\":3,\"title\":\"证据分析阶段\",\"slug\":\"证据分析阶段\",\"link\":\"#证据分析阶段\",\"children\":[]},{\"level\":3,\"title\":\"基本具体流程\",\"slug\":\"基本具体流程\",\"link\":\"#基本具体流程\",\"children\":[]}]},{\"level\":2,\"title\":\"基本原则\",\"slug\":\"基本原则\",\"link\":\"#基本原则\",\"children\":[]},{\"level\":2,\"title\":\"取证类别\",\"slug\":\"取证类别\",\"link\":\"#取证类别\",\"children\":[{\"level\":3,\"title\":\"存储介质的载体\",\"slug\":\"存储介质的载体\",\"link\":\"#存储介质的载体\",\"children\":[]},{\"level\":3,\"title\":\"数据归属的类别\",\"slug\":\"数据归属的类别\",\"link\":\"#数据归属的类别\",\"children\":[]}]},{\"level\":2,\"title\":\"常见电子数据取证装备\",\"slug\":\"常见电子数据取证装备\",\"link\":\"#常见电子数据取证装备\",\"children\":[]},{\"level\":2,\"title\":\"计算机取证装备及软件\",\"slug\":\"计算机取证装备及软件\",\"link\":\"#计算机取证装备及软件\",\"children\":[{\"level\":3,\"title\":\"国外\",\"slug\":\"国外\",\"link\":\"#国外\",\"children\":[]},{\"level\":3,\"title\":\"国内\",\"slug\":\"国内\",\"link\":\"#国内\",\"children\":[]},{\"level\":3,\"title\":\"开源取证软件\",\"slug\":\"开源取证软件\",\"link\":\"#开源取证软件\",\"children\":[]}]},{\"level\":2,\"title\":\"法律法规\",\"slug\":\"法律法规\",\"link\":\"#法律法规\",\"children\":[]},{\"level\":2,\"title\":\"行业标准\",\"slug\":\"行业标准\",\"link\":\"#行业标准\",\"children\":[]}],\"readingTime\":{\"minutes\":7.61,\"words\":2282},\"filePathRelative\":\"forensics-yinru/READMD.md\"}")
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updatePageData) {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ data }) => {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  })
+}

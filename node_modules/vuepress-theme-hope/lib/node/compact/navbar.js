@@ -1,0 +1,36 @@
+import { deprecatedLogger } from "./utils.js";
+import { logger } from "../utils.js";
+const handleNavbarConfig = (config) => config
+    .map((item) => {
+    if (typeof item === "string")
+        return item;
+    if (typeof item === "object" && item) {
+        deprecatedLogger({
+            options: item,
+            deprecatedOption: "items",
+            newOption: "children",
+            scope: "navbar",
+        });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (Array.isArray(item.children))
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            handleNavbarConfig(item.children);
+        return item;
+    }
+    return null;
+})
+    .filter((item) => item !== null);
+/**
+ * @deprecated You should use V2 standard navbar config and avoid using it
+ */
+export const convertNavbarConfig = (config) => {
+    if (config === false)
+        return false;
+    if (Array.isArray(config))
+        return handleNavbarConfig(config);
+    logger.error('"navbar" config should be an array');
+    return false;
+};
+//# sourceMappingURL=navbar.js.map

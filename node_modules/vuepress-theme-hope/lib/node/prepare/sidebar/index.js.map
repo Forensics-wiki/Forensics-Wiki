@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/node/prepare/sidebar/index.ts"],"names":[],"mappings":"AAAA,cAAc,cAAc,CAAC;AAC7B,cAAc,aAAa,CAAC","sourcesContent":["export * from \"./sidebar.js\";\nexport * from \"./sorter.js\";\n"]}
