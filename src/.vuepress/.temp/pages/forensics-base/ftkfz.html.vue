@@ -1,5 +1,4 @@
-<template><div><p>仅能仿真DD、E01镜像</p>
-<h2 id="需要使用的软件" tabindex="-1"><a class="header-anchor" href="#需要使用的软件" aria-hidden="true">#</a> 需要使用的软件</h2>
+<template><div><h2 id="需要使用的软件" tabindex="-1"><a class="header-anchor" href="#需要使用的软件" aria-hidden="true">#</a> 需要使用的软件</h2>
 <ul>
 <li>
 <p>FTK Imager</p>

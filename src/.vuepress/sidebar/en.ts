@@ -10,6 +10,13 @@ export const enSidebar = sidebar({
       children: "structure",
     },
     {
+      icon: "tool",
+      text: "基础工具使用",
+      prefix: "forensics-base/",
+      link: "forensics-base/",
+      children: "structure",
+    },
+    {
       icon: "windows",
       text: "Windows取证",
       prefix: "demo/",
@@ -28,13 +35,6 @@ export const enSidebar = sidebar({
       text: "内存取证",
       prefix: "forensics-ram/",
       link: "forensics-ram/",
-      children: "structure",
-    },
-    {
-      icon: "tool",
-      text: "基础工具使用",
-      prefix: "forensics-base/",
-      link: "forensics-base/",
       children: "structure",
     },
     {

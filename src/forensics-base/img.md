@@ -1,6 +1,6 @@
 ---
 title: 镜像制作
-order: 3
+order: 4
 ---
 
 此处仅使用FTK Imager制作

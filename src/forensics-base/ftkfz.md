@@ -1,9 +1,7 @@
 ---
-title: 镜像仿真-FTK Imager
-order: 2
+title: 镜像仿真-DD、E01
+order: 5
 ---
-
-仅能仿真DD、E01镜像
 
 ## 需要使用的软件
 
