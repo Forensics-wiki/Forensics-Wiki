@@ -13,12 +13,12 @@ export const pagesComponents = {
   "v-c151bf32": defineAsyncComponent(() => import(/* webpackChunkName: "v-c151bf32" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/encrypt.html.vue")),
   // path: /demo/
   "v-1473bf53": defineAsyncComponent(() => import(/* webpackChunkName: "v-1473bf53" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/index.html.vue")),
+  // path: /forensics-android/
+  "v-53f3090e": defineAsyncComponent(() => import(/* webpackChunkName: "v-53f3090e" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-android/index.html.vue")),
   // path: /forensics-apk/
   "v-36a02201": defineAsyncComponent(() => import(/* webpackChunkName: "v-36a02201" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-apk/index.html.vue")),
   // path: /forensics-apple/
   "v-0f22dd03": defineAsyncComponent(() => import(/* webpackChunkName: "v-0f22dd03" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-apple/index.html.vue")),
-  // path: /forensics-android/
-  "v-53f3090e": defineAsyncComponent(() => import(/* webpackChunkName: "v-53f3090e" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-android/index.html.vue")),
   // path: /forensics-base/file.html
   "v-798cba0d": defineAsyncComponent(() => import(/* webpackChunkName: "v-798cba0d" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-base/file.html.vue")),
   // path: /forensics-base/ftkfz.html
@@ -37,8 +37,10 @@ export const pagesComponents = {
   "v-c4e948f8": defineAsyncComponent(() => import(/* webpackChunkName: "v-c4e948f8" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-disk/index.html.vue")),
   // path: /forensics-exe/
   "v-36a210cb": defineAsyncComponent(() => import(/* webpackChunkName: "v-36a210cb" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-exe/index.html.vue")),
-  // path: /forensics-linux/111.html
-  "v-7351af11": defineAsyncComponent(() => import(/* webpackChunkName: "v-7351af11" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-linux/111.html.vue")),
+  // path: /forensics-linux/baseInstruction.html
+  "v-10225a25": defineAsyncComponent(() => import(/* webpackChunkName: "v-10225a25" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-linux/baseInstruction.html.vue")),
+  // path: /forensics-linux/introduce.html
+  "v-2215fa03": defineAsyncComponent(() => import(/* webpackChunkName: "v-2215fa03" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-linux/introduce.html.vue")),
   // path: /forensics-linux/
   "v-2184c2a9": defineAsyncComponent(() => import(/* webpackChunkName: "v-2184c2a9" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/forensics-linux/index.html.vue")),
   // path: /forensics-liuliang/
@@ -69,8 +71,6 @@ export const pagesComponents = {
   "v-0b6fc5f8": defineAsyncComponent(() => import(/* webpackChunkName: "v-0b6fc5f8" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/guide/foo/ray.html.vue")),
   // path: /guide/foo/
   "v-5d5821d6": defineAsyncComponent(() => import(/* webpackChunkName: "v-5d5821d6" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/guide/foo/index.html.vue")),
-  // path: /zh/guide/
-  "v-47357bdb": defineAsyncComponent(() => import(/* webpackChunkName: "v-47357bdb" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/zh/guide/index.html.vue")),
   // path: /zh/demo/disable.html
   "v-c1942916": defineAsyncComponent(() => import(/* webpackChunkName: "v-c1942916" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/zh/demo/disable.html.vue")),
   // path: /zh/demo/encrypt.html
@@ -81,6 +81,8 @@ export const pagesComponents = {
   "v-62ced1a6": defineAsyncComponent(() => import(/* webpackChunkName: "v-62ced1a6" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/zh/demo/page.html.vue")),
   // path: /zh/demo/
   "v-2b64e284": defineAsyncComponent(() => import(/* webpackChunkName: "v-2b64e284" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/zh/demo/index.html.vue")),
+  // path: /zh/guide/
+  "v-47357bdb": defineAsyncComponent(() => import(/* webpackChunkName: "v-47357bdb" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/zh/guide/index.html.vue")),
   // path: /zh/guide/bar/baz.html
   "v-1e317375": defineAsyncComponent(() => import(/* webpackChunkName: "v-1e317375" */"E:/github/Forensics-Wiki/src/.vuepress/.temp/pages/zh/guide/bar/baz.html.vue")),
   // path: /zh/guide/bar/
