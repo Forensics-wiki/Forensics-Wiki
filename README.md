@@ -26,9 +26,7 @@
 
 构建项目输出后的目录位于：`/src/.vuepress/dist`
 
-## 贡献者👬
-
-（pr后会自动更新）
+## 鸣谢👬
 
 <a href="https://github.com/Forensics-wiki/Forensics-Wiki/graphs/contributors">   <img src="https://contrib.rocks/image?repo=Forensics-wiki/Forensics-Wiki" /> </a>
 
