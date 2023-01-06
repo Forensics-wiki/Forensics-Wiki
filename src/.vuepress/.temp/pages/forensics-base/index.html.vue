@@ -6,6 +6,7 @@
 <li><RouterLink to="/forensics-base/img.html">镜像制作</RouterLink></li>
 <li><RouterLink to="/forensics-base/ftkfz.html">镜像仿真-FTK-Imager</RouterLink></li>
 <li><RouterLink to="/forensics-base/winserver.html">镜像仿真-Windows Server</RouterLink></li>
+<li><RouterLink to="/forensics-base/time.html">常见时间戳转换</RouterLink></li>
 </ul>
 </div></template>
 
