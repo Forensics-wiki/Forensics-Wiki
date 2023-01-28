@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3c076d57-933f-415b-8582-3ae467a462e2/deploy-status)](https://app.netlify.com/sites/dreamy-halva-0604b2/deploys)
 # Forensics-Wiki
 
 ## 这是什么？🔎
