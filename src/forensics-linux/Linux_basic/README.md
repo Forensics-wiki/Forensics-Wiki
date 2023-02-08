@@ -1,5 +1,5 @@
 ---
-title: Linux基础
+title: Linux基础知识
 index: false
 ---
 

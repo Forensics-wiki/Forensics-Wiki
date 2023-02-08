@@ -3,7 +3,7 @@ home: true
 icon: home
 title: 电子数据取证Wiki | Forensics-Wiki
 heroImage: /logo.svg
-heroText: 电子数据取证Wiki
+heroText: 取证爱好者社区
 tagline: 世界很大，互联网让世界变小，真的黑客们应该去思考并创造，无论当下是在破坏还是在创造，记住，未来，那条主线是创造的就对了。
 actions:
   - text: 开始阅读 💡

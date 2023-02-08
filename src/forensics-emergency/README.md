@@ -1,6 +1,8 @@
 ---
-title: Linux基础
+title: 应急响应指南
 index: false
+icon: apple
+
 ---
 
 ## Catalog
@@ -12,3 +14,5 @@ index: false
 - [Function Disable](disable.md)
 
 - [Encryption Demo](encrypt.md)
+
+# Bule_team [蓝军]

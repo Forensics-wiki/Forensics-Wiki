@@ -1,6 +1,10 @@
 ---
-title: Linux基础
+title: Airdrop取证
 index: false
+icon: apple
+category:
+  - Linux
+
 ---
 
 ## Catalog
