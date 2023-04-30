@@ -1,4 +1,5 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/3c076d57-933f-415b-8582-3ae467a462e2/deploy-status)](https://app.netlify.com/sites/dreamy-halva-0604b2/deploys)
+
 # Forensics-Wiki
 
 ## 这是什么？🔎
@@ -17,23 +18,39 @@
 
 配套有相关的[电子数据取证靶场](https://forensics.didctf.com)，可以发送相关身份证明来获得邀请码
 
-## 项目如何在本地运行🏠
+## 目录结构🏠
 
-运行环境请参考：[vuepress-theme-hope](https://vuepress-theme-hope.github.io/v2/zh/cookbook/tutorial/env.html)
+- Forensics-Wiki常见问题
+  - Forensics-Wiki常见问题
+- 引入
+  - 电子数据取证引入
+- 取证基础
+  - 哈希值
+  - VeraCrypt使用
+  - 证据文件格式
+  - 镜像制作
+  - 镜像仿真-DD、E01
+  - 镜像仿真-Windows Server
+  - 常见的时间戳转换
+- Windows取证
+  - EFS加密与解密
+  - Bitlocker加密与解密
 
-- `pnpm docs:dev` 启动开发服务器
-- `pnpm docs:build` 构建项目并输出
-- `pnpm docs:clean-dev` 清除缓存并启动开发服务器
+- Linux&服务器取证
+  - 介绍
+  - 基础命令
+  - CDN基础
 
-构建项目输出后的目录位于：`/src/.vuepress/dist`
-
-## 鸣谢👬
-
-<a href="https://github.com/Forensics-wiki/Forensics-Wiki/graphs/contributors">   <img src="https://contrib.rocks/image?repo=Forensics-wiki/Forensics-Wiki" /> </a>
+- 内存取证
+  - 介绍
+  - 安装
+  - 基本用法
+  - Windows命令参考
 
 ## Stars ✨
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Forensics-wiki/Forensics-Wiki&type=Date)](https://star-history.com/#Forensics-wiki/Forensics-Wiki&Date)
 
 ## Copyleft
+
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可。
