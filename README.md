@@ -47,6 +47,10 @@
   - 基本用法
   - Windows命令参考
 
+- 赛题Writeup
+  - 首届盘古石电子数据取证大赛晋级赛Writeup
+  - 第四届长安杯电子数据取证大赛Writeup
+
 ## Stars ✨
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Forensics-wiki/Forensics-Wiki&type=Date)](https://star-history.com/#Forensics-wiki/Forensics-Wiki&Date)
