@@ -20,10 +20,10 @@
 
 ## 目录结构🏠
 
-- Forensics-Wiki常见问题
-  - Forensics-Wiki常见问题
 - 引入
   - 电子数据取证引入
+  - Forensics-Wiki常见问题
+  - 商业软件授权问题
 - 取证基础
   - 哈希值
   - VeraCrypt使用
