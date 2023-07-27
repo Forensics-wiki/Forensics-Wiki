@@ -3,6 +3,7 @@ title: 哈希值
 icon: hashtag
 order: 1
 sidebar: structure
+pageview: true
 ---
 
 # 哈希值

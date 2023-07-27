@@ -3,6 +3,7 @@ title: 镜像制作
 icon: wand-magic
 order: 4
 sidebar: structure
+pageview: true
 ---
 
 ## 磁盘镜像

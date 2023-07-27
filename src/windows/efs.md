@@ -3,6 +3,7 @@ title: EFS加密与解密
 icon: unlock
 order: 2
 sidebar: structure
+pageview: true
 ---
 
 ## 加密方法

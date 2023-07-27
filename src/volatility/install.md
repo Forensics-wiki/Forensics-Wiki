@@ -3,6 +3,7 @@ title: 安装
 icon: hand
 order: 2
 sidebar: structure
+pageview: true
 ---
 
 ## 获取 Volatility

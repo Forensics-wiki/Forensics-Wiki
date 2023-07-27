@@ -3,6 +3,7 @@ title: 第四届长安杯电子数据取证大赛Writeup
 icon: award
 order: 1
 sidebar: structure
+pageview: true
 ---
 
 ## 案件情况

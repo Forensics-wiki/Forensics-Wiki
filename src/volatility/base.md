@@ -3,6 +3,7 @@ title: 基本用法
 icon: star
 order: 3
 sidebar: structure
+pageview: true
 ---
 
 ## 使用Volatility

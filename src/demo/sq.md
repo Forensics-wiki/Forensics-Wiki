@@ -5,6 +5,7 @@ title: 商业取证软件授权问题
 icon: file
 # 这是侧边栏的顺序
 order: 3
+pageview: true
 ---
 
 ## 美亚柏科产品

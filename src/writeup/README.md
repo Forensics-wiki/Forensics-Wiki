@@ -2,6 +2,7 @@
 title: 赛题Writeup
 index: false
 icon: trophy
+pageview: true
 ---
 
 Writeup作者列表如下：

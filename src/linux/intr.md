@@ -3,6 +3,7 @@ title: 介绍
 icon: play
 order: 1
 sidebar: structure
+pageview: true
 ---
 
 ## Linux简介

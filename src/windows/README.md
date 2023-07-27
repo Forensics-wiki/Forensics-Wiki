@@ -2,6 +2,7 @@
 title: Windows取证
 index: false
 icon: fab fa-windows
+pageview: true
 ---
 
 ## 目录

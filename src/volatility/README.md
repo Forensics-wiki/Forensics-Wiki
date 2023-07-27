@@ -2,6 +2,7 @@
 title: 内存取证
 index: false
 icon: memory
+pageview: true
 ---
 
 ## 目录

@@ -3,6 +3,7 @@ title: VeraCrypt使用方法
 icon: lock
 order: 2
 sidebar: structure
+pageview: true
 ---
 
 许多年前，有一个名为 TrueCrypt 的加密软件。它的源码是可以得到的，尽管没有任何人声称曾对它进行过审计或贡献过。它的作者是（至今仍是）匿名的。不过，它是跨平台的，易于使用，而且真的非常有用。

@@ -3,6 +3,7 @@ title: CDN基础
 icon: shield
 order: 3
 sidebar: structure
+pageview: true
 ---
 
 > 本文部分内容由ChatGPT生成

@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/6f2410f9-c7e4-4100-8e7b-f478571c5da4/deploy-status)](https://app.netlify.com/sites/astonishing-sherbet-b2e5cd/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/046a9ceb-8190-4e15-b8db-432a2eb948d0/deploy-status)](https://app.netlify.com/sites/iridescent-lollipop-b27be2/deploys)
 
 # Forensics-Wiki
 

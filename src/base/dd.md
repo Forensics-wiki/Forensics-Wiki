@@ -3,6 +3,7 @@ title: 镜像仿真-DD、E01
 icon: info
 order: 5
 sidebar: structure
+pageview: true
 ---
 
 ## 需要使用的软件

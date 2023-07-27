@@ -2,6 +2,7 @@
 title: 引入
 index: false
 icon: network-wired
+pageview: true
 ---
 
 ## 目录

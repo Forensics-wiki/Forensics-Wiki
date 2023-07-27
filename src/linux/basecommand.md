@@ -3,6 +3,7 @@ title: 基础命令
 icon: terminal
 order: 2
 sidebar: structure
+pageview: true
 ---
 
 >本文只介绍常用的命令，具体命令大全请参考：[菜鸟教程](https://www.runoob.com/linux/linux-command-manual.html)

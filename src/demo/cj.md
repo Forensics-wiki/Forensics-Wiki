@@ -3,6 +3,7 @@ title: Forensics-Wiki常见问题
 icon: circle-question
 order: 2
 sidebar: structure
+pageview: true
 ---
 
 ### 1.如何注册Forensics-Wiki？

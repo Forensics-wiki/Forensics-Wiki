@@ -3,6 +3,7 @@ title: Windows命令参考
 icon: fab fa-windows
 order: 4
 sidebar: structure
+pageview: true
 ---
 
 ## 镜像识别

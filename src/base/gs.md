@@ -3,6 +3,7 @@ title: 证据文件格式
 icon: file
 order: 3
 sidebar: structure
+pageview: true
 ---
 
 ## 位对位镜像:全盘或分区镜像文件

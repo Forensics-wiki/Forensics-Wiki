@@ -2,6 +2,7 @@
 title: 取证基础
 index: false
 icon: laptop-code
+pageview: true
 ---
 
 ## 目录

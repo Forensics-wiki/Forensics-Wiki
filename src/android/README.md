@@ -2,6 +2,7 @@
 title: 安卓取证
 index: false
 icon: fab fa-android
+pageview: true
 ---
 
 ## 目录

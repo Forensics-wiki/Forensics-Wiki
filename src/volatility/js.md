@@ -2,6 +2,7 @@
 title: 介绍
 icon: play
 order: 1
+pageview: true
 sidebar: structure
 ---
 

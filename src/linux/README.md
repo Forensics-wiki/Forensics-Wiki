@@ -2,6 +2,7 @@
 title: Linux&服务器取证
 index: false
 icon: fab fa-linux
+pageview: true
 ---
 
 ## 目录

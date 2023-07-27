@@ -3,6 +3,7 @@ title: 镜像仿真-Windows Server
 icon: info
 order: 6
 sidebar: structure
+pageview: true
 ---
 
 ## qemu-img镜像转换工具

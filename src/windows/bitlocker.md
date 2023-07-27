@@ -3,6 +3,7 @@ title: Bitlocker加密与解密
 icon: unlock
 order: 1
 sidebar: structure
+pageview: true
 ---
 
 ## 介绍
