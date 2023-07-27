@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/3c076d57-933f-415b-8582-3ae467a462e2/deploy-status)](https://app.netlify.com/sites/dreamy-halva-0604b2/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6f2410f9-c7e4-4100-8e7b-f478571c5da4/deploy-status)](https://app.netlify.com/sites/astonishing-sherbet-b2e5cd/deploys)
 
 # Forensics-Wiki
 
@@ -48,8 +48,31 @@
   - Windows命令参考
 
 - 赛题Writeup
-  - 首届盘古石电子数据取证大赛晋级赛Writeup
+  - 首届盘古石电子数据取证大赛晋级赛Writeup   (修改中)
   - 第四届长安杯电子数据取证大赛Writeup
+
+## 离线部署💬
+
+### 环境配置🍀
+
+请参考：[VuePress Theme Hope](https://theme-hope.vuejs.press/zh/cookbook/tutorial/env.html)
+
+### 基本指令🎍
+
+```
+pnpm docs:dev 启动开发服务器
+pnpm docs:build 构建项目并输出
+pnpm docs:clean-dev 清除缓存并启动开发服务器
+```
+
+## 共同编写🔱
+
+1. 根据离线部署中的文档，配置本地环境
+2. 在本地fork本项目
+3. 本地编写
+4. PR项目
+
+> 注意：单个分类的侧边栏在`src/.vuepress/sidebar.ts`中，导航栏位于`src/.vuepress/navbar.ts`中，编写完成后请使用`pnpm docs:build`进行build
 
 ## Stars ✨
 
