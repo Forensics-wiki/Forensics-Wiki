@@ -59,79 +59,25 @@
 
   margin-top: 1rem;
   margin-bottom: 1rem;
-  border: 1px solid var(--c-border, #ddd);
+  border: 1px solid var(--vp-brc);
   border-radius: 6px;
 
-  .title-wrapper {
-    display: flex;
-    flex-flow: row wrap;
-
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--c-border, #ddd);
+  .header {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--vp-brc);
 
     background: var(--playground-header-bg-color, #eee);
 
     font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    overflow-wrap: break-word;
 
-    transition: background var(--color-transition) border-color
-      var(--color-transition);
+    transition: background var(--vp-ct) border-color var(--vp-ct);
   }
 
-  .title {
-    flex: 1;
-
-    overflow: hidden;
-
-    font-size: 1.25rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .actions {
-    display: flex;
-    align-items: center;
-  }
-
-  .icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    fill: #777;
-  }
-
-  .action {
-    display: inline-flex;
-    margin-left: 10px;
-
-    &:hover .icon {
-      transition: transform 0.15s cubic-bezier(0.2, 0, 0.13, 2);
-      transform: scale(1.2);
-    }
-
-    &.code {
-      @media (max-width: hope-config.$tablet) {
-        display: none;
-      }
-    }
-  }
-
-  .preview-loading-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: var(--grey15);
-
-    transition: background var(--color-transition);
-
-    .loading-icon {
-      width: 4em;
-      height: 4em;
-      margin: 2.5em auto;
-
-      color: var(--c-brand, #3eaf7c);
-
-      transition: color var(--color-transition);
-    }
+  .preview-loading {
+    color: var(--vp-tc);
   }
 
   .source-container {
@@ -152,79 +98,16 @@
 
     height: auto;
 
-    background: var(--c-bg);
+    background: var(--vp-bg);
 
-    transition: background var(--color-transition);
+    transition: background var(--vp-ct);
 
-    @media (max-width: hope-config.$tablet) {
-      &.show-code {
-        .vue-repl {
-          .split-pane.show-output {
-            .left {
-              display: none !important;
-            }
-          }
-
-          .split-pane:not(.show-output) {
-            .left {
-              display: block !important;
-            }
-          }
-        }
-      }
-
-      &.hide-code {
-        .vue-repl {
-          .split-pane.show-output {
-            .left {
-              display: none !important;
-            }
-          }
-
-          .split-pane:not(.show-output) {
-            .left {
-              display: block !important;
-            }
-          }
-        }
-      }
-    }
-
-    iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-      border: none;
+    @media print {
+      page-break-inside: avoid;
     }
 
     .vue-repl {
-      .split-pane {
-        .left {
-          .editor-container {
-            height: 100% !important;
-          }
-        }
-      }
-    }
-
-    &.show-code {
-      .vue-repl {
-        .split-pane {
-          .left {
-            display: block !important;
-          }
-        }
-      }
-    }
-
-    &.hide-code {
-      .vue-repl {
-        .split-pane {
-          .left {
-            display: none !important;
-          }
-        }
-      }
+      height: 300px;
     }
 
     // reset pre

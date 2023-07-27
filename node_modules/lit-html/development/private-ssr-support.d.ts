@@ -5,7 +5,7 @@
  */
 import { Directive, PartInfo, DirectiveClass, DirectiveResult } from './directive.js';
 import { AttributePart, Part, Disconnectable } from './lit-html.js';
-export type { Template } from './lit-html.js';
+import type { PropertyPart, ChildPart, BooleanAttributePart, EventPart, ElementPart, TemplateInstance } from './lit-html.js';
 /**
  * END USERS SHOULD NOT RELY ON THIS OBJECT.
  *
@@ -43,11 +43,14 @@ export declare const _$LH: {
     setDirectiveClass(value: DirectiveResult, directiveClass: DirectiveClass): void;
     getAttributePartCommittedValue: (part: AttributePart, value: unknown, index: number | undefined) => unknown;
     connectedDisconnectable: (props?: object) => Disconnectable;
-    resolveDirective: (part: import("./lit-html.js").ChildPart | AttributePart | import("./lit-html.js").ElementPart, value: unknown, parent?: import("./lit-html.js").DirectiveParent, attributeIndex?: number | undefined) => unknown;
+    resolveDirective: (part: ChildPart | AttributePart | ElementPart, value: unknown, parent?: import("./lit-html.js").DirectiveParent, attributeIndex?: number | undefined) => unknown;
     AttributePart: typeof AttributePart;
-    PropertyPart: typeof import("./lit-html.js").PropertyPart;
-    BooleanAttributePart: typeof import("./lit-html.js").BooleanAttributePart;
-    EventPart: typeof import("./lit-html.js").EventPart;
-    ElementPart: typeof import("./lit-html.js").ElementPart;
+    PropertyPart: typeof PropertyPart;
+    BooleanAttributePart: typeof BooleanAttributePart;
+    EventPart: typeof EventPart;
+    ElementPart: typeof ElementPart;
+    TemplateInstance: typeof TemplateInstance;
+    isIterable: (value: unknown) => value is Iterable<unknown>;
+    ChildPart: typeof ChildPart;
 };
 //# sourceMappingURL=private-ssr-support.d.ts.map

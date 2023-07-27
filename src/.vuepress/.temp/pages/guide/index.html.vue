@@ -1,4 +1,4 @@
-<template><div><h2 id="highlight-features" tabindex="-1"><a class="header-anchor" href="#highlight-features" aria-hidden="true">#</a> Highlight Features</h2>
+<template><div><h2 id="功能亮点" tabindex="-1"><a class="header-anchor" href="#功能亮点" aria-hidden="true">#</a> 功能亮点</h2>
 <h3 id="bar" tabindex="-1"><a class="header-anchor" href="#bar" aria-hidden="true">#</a> Bar</h3>
 <ul>
 <li><RouterLink to="/guide/bar/baz.html">baz</RouterLink></li>

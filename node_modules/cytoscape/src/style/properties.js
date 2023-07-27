@@ -46,7 +46,7 @@ const styfn = {};
     bgRelativeTo: { enums: [ 'inner', 'include-padding' ], multiple: true },
     bgRepeat: { enums: [ 'repeat', 'repeat-x', 'repeat-y', 'no-repeat' ], multiple: true },
     bgFit: { enums: [ 'none', 'contain', 'cover' ], multiple: true },
-    bgCrossOrigin: { enums: [ 'anonymous', 'use-credentials' ], multiple: true },
+    bgCrossOrigin: { enums: [ 'anonymous', 'use-credentials', 'null' ], multiple: true },
     bgClip: { enums: [ 'none', 'node' ], multiple: true },
     bgContainment: { enums: [ 'inside', 'over' ], multiple: true },
     color: { color: true },
@@ -69,7 +69,7 @@ const styfn = {};
     nodeShape: { enums: [
       'rectangle', 'roundrectangle', 'round-rectangle', 'cutrectangle', 'cut-rectangle', 'bottomroundrectangle', 'bottom-round-rectangle', 'barrel',
       'ellipse', 'triangle', 'round-triangle', 'square', 'pentagon', 'round-pentagon', 'hexagon', 'round-hexagon', 'concavehexagon', 'concave-hexagon', 'heptagon', 'round-heptagon', 'octagon', 'round-octagon',
-      'tag', 'round-tag', 'star', 'diamond', 'round-diamond', 'vee', 'rhomboid', 'polygon',
+      'tag', 'round-tag', 'star', 'diamond', 'round-diamond', 'vee', 'rhomboid', 'right-rhomboid', 'polygon',
     ] },
     overlayShape: { enums: [ 'roundrectangle', 'round-rectangle', 'ellipse' ] },
     compoundIncludeLabels: { enums: [ 'include', 'exclude' ] },

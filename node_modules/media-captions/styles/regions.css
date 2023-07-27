@@ -1,0 +1,57 @@
+:where([part='captions'] [part='region']) {
+  position: absolute;
+  display: inline-flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  width: var(--region-width);
+  height: var(--region-height);
+  min-height: 0px;
+  max-height: var(--region-height);
+  writing-mode: horizontal-tb;
+  top: calc(
+    var(
+      --region-top,
+      var(--overlay-height) * var(--region-viewport-anchor-y) / 100 - var(--region-height) *
+        var(--region-anchor-y) / 100
+    )
+  );
+  left: var(
+    --region-left,
+    calc(
+      calc(var(--region-viewport-anchor-x) * 1%) -
+        calc(var(--region-width) * var(--region-anchor-x) / 100)
+    )
+  );
+  right: var(--region-right);
+  bottom: var(--region-bottom);
+  overflow: hidden;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+
+:where([part='captions'] [part='region'][data-active]) {
+}
+
+:where([part='captions'] [part='region'][data-scroll='up']) {
+  justify-content: end;
+}
+
+:where([part='captions'] [part='region'][data-active][data-scroll='up']) {
+  transition: top 0.433s;
+}
+
+:where([part='captions'] [part='region'] > [part='cue-display']) {
+  position: relative;
+  width: auto;
+  left: var(--cue-offset);
+  height: var(--cue-height, auto);
+  text-align: var(--cue-text-align);
+  unicode-bidi: plaintext;
+  margin-top: 1px;
+}
+
+:where([part='captions'] [part='region'] [part='cue']) {
+  position: relative;
+  padding: calc(var(--cue-padding-y) / 2) var(--cue-padding-x);
+  border-radius: 0px;
+}

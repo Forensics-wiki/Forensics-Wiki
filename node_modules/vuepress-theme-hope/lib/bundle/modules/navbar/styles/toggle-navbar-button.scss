@@ -1,0 +1,108 @@
+@use "@sass-palette/hope-config";
+@use "vuepress-shared/styles/reset";
+
+.vp-toggle-navbar-button {
+  @include reset.button;
+
+  position: relative;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px;
+
+  @media screen and (max-width: hope-config.$tablet) {
+    display: flex;
+  }
+
+  > span {
+    position: relative;
+    overflow: hidden;
+    width: 16px;
+    height: 14px;
+  }
+
+  .vp-top,
+  .vp-middle,
+  .vp-bottom {
+    position: absolute;
+
+    width: 16px;
+    height: 2px;
+
+    background: var(--dark-grey);
+
+    transition:
+      top 0.25s,
+      background 0.5s,
+      transform 0.25s;
+  }
+
+  .vp-top {
+    top: 0;
+    left: 0;
+    transform: translateX(0);
+  }
+
+  .vp-middle {
+    top: 6px;
+    left: 0;
+    transform: translateX(8px);
+  }
+
+  .vp-bottom {
+    top: 12px;
+    left: 0;
+    transform: translateX(4px);
+  }
+
+  &:hover {
+    .vp-top {
+      top: 0;
+      left: 0;
+      transform: translateX(4px);
+    }
+
+    .vp-middle {
+      top: 6;
+      left: 0;
+      transform: translateX(0);
+    }
+
+    .vp-bottom {
+      top: 12px;
+      left: 0;
+      transform: translateX(8px);
+    }
+  }
+
+  &.is-active {
+    .vp-top {
+      top: 6px;
+      transform: translateX(0) rotate(225deg);
+    }
+
+    .vp-middle {
+      top: 6px;
+      transform: translateX(16px);
+    }
+
+    .vp-bottom {
+      top: 6px;
+      transform: translateX(0) rotate(135deg);
+    }
+
+    &:hover {
+      .vp-top,
+      .vp-middle,
+      .vp-bottom {
+        background: var(--theme-color);
+        transition:
+          top 0.25s,
+          background 0.25s,
+          transform 0.25s;
+      }
+    }
+  }
+}

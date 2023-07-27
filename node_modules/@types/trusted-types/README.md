@@ -8,9 +8,9 @@ This package contains type definitions for trusted-types (https://github.com/WIC
 Files were exported from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/trusted-types.
 
 ### Additional Details
- * Last updated: Fri, 02 Jul 2021 19:37:19 GMT
+ * Last updated: Tue, 14 Feb 2023 22:09:22 GMT
  * Dependencies: none
  * Global values: none
 
 # Credits
-These definitions were written by [Jakub Vrana](https://github.com/vrana), [Damien Engels](https://github.com/engelsdamien), [Emanuel Tesar](https://github.com/siegrift), and [Bjarki](https://github.com/bjarkler).
+These definitions were written by [Jakub Vrana](https://github.com/vrana), [Damien Engels](https://github.com/engelsdamien), [Emanuel Tesar](https://github.com/siegrift), [Bjarki](https://github.com/bjarkler), and [Sebastian Silbermann](https://github.com/eps1lon).

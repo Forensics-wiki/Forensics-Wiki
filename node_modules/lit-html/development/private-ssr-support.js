@@ -51,5 +51,8 @@ export const _$LH = {
     BooleanAttributePart: p._BooleanAttributePart,
     EventPart: p._EventPart,
     ElementPart: p._ElementPart,
+    TemplateInstance: p._TemplateInstance,
+    isIterable: p._isIterable,
+    ChildPart: p._ChildPart,
 };
 //# sourceMappingURL=private-ssr-support.js.map

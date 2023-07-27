@@ -1,27 +1,27 @@
 <!-- markdownlint-disable -->
 <p align="center">
-  <img width="240" src="https://vuepress-theme.mrhope.site/logo.svg" style="text-align: center;">
+  <img width="240" src="https://plugin-reading-time2.vuejs.press/logo.svg" style="text-align: center;">
 </p>
 <h1 align="center">vuepress-plugin-reading-time2</h1>
 <h4 align="center">VuePress reading time plugin⏳ / VuePress 阅读时间插件⏳</h4>
 
-[![Version](https://img.shields.io/npm/v/vuepress-plugin-reading-time2/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-reading-time2.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-plugin-reading-time2?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-reading-time2)
+[![Version](https://img.shields.io/npm/v/vuepress-plugin-reading-time2.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-reading-time2.svg?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-reading-time2)
 
 <!-- markdownlint-restore -->
 
 VuePress reading time plugin⏳ / VuePress 阅读时间插件 ⏳
 
-## [Official Docs](https://vuepress-theme-hope.github.io/v2/reading-time/) | [官方文档](https://vuepress-theme-hope.gitee.io/v2/reading-time/zh/)
+## [Official Docs](https://plugin-reading-time2.vuejs.press/) | [官方文档](https://plugin-reading-time2.vuejs.press/zh/)
 
 ## Install
 
 ```bash
 # pnpm
-pnpm add -D vuepress-plugin-reading-time2@next
+pnpm add -D vuepress-plugin-reading-time2
 # npm
-npm i -D vuepress-plugin-reading-time2@next
+npm i -D vuepress-plugin-reading-time2
 # yarn
-yarn add -D vuepress-plugin-reading-time2@next
+yarn add -D vuepress-plugin-reading-time2
 ```
 
 ---
@@ -30,9 +30,9 @@ yarn add -D vuepress-plugin-reading-time2@next
 
 ```bash
 # pnpm
-pnpm add -D vuepress-plugin-reading-time2@next
+pnpm add -D vuepress-plugin-reading-time2
 # npm
-npm i -D vuepress-plugin-reading-time2@next
+npm i -D vuepress-plugin-reading-time2
 # yarn
-yarn add -D vuepress-plugin-reading-time2@next
+yarn add -D vuepress-plugin-reading-time2
 ```

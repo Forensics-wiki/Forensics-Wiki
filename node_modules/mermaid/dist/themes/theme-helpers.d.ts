@@ -1,1 +1,1 @@
-export function mkBorder(col: any, darkMode: any): string;
+export function mkBorder(col: any, darkMode: any): any;

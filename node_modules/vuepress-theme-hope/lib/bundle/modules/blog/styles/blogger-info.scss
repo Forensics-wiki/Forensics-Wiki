@@ -1,0 +1,85 @@
+@use "@sass-palette/hope-config";
+.vp-blogger-info {
+  padding: 0.5rem;
+  font-family: var(--font-family-heading);
+  overflow-wrap: break-word;
+
+  .vp-page & {
+    background: var(--bg-color-float);
+    transition: background var(--color-transition);
+  }
+
+  .vp-sidebar &.mobile {
+    display: none;
+
+    @media (max-width: hope-config.$tablet) {
+      display: block;
+    }
+
+    + hr {
+      display: none;
+
+      @media (max-width: hope-config.$tablet) {
+        display: block;
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+
+.vp-blogger {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.vp-blogger-avatar {
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto;
+
+  &.round {
+    border-radius: 50%;
+  }
+}
+
+.vp-blogger-name {
+  margin: 1rem auto;
+  font-size: 22px;
+}
+
+.vp-blogger-description {
+  margin: 1rem auto;
+  font-size: 14px;
+}
+
+.vp-blog-counts {
+  display: flex;
+  width: 80%;
+  margin: 0 auto 1rem;
+}
+
+.vp-blog-count {
+  display: block;
+
+  width: 25%;
+
+  color: inherit;
+
+  font-size: 13px;
+  text-align: center;
+
+  cursor: pointer;
+
+  transition: color var(--color-transition);
+
+  &:hover {
+    color: var(--theme-color);
+  }
+
+  .count {
+    position: relative;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 20px;
+  }
+}

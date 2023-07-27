@@ -1,6 +1,7 @@
 import { defineComponent, h, onBeforeUpdate, ref } from 'vue';
 export const CodeGroup = defineComponent({
     name: 'CodeGroup',
+    slots: Object,
     setup(_, { slots }) {
         // index of current active item
         const activeIndex = ref(-1);

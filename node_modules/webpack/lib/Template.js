@@ -6,6 +6,8 @@
 "use strict";
 
 const { ConcatSource, PrefixSource } = require("webpack-sources");
+const { WEBPACK_MODULE_TYPE_RUNTIME } = require("./ModuleTypeConstants");
+const RuntimeGlobals = require("./RuntimeGlobals");
 
 /** @typedef {import("webpack-sources").Source} Source */
 /** @typedef {import("../declarations/WebpackOptions").Output} OutputOptions */
@@ -288,7 +290,7 @@ class Template {
 	 * @param {Module[]} modules modules to render (should be ordered by identifier)
 	 * @param {function(Module): Source} renderModule function to render a module
 	 * @param {string=} prefix applying prefix strings
-	 * @returns {Source} rendered chunk modules in a Source object
+	 * @returns {Source | null} rendered chunk modules in a Source object or null if no modules
 	 */
 	static renderChunkModules(renderContext, modules, renderModule, prefix = "") {
 		const { chunkGraph } = renderContext;
@@ -362,7 +364,7 @@ class Template {
 				runtimeSource = codeGenerationResults.getSource(
 					module,
 					renderContext.chunk.runtime,
-					"runtime"
+					WEBPACK_MODULE_TYPE_RUNTIME
 				);
 			} else {
 				const codeGenResult = module.codeGeneration({
@@ -404,7 +406,7 @@ class Template {
 		return new PrefixSource(
 			"/******/ ",
 			new ConcatSource(
-				"function(__webpack_require__) { // webpackRuntimeModules\n",
+				`function(${RuntimeGlobals.require}) { // webpackRuntimeModules\n`,
 				this.renderRuntimeModules(runtimeModules, renderContext),
 				"}\n"
 			)

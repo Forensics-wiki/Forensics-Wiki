@@ -1,5 +1,5 @@
 import type { InjectionKey, WritableComputedRef } from 'vue';
-export declare type DarkModeRef = WritableComputedRef<boolean>;
+export type DarkModeRef = WritableComputedRef<boolean>;
 export declare const darkModeSymbol: InjectionKey<DarkModeRef>;
 /**
  * Inject dark mode global computed

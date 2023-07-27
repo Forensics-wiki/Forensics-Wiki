@@ -1,8 +1,7 @@
-@import "katex/dist/katex.min.css";
-
 // katex fix
 .katex {
   font-size: 1.05em;
+  direction: ltr;
 }
 
 .katex-display {

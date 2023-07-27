@@ -1,25 +1,25 @@
 <!-- markdownlint-disable -->
 <p align="center">
-  <img width="240" src="https://vuepress-theme-hope.github.io/v2/logo.svg" style="text-align: center;">
+  <img width="240" src="ttps://plugin-photo-swipe.vuejs.press/logo.svg" style="text-align: center;">
 </p>
 <h1 align="center">vuepress-plugin-photo-swipe</h1>
 <h4 align="center">VuePress photo preview plugin🖼️ / VuePress图片预览插件🖼️</h4>
 
-[![Version](https://img.shields.io/npm/v/vuepress-plugin-photo-swipe/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-photo-swipe.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-plugin-photo-swipe?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-photo-swipe)
+[![Version](https://img.shields.io/npm/v/vuepress-plugin-photo-swipe.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-photo-swipe.svg?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-photo-swipe)
 
 <!-- markdownlint-restore -->
 
-## [Official Docs](https://vuepress-theme-hope.github.io/v2/photo-swipe) / [官方文档](https://vuepress-theme-hope.gitee.io/v2/photo-swipe/zh/)
+## [Official Docs](https://plugin-photo-swipe.vuejs.press/) | [官方文档](https://plugin-photo-swipe.vuejs.press/zh/)
 
 ## Install
 
 ```bash
 # pnpm
-pnpm add -D vuepress-plugin-photo-swipe@next
+pnpm add -D vuepress-plugin-photo-swipe
 # npm
-npm i -D vuepress-plugin-photo-swipe@next
+npm i -D vuepress-plugin-photo-swipe
 # yarn
-yarn add -D vuepress-plugin-photo-swipe@next
+yarn add -D vuepress-plugin-photo-swipe
 ```
 
 ## Migrating from V1
@@ -34,11 +34,11 @@ yarn add -D vuepress-plugin-photo-swipe@next
 
 ```bash
 # pnpm
-pnpm add -D vuepress-plugin-photo-swipe@next
+pnpm add -D vuepress-plugin-photo-swipe
 # npm
-npm i -D vuepress-plugin-photo-swipe@next
+npm i -D vuepress-plugin-photo-swipe
 # yarn
-yarn add -D vuepress-plugin-photo-swipe@next
+yarn add -D vuepress-plugin-photo-swipe
 ```
 
 ## 从 V1 迁移

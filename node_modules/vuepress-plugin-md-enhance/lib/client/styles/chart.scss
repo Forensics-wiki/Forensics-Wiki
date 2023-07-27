@@ -1,28 +1,23 @@
-.chart-title {
+.chartjs-title {
   margin: 0.5rem auto;
   font-weight: 600;
   font-size: 18px;
   text-align: center;
 }
 
-.chart-loading-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .loading-icon {
-    width: 4em;
-    height: 4em;
-    margin: 2.5em auto;
-    color: var(--c-brand, #3eaf7c);
-  }
+.chartjs-loading {
+  color: var(--vp-tc);
 }
 
-.chart-wrapper {
+.chartjs-wrapper {
   overflow-x: auto;
   padding: 0.6em 0.4em;
   text-align: center;
   transition: all 1s;
+
+  @media print {
+    page-break-inside: avoid;
+  }
 
   @media (max-width: hope-config.$tablet) {
     margin: 0 -1rem;

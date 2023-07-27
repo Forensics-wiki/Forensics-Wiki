@@ -1,0 +1,43 @@
+@use "vuepress-shared/styles/reset";
+
+.vp-share-button {
+  @include reset.button;
+
+  display: inline-block;
+  padding: 0.25em;
+}
+
+.vp-share-icon {
+  width: 2em;
+  height: 2em;
+  color: #fff;
+  transition: transform var(--vp-tt);
+
+  &.plain {
+    width: 1.5em;
+    height: 1.5em;
+    color: var(--dark-grey);
+
+    :hover {
+      color: var(--vp-tc);
+    }
+  }
+
+  &:not(.plain):hover {
+    transform: scale(1.1);
+  }
+
+  &.colorful {
+    width: 1.5em;
+    height: 1.5em;
+    padding: 0.25em;
+    border-radius: 50%;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: currentcolor;
+  }
+}

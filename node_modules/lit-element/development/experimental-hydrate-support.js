@@ -5,6 +5,7 @@
  */
 import { render } from 'lit-html';
 import { hydrate } from 'lit-html/experimental-hydrate.js';
+import { HYDRATE_INTERNALS_ATTR_PREFIX } from '@lit-labs/ssr-dom-shim';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 globalThis.litElementHydrateSupport = ({ LitElement, }) => {
     const observedAttributes = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(LitElement), 'observedAttributes').get;
@@ -54,6 +55,15 @@ globalThis.litElementHydrateSupport = ({ LitElement, }) => {
         update.call(this, changedProperties);
         if (this._$needsHydration) {
             this._$needsHydration = false;
+            // Remove aria attributes added by internals shim during SSR
+            for (let i = 0; i < this.attributes.length; i++) {
+                const attr = this.attributes[i];
+                if (attr.name.startsWith(HYDRATE_INTERNALS_ATTR_PREFIX)) {
+                    const ariaAttr = attr.name.slice(HYDRATE_INTERNALS_ATTR_PREFIX.length);
+                    this.removeAttribute(ariaAttr);
+                    this.removeAttribute(attr.name);
+                }
+            }
             hydrate(value, this.renderRoot, this.renderOptions);
         }
         else {
@@ -61,4 +71,6 @@ globalThis.litElementHydrateSupport = ({ LitElement, }) => {
         }
     };
 };
+console.warn('Import from `lit-element/experimental-hydrate-support.js` is deprecated.' +
+    'Import `@lit-labs/ssr-client/lit-element-hydrate-support.js` instead.');
 //# sourceMappingURL=experimental-hydrate-support.js.map

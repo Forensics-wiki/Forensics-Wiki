@@ -1,0 +1,9 @@
+export declare const LIST_ADD: unique symbol;
+export declare const LIST_REMOVE: unique symbol;
+export declare const LIST_RESET: unique symbol;
+export declare const LIST_SELECT: unique symbol;
+export declare const LIST_READONLY: unique symbol;
+export declare const LIST_SET_READONLY: unique symbol;
+export declare const LIST_ON_RESET: unique symbol;
+export declare const LIST_ON_REMOVE: unique symbol;
+export declare const LIST_ON_USER_SELECT: unique symbol;

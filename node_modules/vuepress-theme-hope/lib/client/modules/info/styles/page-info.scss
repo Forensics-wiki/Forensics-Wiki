@@ -11,12 +11,16 @@
 
   font-size: 14px;
 
+  @media print {
+    display: flex !important;
+  }
+
   > span {
     display: flex;
-    flex-shrink: 0;
     align-items: center;
 
-    margin-right: 0.5em;
+    max-width: 100%;
+    margin-inline-end: 0.5em;
 
     line-height: 2;
 
@@ -25,27 +29,13 @@
     }
 
     @media (max-width: hope-config.$mobile) {
-      margin-right: 0.3em;
+      margin-inline-end: 0.3em;
       font-size: 0.875em;
     }
-  }
 
-  .origin {
-    position: relative;
-
-    display: inline-block;
-    vertical-align: middle;
-
-    overflow: hidden;
-
-    padding: 0 0.5em;
-    border: 0.5px solid var(--dark-grey);
-    border-radius: 0.75em;
-
-    background: var(--bg-color);
-
-    font-size: 0.75em;
-    line-height: 1.5;
+    @media print {
+      display: flex !important;
+    }
   }
 
   .icon {
@@ -56,7 +46,7 @@
 
     width: 1em;
     height: 1em;
-    margin-right: 0.25em;
+    margin-inline-end: 0.25em;
   }
 
   a {
@@ -66,11 +56,5 @@
     &:active {
       color: var(--theme-color);
     }
-  }
-
-  .author-item {
-    display: inline-block;
-    margin: 0 4px;
-    font-weight: normal;
   }
 }

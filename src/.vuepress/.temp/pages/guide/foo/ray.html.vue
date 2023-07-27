@@ -1,4 +1,4 @@
-<template><div><p>Feature details here.</p>
+<template><div><p>功能详情...</p>
 </div></template>
 
 

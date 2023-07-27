@@ -3,7 +3,7 @@ this.workbox.broadcastUpdate = (function (exports, assert_js, timeout_js, result
     'use strict';
 
     try {
-      self['workbox:broadcast-update:6.5.3'] && _();
+      self['workbox:broadcast-update:7.0.0'] && _();
     } catch (e) {}
 
     /*

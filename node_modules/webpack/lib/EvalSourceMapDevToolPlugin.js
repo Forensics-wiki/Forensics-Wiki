@@ -48,7 +48,9 @@ class EvalSourceMapDevToolPlugin {
 			options = inputOptions;
 		}
 		this.sourceMapComment =
-			options.append || "//# sourceURL=[module]\n//# sourceMappingURL=[url]";
+			options.append && typeof options.append !== "function"
+				? options.append
+				: "//# sourceURL=[module]\n//# sourceMappingURL=[url]";
 		this.moduleFilenameTemplate =
 			options.moduleFilenameTemplate ||
 			"webpack://[namespace]/[resource-path]?[hash]";
@@ -80,6 +82,10 @@ class EvalSourceMapDevToolPlugin {
 							return cachedSource;
 						}
 
+						/**
+						 * @param {Source} r result
+						 * @returns {Source} result
+						 */
 						const result = r => {
 							cache.set(source, r);
 							return r;
@@ -158,7 +164,8 @@ class EvalSourceMapDevToolPlugin {
 						}
 						sourceMap.sourceRoot = options.sourceRoot || "";
 						const moduleId = chunkGraph.getModuleId(m);
-						sourceMap.file = `${moduleId}.js`;
+						sourceMap.file =
+							typeof moduleId === "number" ? `${moduleId}.js` : moduleId;
 
 						const footer =
 							this.sourceMapComment.replace(

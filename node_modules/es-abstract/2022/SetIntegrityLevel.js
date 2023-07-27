@@ -5,7 +5,7 @@ var GetIntrinsic = require('get-intrinsic');
 var $SyntaxError = GetIntrinsic('%SyntaxError%');
 var $TypeError = GetIntrinsic('%TypeError%');
 var $preventExtensions = GetIntrinsic('%Object.preventExtensions%', true);
-var $gOPD = require('../helpers/getOwnPropertyDescriptor');
+var $gOPD = require('gopd');
 var $gOPN = GetIntrinsic('%Object.getOwnPropertyNames%', true);
 
 var forEach = require('../helpers/forEach');
@@ -15,7 +15,7 @@ var IsAccessorDescriptor = require('./IsAccessorDescriptor');
 var ToPropertyDescriptor = require('./ToPropertyDescriptor');
 var Type = require('./Type');
 
-// https://ecma-international.org/ecma-262/6.0/#sec-setintegritylevel
+// https://262.ecma-international.org/6.0/#sec-setintegritylevel
 
 module.exports = function SetIntegrityLevel(O, level) {
 	if (Type(O) !== 'Object') {

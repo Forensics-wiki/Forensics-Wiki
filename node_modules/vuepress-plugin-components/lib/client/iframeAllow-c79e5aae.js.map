@@ -1,0 +1,1 @@
+{"version":3,"file":"iframeAllow-c79e5aae.js","sources":["../../src/client/utils/iframeAllow.ts"],"sourcesContent":["export const videoIframeAllow =\n  \"accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture\";\n"],"names":["videoIframeAllow"],"mappings":"AAAO,MAAMA,EACX"}

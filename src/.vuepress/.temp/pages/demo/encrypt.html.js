@@ -1,1 +1,14 @@
-export const data = JSON.parse("{\"key\":\"v-c151bf32\",\"path\":\"/demo/encrypt.html\",\"title\":\"Encryption Article\",\"lang\":\"zh-CN\",\"frontmatter\":{\"description\":\"The actual article content. Paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 t...\",\"head\":[[\"meta\",{\"property\":\"og:url\",\"content\":\"https://www.forensics-wiki.com/demo/encrypt.html\"}],[\"meta\",{\"property\":\"og:title\",\"content\":\"Encryption Article\"}],[\"meta\",{\"property\":\"og:description\",\"content\":\"The actual article content. Paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 text paragraph 1 t...\"}],[\"meta\",{\"property\":\"og:type\",\"content\":\"article\"}],[\"meta\",{\"property\":\"og:updated_time\",\"content\":\"2022-11-22T04:52:24.000Z\"}],[\"meta\",{\"property\":\"og:locale\",\"content\":\"zh-CN\"}],[\"meta\",{\"property\":\"article:modified_time\",\"content\":\"2022-11-22T04:52:24.000Z\"}]]},\"excerpt\":\"\",\"headers\":[],\"git\":{\"createdTime\":1669092744000,\"updatedTime\":1669092744000,\"contributors\":[{\"name\":\"mcyydscc\",\"email\":\"90653809+mcyydscc@users.noreply.github.com\",\"commits\":1}]},\"readingTime\":{\"minutes\":0.28,\"words\":84},\"filePathRelative\":\"demo/encrypt.md\",\"localizedDate\":\"2022年11月22日\"}")
+export const data = JSON.parse("{\"key\":\"v-c151bf32\",\"path\":\"/demo/encrypt.html\",\"title\":\"密码加密的文章\",\"lang\":\"zh-CN\",\"frontmatter\":{\"icon\":\"lock\",\"category\":[\"使用指南\"],\"tag\":[\"文章加密\"],\"seo\":false,\"head\":[]},\"headers\":[],\"readingTime\":{\"minutes\":0.52,\"words\":156},\"filePathRelative\":\"demo/encrypt.md\"}")
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updatePageData) {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ data }) => {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  })
+}

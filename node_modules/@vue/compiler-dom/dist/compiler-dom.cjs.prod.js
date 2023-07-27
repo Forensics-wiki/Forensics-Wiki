@@ -16,16 +16,16 @@ const V_SHOW = Symbol(``);
 const TRANSITION = Symbol(``);
 const TRANSITION_GROUP = Symbol(``);
 compilerCore.registerRuntimeHelpers({
-    [V_MODEL_RADIO]: `vModelRadio`,
-    [V_MODEL_CHECKBOX]: `vModelCheckbox`,
-    [V_MODEL_TEXT]: `vModelText`,
-    [V_MODEL_SELECT]: `vModelSelect`,
-    [V_MODEL_DYNAMIC]: `vModelDynamic`,
-    [V_ON_WITH_MODIFIERS]: `withModifiers`,
-    [V_ON_WITH_KEYS]: `withKeys`,
-    [V_SHOW]: `vShow`,
-    [TRANSITION]: `Transition`,
-    [TRANSITION_GROUP]: `TransitionGroup`
+  [V_MODEL_RADIO]: `vModelRadio`,
+  [V_MODEL_CHECKBOX]: `vModelCheckbox`,
+  [V_MODEL_TEXT]: `vModelText`,
+  [V_MODEL_SELECT]: `vModelSelect`,
+  [V_MODEL_DYNAMIC]: `vModelDynamic`,
+  [V_ON_WITH_MODIFIERS]: `withModifiers`,
+  [V_ON_WITH_KEYS]: `withKeys`,
+  [V_SHOW]: `vShow`,
+  [TRANSITION]: `Transition`,
+  [TRANSITION_GROUP]: `TransitionGroup`
 });
 
 var namedCharacterReferences = {
@@ -2262,804 +2262,700 @@ var namedCharacterReferences = {
 	"CounterClockwiseContourIntegral;": "∳"
 };
 
-// lazy compute this to make this file tree-shakable for browser
 let maxCRNameLength;
 const decodeHtml = (rawText, asAttr) => {
-    let offset = 0;
-    const end = rawText.length;
-    let decodedText = '';
-    function advance(length) {
-        offset += length;
-        rawText = rawText.slice(length);
+  let offset = 0;
+  const end = rawText.length;
+  let decodedText = "";
+  function advance(length) {
+    offset += length;
+    rawText = rawText.slice(length);
+  }
+  while (offset < end) {
+    const head = /&(?:#x?)?/i.exec(rawText);
+    if (!head || offset + head.index >= end) {
+      const remaining = end - offset;
+      decodedText += rawText.slice(0, remaining);
+      advance(remaining);
+      break;
     }
-    while (offset < end) {
-        const head = /&(?:#x?)?/i.exec(rawText);
-        if (!head || offset + head.index >= end) {
-            const remaining = end - offset;
-            decodedText += rawText.slice(0, remaining);
-            advance(remaining);
-            break;
+    decodedText += rawText.slice(0, head.index);
+    advance(head.index);
+    if (head[0] === "&") {
+      let name = "";
+      let value = void 0;
+      if (/[0-9a-z]/i.test(rawText[1])) {
+        if (!maxCRNameLength) {
+          maxCRNameLength = Object.keys(namedCharacterReferences).reduce(
+            (max, name2) => Math.max(max, name2.length),
+            0
+          );
         }
-        // Advance to the "&".
-        decodedText += rawText.slice(0, head.index);
-        advance(head.index);
-        if (head[0] === '&') {
-            // Named character reference.
-            let name = '';
-            let value = undefined;
-            if (/[0-9a-z]/i.test(rawText[1])) {
-                if (!maxCRNameLength) {
-                    maxCRNameLength = Object.keys(namedCharacterReferences).reduce((max, name) => Math.max(max, name.length), 0);
-                }
-                for (let length = maxCRNameLength; !value && length > 0; --length) {
-                    name = rawText.slice(1, 1 + length);
-                    value = namedCharacterReferences[name];
-                }
-                if (value) {
-                    const semi = name.endsWith(';');
-                    if (asAttr &&
-                        !semi &&
-                        /[=a-z0-9]/i.test(rawText[name.length + 1] || '')) {
-                        decodedText += '&' + name;
-                        advance(1 + name.length);
-                    }
-                    else {
-                        decodedText += value;
-                        advance(1 + name.length);
-                    }
-                }
-                else {
-                    decodedText += '&' + name;
-                    advance(1 + name.length);
-                }
-            }
-            else {
-                decodedText += '&';
-                advance(1);
-            }
+        for (let length = maxCRNameLength; !value && length > 0; --length) {
+          name = rawText.slice(1, 1 + length);
+          value = namedCharacterReferences[name];
         }
-        else {
-            // Numeric character reference.
-            const hex = head[0] === '&#x';
-            const pattern = hex ? /^&#x([0-9a-f]+);?/i : /^&#([0-9]+);?/;
-            const body = pattern.exec(rawText);
-            if (!body) {
-                decodedText += head[0];
-                advance(head[0].length);
-            }
-            else {
-                // https://html.spec.whatwg.org/multipage/parsing.html#numeric-character-reference-end-state
-                let cp = Number.parseInt(body[1], hex ? 16 : 10);
-                if (cp === 0) {
-                    cp = 0xfffd;
-                }
-                else if (cp > 0x10ffff) {
-                    cp = 0xfffd;
-                }
-                else if (cp >= 0xd800 && cp <= 0xdfff) {
-                    cp = 0xfffd;
-                }
-                else if ((cp >= 0xfdd0 && cp <= 0xfdef) || (cp & 0xfffe) === 0xfffe) ;
-                else if ((cp >= 0x01 && cp <= 0x08) ||
-                    cp === 0x0b ||
-                    (cp >= 0x0d && cp <= 0x1f) ||
-                    (cp >= 0x7f && cp <= 0x9f)) {
-                    cp = CCR_REPLACEMENTS[cp] || cp;
-                }
-                decodedText += String.fromCodePoint(cp);
-                advance(body[0].length);
-            }
+        if (value) {
+          const semi = name.endsWith(";");
+          if (asAttr && !semi && /[=a-z0-9]/i.test(rawText[name.length + 1] || "")) {
+            decodedText += "&" + name;
+            advance(1 + name.length);
+          } else {
+            decodedText += value;
+            advance(1 + name.length);
+          }
+        } else {
+          decodedText += "&" + name;
+          advance(1 + name.length);
         }
+      } else {
+        decodedText += "&";
+        advance(1);
+      }
+    } else {
+      const hex = head[0] === "&#x";
+      const pattern = hex ? /^&#x([0-9a-f]+);?/i : /^&#([0-9]+);?/;
+      const body = pattern.exec(rawText);
+      if (!body) {
+        decodedText += head[0];
+        advance(head[0].length);
+      } else {
+        let cp = Number.parseInt(body[1], hex ? 16 : 10);
+        if (cp === 0) {
+          cp = 65533;
+        } else if (cp > 1114111) {
+          cp = 65533;
+        } else if (cp >= 55296 && cp <= 57343) {
+          cp = 65533;
+        } else if (cp >= 64976 && cp <= 65007 || (cp & 65534) === 65534) ; else if (cp >= 1 && cp <= 8 || cp === 11 || cp >= 13 && cp <= 31 || cp >= 127 && cp <= 159) {
+          cp = CCR_REPLACEMENTS[cp] || cp;
+        }
+        decodedText += String.fromCodePoint(cp);
+        advance(body[0].length);
+      }
     }
-    return decodedText;
+  }
+  return decodedText;
 };
-// https://html.spec.whatwg.org/multipage/parsing.html#numeric-character-reference-end-state
 const CCR_REPLACEMENTS = {
-    0x80: 0x20ac,
-    0x82: 0x201a,
-    0x83: 0x0192,
-    0x84: 0x201e,
-    0x85: 0x2026,
-    0x86: 0x2020,
-    0x87: 0x2021,
-    0x88: 0x02c6,
-    0x89: 0x2030,
-    0x8a: 0x0160,
-    0x8b: 0x2039,
-    0x8c: 0x0152,
-    0x8e: 0x017d,
-    0x91: 0x2018,
-    0x92: 0x2019,
-    0x93: 0x201c,
-    0x94: 0x201d,
-    0x95: 0x2022,
-    0x96: 0x2013,
-    0x97: 0x2014,
-    0x98: 0x02dc,
-    0x99: 0x2122,
-    0x9a: 0x0161,
-    0x9b: 0x203a,
-    0x9c: 0x0153,
-    0x9e: 0x017e,
-    0x9f: 0x0178
+  128: 8364,
+  130: 8218,
+  131: 402,
+  132: 8222,
+  133: 8230,
+  134: 8224,
+  135: 8225,
+  136: 710,
+  137: 8240,
+  138: 352,
+  139: 8249,
+  140: 338,
+  142: 381,
+  145: 8216,
+  146: 8217,
+  147: 8220,
+  148: 8221,
+  149: 8226,
+  150: 8211,
+  151: 8212,
+  152: 732,
+  153: 8482,
+  154: 353,
+  155: 8250,
+  156: 339,
+  158: 382,
+  159: 376
 };
 
-const isRawTextContainer = /*#__PURE__*/ shared.makeMap('style,iframe,script,noscript', true);
+const isRawTextContainer = /* @__PURE__ */ shared.makeMap(
+  "style,iframe,script,noscript",
+  true
+);
 const parserOptions = {
-    isVoidTag: shared.isVoidTag,
-    isNativeTag: tag => shared.isHTMLTag(tag) || shared.isSVGTag(tag),
-    isPreTag: tag => tag === 'pre',
-    decodeEntities: decodeHtml,
-    isBuiltInComponent: (tag) => {
-        if (compilerCore.isBuiltInType(tag, `Transition`)) {
-            return TRANSITION;
-        }
-        else if (compilerCore.isBuiltInType(tag, `TransitionGroup`)) {
-            return TRANSITION_GROUP;
-        }
-    },
-    // https://html.spec.whatwg.org/multipage/parsing.html#tree-construction-dispatcher
-    getNamespace(tag, parent) {
-        let ns = parent ? parent.ns : 0 /* DOMNamespaces.HTML */;
-        if (parent && ns === 2 /* DOMNamespaces.MATH_ML */) {
-            if (parent.tag === 'annotation-xml') {
-                if (tag === 'svg') {
-                    return 1 /* DOMNamespaces.SVG */;
-                }
-                if (parent.props.some(a => a.type === 6 /* NodeTypes.ATTRIBUTE */ &&
-                    a.name === 'encoding' &&
-                    a.value != null &&
-                    (a.value.content === 'text/html' ||
-                        a.value.content === 'application/xhtml+xml'))) {
-                    ns = 0 /* DOMNamespaces.HTML */;
-                }
-            }
-            else if (/^m(?:[ions]|text)$/.test(parent.tag) &&
-                tag !== 'mglyph' &&
-                tag !== 'malignmark') {
-                ns = 0 /* DOMNamespaces.HTML */;
-            }
-        }
-        else if (parent && ns === 1 /* DOMNamespaces.SVG */) {
-            if (parent.tag === 'foreignObject' ||
-                parent.tag === 'desc' ||
-                parent.tag === 'title') {
-                ns = 0 /* DOMNamespaces.HTML */;
-            }
-        }
-        if (ns === 0 /* DOMNamespaces.HTML */) {
-            if (tag === 'svg') {
-                return 1 /* DOMNamespaces.SVG */;
-            }
-            if (tag === 'math') {
-                return 2 /* DOMNamespaces.MATH_ML */;
-            }
-        }
-        return ns;
-    },
-    // https://html.spec.whatwg.org/multipage/parsing.html#parsing-html-fragments
-    getTextMode({ tag, ns }) {
-        if (ns === 0 /* DOMNamespaces.HTML */) {
-            if (tag === 'textarea' || tag === 'title') {
-                return 1 /* TextModes.RCDATA */;
-            }
-            if (isRawTextContainer(tag)) {
-                return 2 /* TextModes.RAWTEXT */;
-            }
-        }
-        return 0 /* TextModes.DATA */;
+  isVoidTag: shared.isVoidTag,
+  isNativeTag: (tag) => shared.isHTMLTag(tag) || shared.isSVGTag(tag),
+  isPreTag: (tag) => tag === "pre",
+  decodeEntities: decodeHtml,
+  isBuiltInComponent: (tag) => {
+    if (compilerCore.isBuiltInType(tag, `Transition`)) {
+      return TRANSITION;
+    } else if (compilerCore.isBuiltInType(tag, `TransitionGroup`)) {
+      return TRANSITION_GROUP;
     }
+  },
+  // https://html.spec.whatwg.org/multipage/parsing.html#tree-construction-dispatcher
+  getNamespace(tag, parent) {
+    let ns = parent ? parent.ns : 0;
+    if (parent && ns === 2) {
+      if (parent.tag === "annotation-xml") {
+        if (tag === "svg") {
+          return 1;
+        }
+        if (parent.props.some(
+          (a) => a.type === 6 && a.name === "encoding" && a.value != null && (a.value.content === "text/html" || a.value.content === "application/xhtml+xml")
+        )) {
+          ns = 0;
+        }
+      } else if (/^m(?:[ions]|text)$/.test(parent.tag) && tag !== "mglyph" && tag !== "malignmark") {
+        ns = 0;
+      }
+    } else if (parent && ns === 1) {
+      if (parent.tag === "foreignObject" || parent.tag === "desc" || parent.tag === "title") {
+        ns = 0;
+      }
+    }
+    if (ns === 0) {
+      if (tag === "svg") {
+        return 1;
+      }
+      if (tag === "math") {
+        return 2;
+      }
+    }
+    return ns;
+  },
+  // https://html.spec.whatwg.org/multipage/parsing.html#parsing-html-fragments
+  getTextMode({ tag, ns }) {
+    if (ns === 0) {
+      if (tag === "textarea" || tag === "title") {
+        return 1;
+      }
+      if (isRawTextContainer(tag)) {
+        return 2;
+      }
+    }
+    return 0;
+  }
 };
 
-// Parse inline CSS strings for static style attributes into an object.
-// This is a NodeTransform since it works on the static `style` attribute and
-// converts it into a dynamic equivalent:
-// style="color: red" -> :style='{ "color": "red" }'
-// It is then processed by `transformElement` and included in the generated
-// props.
-const transformStyle = node => {
-    if (node.type === 1 /* NodeTypes.ELEMENT */) {
-        node.props.forEach((p, i) => {
-            if (p.type === 6 /* NodeTypes.ATTRIBUTE */ && p.name === 'style' && p.value) {
-                // replace p with an expression node
-                node.props[i] = {
-                    type: 7 /* NodeTypes.DIRECTIVE */,
-                    name: `bind`,
-                    arg: compilerCore.createSimpleExpression(`style`, true, p.loc),
-                    exp: parseInlineCSS(p.value.content, p.loc),
-                    modifiers: [],
-                    loc: p.loc
-                };
-            }
-        });
-    }
+const transformStyle = (node) => {
+  if (node.type === 1) {
+    node.props.forEach((p, i) => {
+      if (p.type === 6 && p.name === "style" && p.value) {
+        node.props[i] = {
+          type: 7,
+          name: `bind`,
+          arg: compilerCore.createSimpleExpression(`style`, true, p.loc),
+          exp: parseInlineCSS(p.value.content, p.loc),
+          modifiers: [],
+          loc: p.loc
+        };
+      }
+    });
+  }
 };
 const parseInlineCSS = (cssText, loc) => {
-    const normalized = shared.parseStringStyle(cssText);
-    return compilerCore.createSimpleExpression(JSON.stringify(normalized), false, loc, 3 /* ConstantTypes.CAN_STRINGIFY */);
+  const normalized = shared.parseStringStyle(cssText);
+  return compilerCore.createSimpleExpression(
+    JSON.stringify(normalized),
+    false,
+    loc,
+    3
+  );
 };
 
 function createDOMCompilerError(code, loc) {
-    return compilerCore.createCompilerError(code, loc, DOMErrorMessages );
+  return compilerCore.createCompilerError(
+    code,
+    loc,
+    DOMErrorMessages 
+  );
 }
 const DOMErrorMessages = {
-    [51 /* DOMErrorCodes.X_V_HTML_NO_EXPRESSION */]: `v-html is missing expression.`,
-    [52 /* DOMErrorCodes.X_V_HTML_WITH_CHILDREN */]: `v-html will override element children.`,
-    [53 /* DOMErrorCodes.X_V_TEXT_NO_EXPRESSION */]: `v-text is missing expression.`,
-    [54 /* DOMErrorCodes.X_V_TEXT_WITH_CHILDREN */]: `v-text will override element children.`,
-    [55 /* DOMErrorCodes.X_V_MODEL_ON_INVALID_ELEMENT */]: `v-model can only be used on <input>, <textarea> and <select> elements.`,
-    [56 /* DOMErrorCodes.X_V_MODEL_ARG_ON_ELEMENT */]: `v-model argument is not supported on plain elements.`,
-    [57 /* DOMErrorCodes.X_V_MODEL_ON_FILE_INPUT_ELEMENT */]: `v-model cannot be used on file inputs since they are read-only. Use a v-on:change listener instead.`,
-    [58 /* DOMErrorCodes.X_V_MODEL_UNNECESSARY_VALUE */]: `Unnecessary value binding used alongside v-model. It will interfere with v-model's behavior.`,
-    [59 /* DOMErrorCodes.X_V_SHOW_NO_EXPRESSION */]: `v-show is missing expression.`,
-    [60 /* DOMErrorCodes.X_TRANSITION_INVALID_CHILDREN */]: `<Transition> expects exactly one child element or component.`,
-    [61 /* DOMErrorCodes.X_IGNORED_SIDE_EFFECT_TAG */]: `Tags with side effect (<script> and <style>) are ignored in client component templates.`
+  [53]: `v-html is missing expression.`,
+  [54]: `v-html will override element children.`,
+  [55]: `v-text is missing expression.`,
+  [56]: `v-text will override element children.`,
+  [57]: `v-model can only be used on <input>, <textarea> and <select> elements.`,
+  [58]: `v-model argument is not supported on plain elements.`,
+  [59]: `v-model cannot be used on file inputs since they are read-only. Use a v-on:change listener instead.`,
+  [60]: `Unnecessary value binding used alongside v-model. It will interfere with v-model's behavior.`,
+  [61]: `v-show is missing expression.`,
+  [62]: `<Transition> expects exactly one child element or component.`,
+  [63]: `Tags with side effect (<script> and <style>) are ignored in client component templates.`
 };
 
 const transformVHtml = (dir, node, context) => {
-    const { exp, loc } = dir;
-    if (!exp) {
-        context.onError(createDOMCompilerError(51 /* DOMErrorCodes.X_V_HTML_NO_EXPRESSION */, loc));
-    }
-    if (node.children.length) {
-        context.onError(createDOMCompilerError(52 /* DOMErrorCodes.X_V_HTML_WITH_CHILDREN */, loc));
-        node.children.length = 0;
-    }
-    return {
-        props: [
-            compilerCore.createObjectProperty(compilerCore.createSimpleExpression(`innerHTML`, true, loc), exp || compilerCore.createSimpleExpression('', true))
-        ]
-    };
+  const { exp, loc } = dir;
+  if (!exp) {
+    context.onError(
+      createDOMCompilerError(53, loc)
+    );
+  }
+  if (node.children.length) {
+    context.onError(
+      createDOMCompilerError(54, loc)
+    );
+    node.children.length = 0;
+  }
+  return {
+    props: [
+      compilerCore.createObjectProperty(
+        compilerCore.createSimpleExpression(`innerHTML`, true, loc),
+        exp || compilerCore.createSimpleExpression("", true)
+      )
+    ]
+  };
 };
 
 const transformVText = (dir, node, context) => {
-    const { exp, loc } = dir;
-    if (!exp) {
-        context.onError(createDOMCompilerError(53 /* DOMErrorCodes.X_V_TEXT_NO_EXPRESSION */, loc));
-    }
-    if (node.children.length) {
-        context.onError(createDOMCompilerError(54 /* DOMErrorCodes.X_V_TEXT_WITH_CHILDREN */, loc));
-        node.children.length = 0;
-    }
-    return {
-        props: [
-            compilerCore.createObjectProperty(compilerCore.createSimpleExpression(`textContent`, true), exp
-                ? compilerCore.getConstantType(exp, context) > 0
-                    ? exp
-                    : compilerCore.createCallExpression(context.helperString(compilerCore.TO_DISPLAY_STRING), [exp], loc)
-                : compilerCore.createSimpleExpression('', true))
-        ]
-    };
+  const { exp, loc } = dir;
+  if (!exp) {
+    context.onError(
+      createDOMCompilerError(55, loc)
+    );
+  }
+  if (node.children.length) {
+    context.onError(
+      createDOMCompilerError(56, loc)
+    );
+    node.children.length = 0;
+  }
+  return {
+    props: [
+      compilerCore.createObjectProperty(
+        compilerCore.createSimpleExpression(`textContent`, true),
+        exp ? compilerCore.getConstantType(exp, context) > 0 ? exp : compilerCore.createCallExpression(
+          context.helperString(compilerCore.TO_DISPLAY_STRING),
+          [exp],
+          loc
+        ) : compilerCore.createSimpleExpression("", true)
+      )
+    ]
+  };
 };
 
 const transformModel = (dir, node, context) => {
-    const baseResult = compilerCore.transformModel(dir, node, context);
-    // base transform has errors OR component v-model (only need props)
-    if (!baseResult.props.length || node.tagType === 1 /* ElementTypes.COMPONENT */) {
-        return baseResult;
-    }
-    if (dir.arg) {
-        context.onError(createDOMCompilerError(56 /* DOMErrorCodes.X_V_MODEL_ARG_ON_ELEMENT */, dir.arg.loc));
-    }
-    const { tag } = node;
-    const isCustomElement = context.isCustomElement(tag);
-    if (tag === 'input' ||
-        tag === 'textarea' ||
-        tag === 'select' ||
-        isCustomElement) {
-        let directiveToUse = V_MODEL_TEXT;
-        let isInvalidType = false;
-        if (tag === 'input' || isCustomElement) {
-            const type = compilerCore.findProp(node, `type`);
-            if (type) {
-                if (type.type === 7 /* NodeTypes.DIRECTIVE */) {
-                    // :type="foo"
-                    directiveToUse = V_MODEL_DYNAMIC;
-                }
-                else if (type.value) {
-                    switch (type.value.content) {
-                        case 'radio':
-                            directiveToUse = V_MODEL_RADIO;
-                            break;
-                        case 'checkbox':
-                            directiveToUse = V_MODEL_CHECKBOX;
-                            break;
-                        case 'file':
-                            isInvalidType = true;
-                            context.onError(createDOMCompilerError(57 /* DOMErrorCodes.X_V_MODEL_ON_FILE_INPUT_ELEMENT */, dir.loc));
-                            break;
-                    }
-                }
-            }
-            else if (compilerCore.hasDynamicKeyVBind(node)) {
-                // element has bindings with dynamic keys, which can possibly contain
-                // "type".
-                directiveToUse = V_MODEL_DYNAMIC;
-            }
-            else ;
-        }
-        else if (tag === 'select') {
-            directiveToUse = V_MODEL_SELECT;
-        }
-        else ;
-        // inject runtime directive
-        // by returning the helper symbol via needRuntime
-        // the import will replaced a resolveDirective call.
-        if (!isInvalidType) {
-            baseResult.needRuntime = context.helper(directiveToUse);
-        }
-    }
-    else {
-        context.onError(createDOMCompilerError(55 /* DOMErrorCodes.X_V_MODEL_ON_INVALID_ELEMENT */, dir.loc));
-    }
-    // native vmodel doesn't need the `modelValue` props since they are also
-    // passed to the runtime as `binding.value`. removing it reduces code size.
-    baseResult.props = baseResult.props.filter(p => !(p.key.type === 4 /* NodeTypes.SIMPLE_EXPRESSION */ &&
-        p.key.content === 'modelValue'));
+  const baseResult = compilerCore.transformModel(dir, node, context);
+  if (!baseResult.props.length || node.tagType === 1) {
     return baseResult;
+  }
+  if (dir.arg) {
+    context.onError(
+      createDOMCompilerError(
+        58,
+        dir.arg.loc
+      )
+    );
+  }
+  const { tag } = node;
+  const isCustomElement = context.isCustomElement(tag);
+  if (tag === "input" || tag === "textarea" || tag === "select" || isCustomElement) {
+    let directiveToUse = V_MODEL_TEXT;
+    let isInvalidType = false;
+    if (tag === "input" || isCustomElement) {
+      const type = compilerCore.findProp(node, `type`);
+      if (type) {
+        if (type.type === 7) {
+          directiveToUse = V_MODEL_DYNAMIC;
+        } else if (type.value) {
+          switch (type.value.content) {
+            case "radio":
+              directiveToUse = V_MODEL_RADIO;
+              break;
+            case "checkbox":
+              directiveToUse = V_MODEL_CHECKBOX;
+              break;
+            case "file":
+              isInvalidType = true;
+              context.onError(
+                createDOMCompilerError(
+                  59,
+                  dir.loc
+                )
+              );
+              break;
+          }
+        }
+      } else if (compilerCore.hasDynamicKeyVBind(node)) {
+        directiveToUse = V_MODEL_DYNAMIC;
+      } else ;
+    } else if (tag === "select") {
+      directiveToUse = V_MODEL_SELECT;
+    } else ;
+    if (!isInvalidType) {
+      baseResult.needRuntime = context.helper(directiveToUse);
+    }
+  } else {
+    context.onError(
+      createDOMCompilerError(
+        57,
+        dir.loc
+      )
+    );
+  }
+  baseResult.props = baseResult.props.filter(
+    (p) => !(p.key.type === 4 && p.key.content === "modelValue")
+  );
+  return baseResult;
 };
 
-const isEventOptionModifier = /*#__PURE__*/ shared.makeMap(`passive,once,capture`);
-const isNonKeyModifier = /*#__PURE__*/ shared.makeMap(
-// event propagation management
-`stop,prevent,self,` +
-    // system modifiers + exact
-    `ctrl,shift,alt,meta,exact,` +
-    // mouse
-    `middle`);
-// left & right could be mouse or key modifiers based on event type
-const maybeKeyModifier = /*#__PURE__*/ shared.makeMap('left,right');
-const isKeyboardEvent = /*#__PURE__*/ shared.makeMap(`onkeyup,onkeydown,onkeypress`, true);
+const isEventOptionModifier = /* @__PURE__ */ shared.makeMap(`passive,once,capture`);
+const isNonKeyModifier = /* @__PURE__ */ shared.makeMap(
+  // event propagation management
+  `stop,prevent,self,ctrl,shift,alt,meta,exact,middle`
+);
+const maybeKeyModifier = /* @__PURE__ */ shared.makeMap("left,right");
+const isKeyboardEvent = /* @__PURE__ */ shared.makeMap(
+  `onkeyup,onkeydown,onkeypress`,
+  true
+);
 const resolveModifiers = (key, modifiers, context, loc) => {
-    const keyModifiers = [];
-    const nonKeyModifiers = [];
-    const eventOptionModifiers = [];
-    for (let i = 0; i < modifiers.length; i++) {
-        const modifier = modifiers[i];
-        if (modifier === 'native' &&
-            compilerCore.checkCompatEnabled("COMPILER_V_ON_NATIVE" /* CompilerDeprecationTypes.COMPILER_V_ON_NATIVE */, context, loc)) {
-            eventOptionModifiers.push(modifier);
+  const keyModifiers = [];
+  const nonKeyModifiers = [];
+  const eventOptionModifiers = [];
+  for (let i = 0; i < modifiers.length; i++) {
+    const modifier = modifiers[i];
+    if (modifier === "native" && compilerCore.checkCompatEnabled(
+      "COMPILER_V_ON_NATIVE",
+      context,
+      loc
+    )) {
+      eventOptionModifiers.push(modifier);
+    } else if (isEventOptionModifier(modifier)) {
+      eventOptionModifiers.push(modifier);
+    } else {
+      if (maybeKeyModifier(modifier)) {
+        if (compilerCore.isStaticExp(key)) {
+          if (isKeyboardEvent(key.content)) {
+            keyModifiers.push(modifier);
+          } else {
+            nonKeyModifiers.push(modifier);
+          }
+        } else {
+          keyModifiers.push(modifier);
+          nonKeyModifiers.push(modifier);
         }
-        else if (isEventOptionModifier(modifier)) {
-            // eventOptionModifiers: modifiers for addEventListener() options,
-            // e.g. .passive & .capture
-            eventOptionModifiers.push(modifier);
+      } else {
+        if (isNonKeyModifier(modifier)) {
+          nonKeyModifiers.push(modifier);
+        } else {
+          keyModifiers.push(modifier);
         }
-        else {
-            // runtimeModifiers: modifiers that needs runtime guards
-            if (maybeKeyModifier(modifier)) {
-                if (compilerCore.isStaticExp(key)) {
-                    if (isKeyboardEvent(key.content)) {
-                        keyModifiers.push(modifier);
-                    }
-                    else {
-                        nonKeyModifiers.push(modifier);
-                    }
-                }
-                else {
-                    keyModifiers.push(modifier);
-                    nonKeyModifiers.push(modifier);
-                }
-            }
-            else {
-                if (isNonKeyModifier(modifier)) {
-                    nonKeyModifiers.push(modifier);
-                }
-                else {
-                    keyModifiers.push(modifier);
-                }
-            }
-        }
+      }
     }
-    return {
-        keyModifiers,
-        nonKeyModifiers,
-        eventOptionModifiers
-    };
+  }
+  return {
+    keyModifiers,
+    nonKeyModifiers,
+    eventOptionModifiers
+  };
 };
 const transformClick = (key, event) => {
-    const isStaticClick = compilerCore.isStaticExp(key) && key.content.toLowerCase() === 'onclick';
-    return isStaticClick
-        ? compilerCore.createSimpleExpression(event, true)
-        : key.type !== 4 /* NodeTypes.SIMPLE_EXPRESSION */
-            ? compilerCore.createCompoundExpression([
-                `(`,
-                key,
-                `) === "onClick" ? "${event}" : (`,
-                key,
-                `)`
-            ])
-            : key;
+  const isStaticClick = compilerCore.isStaticExp(key) && key.content.toLowerCase() === "onclick";
+  return isStaticClick ? compilerCore.createSimpleExpression(event, true) : key.type !== 4 ? compilerCore.createCompoundExpression([
+    `(`,
+    key,
+    `) === "onClick" ? "${event}" : (`,
+    key,
+    `)`
+  ]) : key;
 };
 const transformOn = (dir, node, context) => {
-    return compilerCore.transformOn(dir, node, context, baseResult => {
-        const { modifiers } = dir;
-        if (!modifiers.length)
-            return baseResult;
-        let { key, value: handlerExp } = baseResult.props[0];
-        const { keyModifiers, nonKeyModifiers, eventOptionModifiers } = resolveModifiers(key, modifiers, context, dir.loc);
-        // normalize click.right and click.middle since they don't actually fire
-        if (nonKeyModifiers.includes('right')) {
-            key = transformClick(key, `onContextmenu`);
-        }
-        if (nonKeyModifiers.includes('middle')) {
-            key = transformClick(key, `onMouseup`);
-        }
-        if (nonKeyModifiers.length) {
-            handlerExp = compilerCore.createCallExpression(context.helper(V_ON_WITH_MODIFIERS), [
-                handlerExp,
-                JSON.stringify(nonKeyModifiers)
-            ]);
-        }
-        if (keyModifiers.length &&
-            // if event name is dynamic, always wrap with keys guard
-            (!compilerCore.isStaticExp(key) || isKeyboardEvent(key.content))) {
-            handlerExp = compilerCore.createCallExpression(context.helper(V_ON_WITH_KEYS), [
-                handlerExp,
-                JSON.stringify(keyModifiers)
-            ]);
-        }
-        if (eventOptionModifiers.length) {
-            const modifierPostfix = eventOptionModifiers.map(shared.capitalize).join('');
-            key = compilerCore.isStaticExp(key)
-                ? compilerCore.createSimpleExpression(`${key.content}${modifierPostfix}`, true)
-                : compilerCore.createCompoundExpression([`(`, key, `) + "${modifierPostfix}"`]);
-        }
-        return {
-            props: [compilerCore.createObjectProperty(key, handlerExp)]
-        };
-    });
+  return compilerCore.transformOn(dir, node, context, (baseResult) => {
+    const { modifiers } = dir;
+    if (!modifiers.length)
+      return baseResult;
+    let { key, value: handlerExp } = baseResult.props[0];
+    const { keyModifiers, nonKeyModifiers, eventOptionModifiers } = resolveModifiers(key, modifiers, context, dir.loc);
+    if (nonKeyModifiers.includes("right")) {
+      key = transformClick(key, `onContextmenu`);
+    }
+    if (nonKeyModifiers.includes("middle")) {
+      key = transformClick(key, `onMouseup`);
+    }
+    if (nonKeyModifiers.length) {
+      handlerExp = compilerCore.createCallExpression(context.helper(V_ON_WITH_MODIFIERS), [
+        handlerExp,
+        JSON.stringify(nonKeyModifiers)
+      ]);
+    }
+    if (keyModifiers.length && // if event name is dynamic, always wrap with keys guard
+    (!compilerCore.isStaticExp(key) || isKeyboardEvent(key.content))) {
+      handlerExp = compilerCore.createCallExpression(context.helper(V_ON_WITH_KEYS), [
+        handlerExp,
+        JSON.stringify(keyModifiers)
+      ]);
+    }
+    if (eventOptionModifiers.length) {
+      const modifierPostfix = eventOptionModifiers.map(shared.capitalize).join("");
+      key = compilerCore.isStaticExp(key) ? compilerCore.createSimpleExpression(`${key.content}${modifierPostfix}`, true) : compilerCore.createCompoundExpression([`(`, key, `) + "${modifierPostfix}"`]);
+    }
+    return {
+      props: [compilerCore.createObjectProperty(key, handlerExp)]
+    };
+  });
 };
 
 const transformShow = (dir, node, context) => {
-    const { exp, loc } = dir;
-    if (!exp) {
-        context.onError(createDOMCompilerError(59 /* DOMErrorCodes.X_V_SHOW_NO_EXPRESSION */, loc));
-    }
-    return {
-        props: [],
-        needRuntime: context.helper(V_SHOW)
-    };
+  const { exp, loc } = dir;
+  if (!exp) {
+    context.onError(
+      createDOMCompilerError(61, loc)
+    );
+  }
+  return {
+    props: [],
+    needRuntime: context.helper(V_SHOW)
+  };
 };
 
-/**
- * This module is Node-only.
- */
-/**
- * Regex for replacing placeholders for embedded constant variables
- * (e.g. import URL string constants generated by compiler-sfc)
- */
 const expReplaceRE = /__VUE_EXP_START__(.*?)__VUE_EXP_END__/g;
-/**
- * Turn eligible hoisted static trees into stringified static nodes, e.g.
- *
- * ```js
- * const _hoisted_1 = createStaticVNode(`<div class="foo">bar</div>`)
- * ```
- *
- * A single static vnode can contain stringified content for **multiple**
- * consecutive nodes (element and plain text), called a "chunk".
- * `@vue/runtime-dom` will create the content via innerHTML in a hidden
- * container element and insert all the nodes in place. The call must also
- * provide the number of nodes contained in the chunk so that during hydration
- * we can know how many nodes the static vnode should adopt.
- *
- * The optimization scans a children list that contains hoisted nodes, and
- * tries to find the largest chunk of consecutive hoisted nodes before running
- * into a non-hoisted node or the end of the list. A chunk is then converted
- * into a single static vnode and replaces the hoisted expression of the first
- * node in the chunk. Other nodes in the chunk are considered "merged" and
- * therefore removed from both the hoist list and the children array.
- *
- * This optimization is only performed in Node.js.
- */
 const stringifyStatic = (children, context, parent) => {
-    // bail stringification for slot content
-    if (context.scopes.vSlot > 0) {
-        return;
-    }
-    let nc = 0; // current node count
-    let ec = 0; // current element with binding count
-    const currentChunk = [];
-    const stringifyCurrentChunk = (currentIndex) => {
-        if (nc >= 20 /* StringifyThresholds.NODE_COUNT */ ||
-            ec >= 5 /* StringifyThresholds.ELEMENT_WITH_BINDING_COUNT */) {
-            // combine all currently eligible nodes into a single static vnode call
-            const staticCall = compilerCore.createCallExpression(context.helper(compilerCore.CREATE_STATIC), [
-                JSON.stringify(currentChunk.map(node => stringifyNode(node, context)).join('')).replace(expReplaceRE, `" + $1 + "`),
-                // the 2nd argument indicates the number of DOM nodes this static vnode
-                // will insert / hydrate
-                String(currentChunk.length)
-            ]);
-            // replace the first node's hoisted expression with the static vnode call
-            replaceHoist(currentChunk[0], staticCall, context);
-            if (currentChunk.length > 1) {
-                for (let i = 1; i < currentChunk.length; i++) {
-                    // for the merged nodes, set their hoisted expression to null
-                    replaceHoist(currentChunk[i], null, context);
-                }
-                // also remove merged nodes from children
-                const deleteCount = currentChunk.length - 1;
-                children.splice(currentIndex - currentChunk.length + 1, deleteCount);
-                return deleteCount;
-            }
+  if (context.scopes.vSlot > 0) {
+    return;
+  }
+  let nc = 0;
+  let ec = 0;
+  const currentChunk = [];
+  const stringifyCurrentChunk = (currentIndex) => {
+    if (nc >= 20 || ec >= 5) {
+      const staticCall = compilerCore.createCallExpression(context.helper(compilerCore.CREATE_STATIC), [
+        JSON.stringify(
+          currentChunk.map((node) => stringifyNode(node, context)).join("")
+        ).replace(expReplaceRE, `" + $1 + "`),
+        // the 2nd argument indicates the number of DOM nodes this static vnode
+        // will insert / hydrate
+        String(currentChunk.length)
+      ]);
+      replaceHoist(currentChunk[0], staticCall, context);
+      if (currentChunk.length > 1) {
+        for (let i2 = 1; i2 < currentChunk.length; i2++) {
+          replaceHoist(currentChunk[i2], null, context);
         }
-        return 0;
-    };
-    let i = 0;
-    for (; i < children.length; i++) {
-        const child = children[i];
-        const hoisted = getHoistedNode(child);
-        if (hoisted) {
-            // presence of hoisted means child must be a stringifiable node
-            const node = child;
-            const result = analyzeNode(node);
-            if (result) {
-                // node is stringifiable, record state
-                nc += result[0];
-                ec += result[1];
-                currentChunk.push(node);
-                continue;
-            }
-        }
-        // we only reach here if we ran into a node that is not stringifiable
-        // check if currently analyzed nodes meet criteria for stringification.
-        // adjust iteration index
-        i -= stringifyCurrentChunk(i);
-        // reset state
-        nc = 0;
-        ec = 0;
-        currentChunk.length = 0;
+        const deleteCount = currentChunk.length - 1;
+        children.splice(currentIndex - currentChunk.length + 1, deleteCount);
+        return deleteCount;
+      }
     }
-    // in case the last node was also stringifiable
-    stringifyCurrentChunk(i);
+    return 0;
+  };
+  let i = 0;
+  for (; i < children.length; i++) {
+    const child = children[i];
+    const hoisted = getHoistedNode(child);
+    if (hoisted) {
+      const node = child;
+      const result = analyzeNode(node);
+      if (result) {
+        nc += result[0];
+        ec += result[1];
+        currentChunk.push(node);
+        continue;
+      }
+    }
+    i -= stringifyCurrentChunk(i);
+    nc = 0;
+    ec = 0;
+    currentChunk.length = 0;
+  }
+  stringifyCurrentChunk(i);
 };
-const getHoistedNode = (node) => ((node.type === 1 /* NodeTypes.ELEMENT */ && node.tagType === 0 /* ElementTypes.ELEMENT */) ||
-    node.type == 12 /* NodeTypes.TEXT_CALL */) &&
-    node.codegenNode &&
-    node.codegenNode.type === 4 /* NodeTypes.SIMPLE_EXPRESSION */ &&
-    node.codegenNode.hoisted;
+const getHoistedNode = (node) => (node.type === 1 && node.tagType === 0 || node.type == 12) && node.codegenNode && node.codegenNode.type === 4 && node.codegenNode.hoisted;
 const dataAriaRE = /^(data|aria)-/;
 const isStringifiableAttr = (name, ns) => {
-    return ((ns === 0 /* DOMNamespaces.HTML */
-        ? shared.isKnownHtmlAttr(name)
-        : ns === 1 /* DOMNamespaces.SVG */
-            ? shared.isKnownSvgAttr(name)
-            : false) || dataAriaRE.test(name));
+  return (ns === 0 ? shared.isKnownHtmlAttr(name) : ns === 1 ? shared.isKnownSvgAttr(name) : false) || dataAriaRE.test(name);
 };
 const replaceHoist = (node, replacement, context) => {
-    const hoistToReplace = node.codegenNode.hoisted;
-    context.hoists[context.hoists.indexOf(hoistToReplace)] = replacement;
+  const hoistToReplace = node.codegenNode.hoisted;
+  context.hoists[context.hoists.indexOf(hoistToReplace)] = replacement;
 };
-const isNonStringifiable = /*#__PURE__*/ shared.makeMap(`caption,thead,tr,th,tbody,td,tfoot,colgroup,col`);
-/**
- * for a hoisted node, analyze it and return:
- * - false: bailed (contains non-stringifiable props or runtime constant)
- * - [nc, ec] where
- *   - nc is the number of nodes inside
- *   - ec is the number of element with bindings inside
- */
+const isNonStringifiable = /* @__PURE__ */ shared.makeMap(
+  `caption,thead,tr,th,tbody,td,tfoot,colgroup,col`
+);
 function analyzeNode(node) {
-    if (node.type === 1 /* NodeTypes.ELEMENT */ && isNonStringifiable(node.tag)) {
-        return false;
-    }
-    if (node.type === 12 /* NodeTypes.TEXT_CALL */) {
-        return [1, 0];
-    }
-    let nc = 1; // node count
-    let ec = node.props.length > 0 ? 1 : 0; // element w/ binding count
-    let bailed = false;
-    const bail = () => {
-        bailed = true;
-        return false;
-    };
-    // TODO: check for cases where using innerHTML will result in different
-    // output compared to imperative node insertions.
-    // probably only need to check for most common case
-    // i.e. non-phrasing-content tags inside `<p>`
-    function walk(node) {
-        for (let i = 0; i < node.props.length; i++) {
-            const p = node.props[i];
-            // bail on non-attr bindings
-            if (p.type === 6 /* NodeTypes.ATTRIBUTE */ &&
-                !isStringifiableAttr(p.name, node.ns)) {
-                return bail();
-            }
-            if (p.type === 7 /* NodeTypes.DIRECTIVE */ && p.name === 'bind') {
-                // bail on non-attr bindings
-                if (p.arg &&
-                    (p.arg.type === 8 /* NodeTypes.COMPOUND_EXPRESSION */ ||
-                        (p.arg.isStatic && !isStringifiableAttr(p.arg.content, node.ns)))) {
-                    return bail();
-                }
-                if (p.exp &&
-                    (p.exp.type === 8 /* NodeTypes.COMPOUND_EXPRESSION */ ||
-                        p.exp.constType < 3 /* ConstantTypes.CAN_STRINGIFY */)) {
-                    return bail();
-                }
-            }
+  if (node.type === 1 && isNonStringifiable(node.tag)) {
+    return false;
+  }
+  if (node.type === 12) {
+    return [1, 0];
+  }
+  let nc = 1;
+  let ec = node.props.length > 0 ? 1 : 0;
+  let bailed = false;
+  const bail = () => {
+    bailed = true;
+    return false;
+  };
+  function walk(node2) {
+    for (let i = 0; i < node2.props.length; i++) {
+      const p = node2.props[i];
+      if (p.type === 6 && !isStringifiableAttr(p.name, node2.ns)) {
+        return bail();
+      }
+      if (p.type === 7 && p.name === "bind") {
+        if (p.arg && (p.arg.type === 8 || p.arg.isStatic && !isStringifiableAttr(p.arg.content, node2.ns))) {
+          return bail();
         }
-        for (let i = 0; i < node.children.length; i++) {
-            nc++;
-            const child = node.children[i];
-            if (child.type === 1 /* NodeTypes.ELEMENT */) {
-                if (child.props.length > 0) {
-                    ec++;
-                }
-                walk(child);
-                if (bailed) {
-                    return false;
-                }
-            }
+        if (p.exp && (p.exp.type === 8 || p.exp.constType < 3)) {
+          return bail();
         }
-        return true;
+      }
     }
-    return walk(node) ? [nc, ec] : false;
+    for (let i = 0; i < node2.children.length; i++) {
+      nc++;
+      const child = node2.children[i];
+      if (child.type === 1) {
+        if (child.props.length > 0) {
+          ec++;
+        }
+        walk(child);
+        if (bailed) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  return walk(node) ? [nc, ec] : false;
 }
 function stringifyNode(node, context) {
-    if (shared.isString(node)) {
-        return node;
-    }
-    if (shared.isSymbol(node)) {
-        return ``;
-    }
-    switch (node.type) {
-        case 1 /* NodeTypes.ELEMENT */:
-            return stringifyElement(node, context);
-        case 2 /* NodeTypes.TEXT */:
-            return shared.escapeHtml(node.content);
-        case 3 /* NodeTypes.COMMENT */:
-            return `<!--${shared.escapeHtml(node.content)}-->`;
-        case 5 /* NodeTypes.INTERPOLATION */:
-            return shared.escapeHtml(shared.toDisplayString(evaluateConstant(node.content)));
-        case 8 /* NodeTypes.COMPOUND_EXPRESSION */:
-            return shared.escapeHtml(evaluateConstant(node));
-        case 12 /* NodeTypes.TEXT_CALL */:
-            return stringifyNode(node.content, context);
-        default:
-            // static trees will not contain if/for nodes
-            return '';
-    }
+  if (shared.isString(node)) {
+    return node;
+  }
+  if (shared.isSymbol(node)) {
+    return ``;
+  }
+  switch (node.type) {
+    case 1:
+      return stringifyElement(node, context);
+    case 2:
+      return shared.escapeHtml(node.content);
+    case 3:
+      return `<!--${shared.escapeHtml(node.content)}-->`;
+    case 5:
+      return shared.escapeHtml(shared.toDisplayString(evaluateConstant(node.content)));
+    case 8:
+      return shared.escapeHtml(evaluateConstant(node));
+    case 12:
+      return stringifyNode(node.content, context);
+    default:
+      return "";
+  }
 }
 function stringifyElement(node, context) {
-    let res = `<${node.tag}`;
-    let innerHTML = '';
-    for (let i = 0; i < node.props.length; i++) {
-        const p = node.props[i];
-        if (p.type === 6 /* NodeTypes.ATTRIBUTE */) {
-            res += ` ${p.name}`;
-            if (p.value) {
-                res += `="${shared.escapeHtml(p.value.content)}"`;
-            }
+  let res = `<${node.tag}`;
+  let innerHTML = "";
+  for (let i = 0; i < node.props.length; i++) {
+    const p = node.props[i];
+    if (p.type === 6) {
+      res += ` ${p.name}`;
+      if (p.value) {
+        res += `="${shared.escapeHtml(p.value.content)}"`;
+      }
+    } else if (p.type === 7) {
+      if (p.name === "bind") {
+        const exp = p.exp;
+        if (exp.content[0] === "_") {
+          res += ` ${p.arg.content}="__VUE_EXP_START__${exp.content}__VUE_EXP_END__"`;
+          continue;
         }
-        else if (p.type === 7 /* NodeTypes.DIRECTIVE */) {
-            if (p.name === 'bind') {
-                const exp = p.exp;
-                if (exp.content[0] === '_') {
-                    // internally generated string constant references
-                    // e.g. imported URL strings via compiler-sfc transformAssetUrl plugin
-                    res += ` ${p.arg.content}="__VUE_EXP_START__${exp.content}__VUE_EXP_END__"`;
-                    continue;
-                }
-                // #6568
-                if (shared.isBooleanAttr(p.arg.content) &&
-                    exp.content === 'false') {
-                    continue;
-                }
-                // constant v-bind, e.g. :foo="1"
-                let evaluated = evaluateConstant(exp);
-                if (evaluated != null) {
-                    const arg = p.arg && p.arg.content;
-                    if (arg === 'class') {
-                        evaluated = shared.normalizeClass(evaluated);
-                    }
-                    else if (arg === 'style') {
-                        evaluated = shared.stringifyStyle(shared.normalizeStyle(evaluated));
-                    }
-                    res += ` ${p.arg.content}="${shared.escapeHtml(evaluated)}"`;
-                }
-            }
-            else if (p.name === 'html') {
-                // #5439 v-html with constant value
-                // not sure why would anyone do this but it can happen
-                innerHTML = evaluateConstant(p.exp);
-            }
-            else if (p.name === 'text') {
-                innerHTML = shared.escapeHtml(shared.toDisplayString(evaluateConstant(p.exp)));
-            }
+        if (shared.isBooleanAttr(p.arg.content) && exp.content === "false") {
+          continue;
         }
-    }
-    if (context.scopeId) {
-        res += ` ${context.scopeId}`;
-    }
-    res += `>`;
-    if (innerHTML) {
-        res += innerHTML;
-    }
-    else {
-        for (let i = 0; i < node.children.length; i++) {
-            res += stringifyNode(node.children[i], context);
+        let evaluated = evaluateConstant(exp);
+        if (evaluated != null) {
+          const arg = p.arg && p.arg.content;
+          if (arg === "class") {
+            evaluated = shared.normalizeClass(evaluated);
+          } else if (arg === "style") {
+            evaluated = shared.stringifyStyle(shared.normalizeStyle(evaluated));
+          }
+          res += ` ${p.arg.content}="${shared.escapeHtml(
+            evaluated
+          )}"`;
         }
+      } else if (p.name === "html") {
+        innerHTML = evaluateConstant(p.exp);
+      } else if (p.name === "text") {
+        innerHTML = shared.escapeHtml(
+          shared.toDisplayString(evaluateConstant(p.exp))
+        );
+      }
     }
-    if (!shared.isVoidTag(node.tag)) {
-        res += `</${node.tag}>`;
+  }
+  if (context.scopeId) {
+    res += ` ${context.scopeId}`;
+  }
+  res += `>`;
+  if (innerHTML) {
+    res += innerHTML;
+  } else {
+    for (let i = 0; i < node.children.length; i++) {
+      res += stringifyNode(node.children[i], context);
     }
-    return res;
+  }
+  if (!shared.isVoidTag(node.tag)) {
+    res += `</${node.tag}>`;
+  }
+  return res;
 }
-// __UNSAFE__
-// Reason: eval.
-// It's technically safe to eval because only constant expressions are possible
-// here, e.g. `{{ 1 }}` or `{{ 'foo' }}`
-// in addition, constant exps bail on presence of parens so you can't even
-// run JSFuck in here. But we mark it unsafe for security review purposes.
-// (see compiler-core/src/transforms/transformExpression)
 function evaluateConstant(exp) {
-    if (exp.type === 4 /* NodeTypes.SIMPLE_EXPRESSION */) {
-        return new Function(`return ${exp.content}`)();
-    }
-    else {
-        // compound
-        let res = ``;
-        exp.children.forEach(c => {
-            if (shared.isString(c) || shared.isSymbol(c)) {
-                return;
-            }
-            if (c.type === 2 /* NodeTypes.TEXT */) {
-                res += c.content;
-            }
-            else if (c.type === 5 /* NodeTypes.INTERPOLATION */) {
-                res += shared.toDisplayString(evaluateConstant(c.content));
-            }
-            else {
-                res += evaluateConstant(c);
-            }
-        });
-        return res;
-    }
+  if (exp.type === 4) {
+    return new Function(`return (${exp.content})`)();
+  } else {
+    let res = ``;
+    exp.children.forEach((c) => {
+      if (shared.isString(c) || shared.isSymbol(c)) {
+        return;
+      }
+      if (c.type === 2) {
+        res += c.content;
+      } else if (c.type === 5) {
+        res += shared.toDisplayString(evaluateConstant(c.content));
+      } else {
+        res += evaluateConstant(c);
+      }
+    });
+    return res;
+  }
 }
 
 const ignoreSideEffectTags = (node, context) => {
-    if (node.type === 1 /* NodeTypes.ELEMENT */ &&
-        node.tagType === 0 /* ElementTypes.ELEMENT */ &&
-        (node.tag === 'script' || node.tag === 'style')) {
-        context.onError(createDOMCompilerError(61 /* DOMErrorCodes.X_IGNORED_SIDE_EFFECT_TAG */, node.loc));
-        context.removeNode();
-    }
+  if (node.type === 1 && node.tagType === 0 && (node.tag === "script" || node.tag === "style")) {
+    context.removeNode();
+  }
 };
 
 const DOMNodeTransforms = [
-    transformStyle,
-    ...([])
+  transformStyle,
+  ...[]
 ];
 const DOMDirectiveTransforms = {
-    cloak: compilerCore.noopDirectiveTransform,
-    html: transformVHtml,
-    text: transformVText,
-    model: transformModel,
-    on: transformOn,
-    show: transformShow
+  cloak: compilerCore.noopDirectiveTransform,
+  html: transformVHtml,
+  text: transformVText,
+  model: transformModel,
+  // override compiler-core
+  on: transformOn,
+  // override compiler-core
+  show: transformShow
 };
 function compile(template, options = {}) {
-    return compilerCore.baseCompile(template, shared.extend({}, parserOptions, options, {
-        nodeTransforms: [
-            // ignore <script> and <tag>
-            // this is not put inside DOMNodeTransforms because that list is used
-            // by compiler-ssr to generate vnode fallback branches
-            ignoreSideEffectTags,
-            ...DOMNodeTransforms,
-            ...(options.nodeTransforms || [])
-        ],
-        directiveTransforms: shared.extend({}, DOMDirectiveTransforms, options.directiveTransforms || {}),
-        transformHoist: stringifyStatic
-    }));
+  return compilerCore.baseCompile(
+    template,
+    shared.extend({}, parserOptions, options, {
+      nodeTransforms: [
+        // ignore <script> and <tag>
+        // this is not put inside DOMNodeTransforms because that list is used
+        // by compiler-ssr to generate vnode fallback branches
+        ignoreSideEffectTags,
+        ...DOMNodeTransforms,
+        ...options.nodeTransforms || []
+      ],
+      directiveTransforms: shared.extend(
+        {},
+        DOMDirectiveTransforms,
+        options.directiveTransforms || {}
+      ),
+      transformHoist: stringifyStatic
+    })
+  );
 }
 function parse(template, options = {}) {
-    return compilerCore.baseParse(template, shared.extend({}, parserOptions, options));
+  return compilerCore.baseParse(template, shared.extend({}, parserOptions, options));
 }
 
-Object.keys(compilerCore).forEach(function (k) {
-  if (k !== 'default') exports[k] = compilerCore[k];
-});
 exports.DOMDirectiveTransforms = DOMDirectiveTransforms;
 exports.DOMNodeTransforms = DOMNodeTransforms;
 exports.TRANSITION = TRANSITION;
@@ -3077,3 +2973,6 @@ exports.createDOMCompilerError = createDOMCompilerError;
 exports.parse = parse;
 exports.parserOptions = parserOptions;
 exports.transformStyle = transformStyle;
+Object.keys(compilerCore).forEach(function (k) {
+  if (k !== 'default' && !exports.hasOwnProperty(k)) exports[k] = compilerCore[k];
+});

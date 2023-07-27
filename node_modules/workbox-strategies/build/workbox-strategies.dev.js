@@ -3,7 +3,7 @@ this.workbox.strategies = (function (exports, assert_js, logger_js, WorkboxError
     'use strict';
 
     try {
-      self['workbox:strategies:6.5.3'] && _();
+      self['workbox:strategies:7.0.0'] && _();
     } catch (e) {}
 
     /*

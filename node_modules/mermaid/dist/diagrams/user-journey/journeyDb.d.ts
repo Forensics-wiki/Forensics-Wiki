@@ -7,7 +7,7 @@ export function addTask(descr: any, taskData: any): void;
 export function addTaskOrg(descr: any): void;
 declare namespace _default {
     export { parseDirective };
-    export function getConfig(): import("../../config.type").JourneyDiagramConfig | undefined;
+    export function getConfig(): import("../../config.type.js").JourneyDiagramConfig | undefined;
     export { clear };
     export { setDiagramTitle };
     export { getDiagramTitle };
@@ -23,10 +23,10 @@ declare namespace _default {
     export { getActors };
 }
 export default _default;
-import { setDiagramTitle } from "../../commonDb";
-import { getDiagramTitle } from "../../commonDb";
-import { setAccTitle } from "../../commonDb";
-import { getAccTitle } from "../../commonDb";
-import { setAccDescription } from "../../commonDb";
-import { getAccDescription } from "../../commonDb";
+import { setDiagramTitle } from '../../commonDb.js';
+import { getDiagramTitle } from '../../commonDb.js';
+import { setAccTitle } from '../../commonDb.js';
+import { getAccTitle } from '../../commonDb.js';
+import { setAccDescription } from '../../commonDb.js';
+import { getAccDescription } from '../../commonDb.js';
 declare function getActors(): any[];

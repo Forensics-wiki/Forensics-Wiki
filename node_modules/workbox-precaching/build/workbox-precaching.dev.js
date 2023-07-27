@@ -3,7 +3,7 @@ this.workbox.precaching = (function (exports, assert_js, cacheNames_js, logger_j
     'use strict';
 
     try {
-      self['workbox:precaching:6.5.3'] && _();
+      self['workbox:precaching:7.0.0'] && _();
     } catch (e) {}
 
     /*

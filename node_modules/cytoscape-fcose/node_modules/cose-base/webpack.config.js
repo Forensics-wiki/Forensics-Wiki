@@ -15,13 +15,17 @@ let config = {
     path: path.join( __dirname ),
     filename: 'cose-base.js',
     library: camelcase( pkg.name ),
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    globalObject: 'this'
   },
   module: {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' }
     ]
   },
+  optimization: {
+    minimize: MIN ? true : false
+  },  
   externals: PROD ? {
     'layout-base': {
       commonjs2: 'layout-base',
@@ -29,15 +33,7 @@ let config = {
       amd: 'layout-base',
       root: 'layoutBase'
     }
-  } : {},  
-  plugins: MIN ? [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_console: false,
-      }
-    })
-  ] : []
+  } : {}
 };
 
 module.exports = config;

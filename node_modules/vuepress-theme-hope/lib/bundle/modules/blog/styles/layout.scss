@@ -1,0 +1,44 @@
+@use "@sass-palette/hope-config";
+.theme-container {
+  .vp-page.vp-blog {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    padding-top: var(--navbar-height);
+    padding-bottom: 2rem;
+
+    background: var(--bg-color-back);
+
+    transition: background var(--color-transition);
+  }
+
+  &.has-toc .vp-page.vp-blog {
+    @media (min-width: hope-config.$pc) {
+      // fix toc padding
+      padding-inline-end: 0;
+    }
+  }
+}
+
+.blog-page-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  @media (max-width: hope-config.$pad) {
+    padding: 0 1rem;
+  }
+
+  @media (max-width: hope-config.$mobile) {
+    padding: 0;
+  }
+}

@@ -6,26 +6,6 @@ export function drawLabel(elem: any, txtObject: any): void;
 export function drawSection(elem: any, section: any, conf: any): void;
 export function drawTask(elem: any, task: any, conf: any): void;
 export function drawBackgroundRect(elem: any, bounds: any): void;
-export function getTextObj(): {
-    x: number;
-    y: number;
-    fill: undefined;
-    'text-anchor': string;
-    width: number;
-    height: number;
-    textMargin: number;
-    rx: number;
-    ry: number;
-};
-export function getNoteRect(): {
-    x: number;
-    y: number;
-    width: number;
-    anchor: string;
-    height: number;
-    rx: number;
-    ry: number;
-};
 declare namespace _default {
     export { drawRect };
     export { drawCircle };
@@ -34,8 +14,6 @@ declare namespace _default {
     export { drawLabel };
     export { drawTask };
     export { drawBackgroundRect };
-    export { getTextObj };
-    export { getNoteRect };
     export { initGraphics };
 }
 export default _default;

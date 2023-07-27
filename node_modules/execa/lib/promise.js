@@ -1,4 +1,6 @@
+// eslint-disable-next-line unicorn/prefer-top-level-await
 const nativePromisePrototype = (async () => {})().constructor.prototype;
+
 const descriptors = ['then', 'catch', 'finally'].map(property => [
 	property,
 	Reflect.getOwnPropertyDescriptor(nativePromisePrototype, property),
@@ -14,8 +16,6 @@ export const mergePromise = (spawned, promise) => {
 
 		Reflect.defineProperty(spawned, property, {...descriptor, value});
 	}
-
-	return spawned;
 };
 
 // Use promises instead of `child_process` events

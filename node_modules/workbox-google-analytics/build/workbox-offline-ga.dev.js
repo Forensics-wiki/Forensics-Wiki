@@ -3,7 +3,7 @@ this.workbox.googleAnalytics = (function (exports, BackgroundSyncPlugin_js, cach
     'use strict';
 
     try {
-      self['workbox:google-analytics:6.5.3'] && _();
+      self['workbox:google-analytics:7.0.0'] && _();
     } catch (e) {}
 
     /*

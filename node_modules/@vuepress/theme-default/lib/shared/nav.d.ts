@@ -23,21 +23,20 @@ export interface NavLink extends NavItem {
 /**
  * Navbar types
  */
-export declare type NavbarItem = NavLink;
-export declare type NavbarGroup = NavGroup<NavbarGroup | NavbarItem | string>;
-export declare type NavbarConfig = (NavbarItem | NavbarGroup | string)[];
-export declare type ResolvedNavbarItem = NavbarItem | NavGroup<ResolvedNavbarItem>;
+export type NavbarItem = NavLink;
+export type NavbarGroup = NavGroup<NavbarGroup | NavbarItem | string>;
+export type NavbarConfig = (NavbarItem | NavbarGroup | string)[];
+export type ResolvedNavbarItem = NavbarItem | NavGroup<ResolvedNavbarItem>;
 /**
  * Sidebar types
  */
-export declare type SidebarItem = NavItem & Partial<NavLink>;
-export declare type SidebarGroup = SidebarItem & NavGroup<SidebarItem | SidebarGroup | string>;
-export declare type SidebarGroupCollapsible = SidebarGroup & {
+export type SidebarItem = NavItem & Partial<NavLink>;
+export type SidebarGroup = SidebarItem & NavGroup<SidebarItem | SidebarGroup | string> & {
     collapsible?: boolean;
 };
-export declare type SidebarConfigArray = (SidebarItem | SidebarGroupCollapsible | string)[];
-export declare type SidebarConfigObject = Record<string, SidebarConfigArray>;
-export declare type SidebarConfig = SidebarConfigArray | SidebarConfigObject;
-export declare type ResolvedSidebarItem = SidebarItem & Partial<NavGroup<ResolvedSidebarItem>> & {
+export type SidebarConfigArray = (SidebarItem | SidebarGroup | string)[];
+export type SidebarConfigObject = Record<string, SidebarConfigArray>;
+export type SidebarConfig = SidebarConfigArray | SidebarConfigObject;
+export type ResolvedSidebarItem = SidebarItem & Partial<NavGroup<ResolvedSidebarItem>> & {
     collapsible?: boolean;
 };

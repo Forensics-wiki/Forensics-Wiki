@@ -2,7 +2,7 @@
 
 var GetIntrinsic = require('get-intrinsic');
 
-var $gOPD = require('../helpers/getOwnPropertyDescriptor');
+var $gOPD = require('gopd');
 var $TypeError = GetIntrinsic('%TypeError%');
 
 var callBound = require('call-bind/callBound');
@@ -17,7 +17,7 @@ var IsRegExp = require('./IsRegExp');
 var ToPropertyDescriptor = require('./ToPropertyDescriptor');
 var Type = require('./Type');
 
-// https://ecma-international.org/ecma-262/6.0/#sec-ordinarygetownproperty
+// https://262.ecma-international.org/6.0/#sec-ordinarygetownproperty
 
 module.exports = function OrdinaryGetOwnProperty(O, P) {
 	if (Type(O) !== 'Object') {

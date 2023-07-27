@@ -3,7 +3,7 @@ this.workbox.routing = (function (exports, assert_js, logger_js, WorkboxError_js
     'use strict';
 
     try {
-      self['workbox:routing:6.5.3'] && _();
+      self['workbox:routing:7.0.0'] && _();
     } catch (e) {}
 
     /*

@@ -6,6 +6,9 @@
 import { noChange, _$LH } from './lit-html.js';
 import { PartType } from './directive.js';
 import { isPrimitive, isSingleExpression, isTemplateResult, } from './directive-helpers.js';
+// In the Node build, this import will be injected by Rollup:
+// import {Buffer} from 'buffer';
+const NODE_MODE = false;
 const { _TemplateInstance: TemplateInstance, _isIterable: isIterable, _resolveDirective: resolveDirective, _ChildPart: ChildPart, _ElementPart: ElementPart, } = _$LH;
 /**
  * hydrate() operates on a container with server-side rendered content and
@@ -47,8 +50,13 @@ const { _TemplateInstance: TemplateInstance, _isIterable: isIterable, _resolveDi
  * @param rootValue
  * @param container
  * @param userOptions
+ *
+ * @deprecated This has been moved to `@lit-labs/ssr-client` and will be removed
+ * in a future release.
  */
 export const hydrate = (rootValue, container, options = {}) => {
+    console.warn('Importing `hydrate()` from `lit-html/experimental-hydrate.js` is deprecated.' +
+        'Import from `@lit-labs/ssr-client` instead.');
     // TODO(kschaaf): Do we need a helper for _$litPart$ ("part for node")?
     // This property needs to remain unminified.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,6 +67,8 @@ export const hydrate = (rootValue, container, options = {}) => {
     // exactly one root part. We need to hold a reference to it so we can set
     // it in the parts cache.
     let rootPart = undefined;
+    // Used for error messages
+    let rootPartMarker = undefined;
     // When we are in-between ChildPart markers, this is the current ChildPart.
     // It's needed to be able to set the ChildPart's endNode when we see a
     // close marker
@@ -73,11 +83,14 @@ export const hydrate = (rootValue, container, options = {}) => {
         const markerText = marker.data;
         if (markerText.startsWith('lit-part')) {
             if (stack.length === 0 && rootPart !== undefined) {
-                throw new Error('there must be only one root part per container');
+                throw new Error(`There must be only one root part per container. ` +
+                    `Found a part marker (${marker}) when we already have a root ` +
+                    `part marker (${rootPartMarker})`);
             }
             // Create a new ChildPart and push it onto the stack
             currentChildPart = openChildPart(rootValue, marker, stack, options);
             rootPart !== null && rootPart !== void 0 ? rootPart : (rootPart = currentChildPart);
+            rootPartMarker !== null && rootPartMarker !== void 0 ? rootPartMarker : (rootPartMarker = marker);
         }
         else if (markerText.startsWith('lit-node')) {
             // Create and hydrate attribute parts into the current ChildPart on the
@@ -92,8 +105,15 @@ export const hydrate = (rootValue, container, options = {}) => {
             currentChildPart = closeChildPart(marker, currentChildPart, stack);
         }
     }
-    console.assert(rootPart !== undefined, 'there should be exactly one root part in a render container');
-    // This property needs to remain unminified.
+    if (rootPart === undefined) {
+        const elementMessage = container instanceof ShadowRoot
+            ? `{container.host.localName}'s shadow root`
+            : container instanceof DocumentFragment
+                ? 'DocumentFragment'
+                : container.localName;
+        console.error(`There should be exactly one root part in a render container, ` +
+            `but we didn't find any in ${elementMessage}.`);
+    } // This property needs to remain unminified.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     container['_$litPart$'] = rootPart;
 };
@@ -111,7 +131,7 @@ const openChildPart = (rootValue, marker, stack, options) => {
         const state = stack[stack.length - 1];
         if (state.type === 'template-instance') {
             part = new ChildPart(marker, null, state.instance, options);
-            state.instance._parts.push(part);
+            state.instance._$parts.push(part);
             value = state.result.values[state.instancePartIndex++];
             state.templatePartIndex++;
         }
@@ -234,16 +254,14 @@ const closeChildPart = (marker, part, stack) => {
     }
 };
 const createAttributeParts = (comment, stack, options) => {
-    var _a;
     // Get the nodeIndex from DOM. We're only using this for an integrity
     // check right now, we might not need it.
     const match = /lit-node (\d+)/.exec(comment.data);
     const nodeIndex = parseInt(match[1]);
-    // For void elements, the node the comment was referring to will be
-    // the previousSibling; for non-void elements, the comment is guaranteed
-    // to be the first child of the element (i.e. it won't have a previousSibling
-    // meaning it should use the parentElement)
-    const node = (_a = comment.previousElementSibling) !== null && _a !== void 0 ? _a : comment.parentElement;
+    // Node markers are added as a previous sibling to identify elements
+    // with attribute/property/element/event bindings or custom elements
+    // whose `defer-hydration` attribute needs to be removed
+    const node = comment.nextElementSibling;
     if (node === null) {
         throw new Error('could not find node for attribute parts');
     }
@@ -278,13 +296,13 @@ const createAttributeParts = (comment, stack, options) => {
                     instancePart.type === PartType.PROPERTY);
                 instancePart._$setValue(value, instancePart, state.instancePartIndex, noCommit);
                 state.instancePartIndex += templatePart.strings.length - 1;
-                instance._parts.push(instancePart);
+                instance._$parts.push(instancePart);
             }
             else {
                 // templatePart.type === PartType.ELEMENT
                 const instancePart = new ElementPart(node, state.instance, options);
                 resolveDirective(instancePart, state.result.values[state.instancePartIndex++]);
-                instance._parts.push(instancePart);
+                instance._$parts.push(instancePart);
             }
             state.templatePartIndex++;
         }
@@ -313,6 +331,16 @@ export const digestForTemplateResult = (templateResult) => {
             hashes[i % digestSize] = (hashes[i % digestSize] * 33) ^ s.charCodeAt(i);
         }
     }
-    return btoa(String.fromCharCode(...new Uint8Array(hashes.buffer)));
+    const str = String.fromCharCode(...new Uint8Array(hashes.buffer));
+    // Use `btoa` in browsers because it is supported universally.
+    //
+    // In Node, we are sometimes executing in an isolated VM context, which means
+    // neither `btoa` nor `Buffer` will be globally available by default (also
+    // note that `btoa` is only supported in Node 16+ anyway, and we still support
+    // Node 14). Instead of requiring users to always provide an implementation
+    // for `btoa` when they set up their VM context, we instead inject an import
+    // for `Buffer` from Node's built-in `buffer` module in our Rollup config (see
+    // note at the top of this file), and use that.
+    return NODE_MODE ? Buffer.from(str, 'binary').toString('base64') : btoa(str);
 };
 //# sourceMappingURL=experimental-hydrate.js.map

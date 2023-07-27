@@ -1,1 +1,14 @@
-export const data = JSON.parse("{\"key\":\"v-1473bf53\",\"path\":\"/demo/\",\"title\":\"Windows取证\",\"lang\":\"zh-CN\",\"frontmatter\":{\"title\":\"Windows取证\",\"index\":false,\"icon\":\"windows\",\"description\":\"Catalog\\rMarkdown Enhance (markdown.md); \\rPage Config (page.md); \\rFunction Disable (disable.md); \\rEncryption Demo (encrypt.md);\",\"head\":[[\"meta\",{\"property\":\"og:url\",\"content\":\"https://www.forensics-wiki.com/demo/\"}],[\"meta\",{\"property\":\"og:title\",\"content\":\"Windows取证\"}],[\"meta\",{\"property\":\"og:description\",\"content\":\"Catalog\\rMarkdown Enhance (markdown.md); \\rPage Config (page.md); \\rFunction Disable (disable.md); \\rEncryption Demo (encrypt.md);\"}],[\"meta\",{\"property\":\"og:type\",\"content\":\"article\"}],[\"meta\",{\"property\":\"og:updated_time\",\"content\":\"2022-11-22T04:52:24.000Z\"}],[\"meta\",{\"property\":\"og:locale\",\"content\":\"zh-CN\"}],[\"meta\",{\"property\":\"article:modified_time\",\"content\":\"2022-11-22T04:52:24.000Z\"}]]},\"excerpt\":\"\",\"headers\":[{\"level\":2,\"title\":\"Catalog\",\"slug\":\"catalog\",\"link\":\"#catalog\",\"children\":[]}],\"git\":{\"createdTime\":1669092744000,\"updatedTime\":1669092744000,\"contributors\":[{\"name\":\"mcyydscc\",\"email\":\"90653809+mcyydscc@users.noreply.github.com\",\"commits\":1}]},\"readingTime\":{\"minutes\":0.07,\"words\":21},\"filePathRelative\":\"demo/README.md\",\"localizedDate\":\"2022年11月22日\"}")
+export const data = JSON.parse("{\"key\":\"v-1473bf53\",\"path\":\"/demo/\",\"title\":\"引入\",\"lang\":\"zh-CN\",\"frontmatter\":{\"title\":\"引入\",\"index\":false,\"icon\":\"network-wired\",\"description\":\"目录 电子数据取证引入 (yr.md); Forensics-Wiki常见问题 (cj.md); 商业软件授权问题 (sq.md);\",\"head\":[[\"meta\",{\"property\":\"og:url\",\"content\":\"https://vuepress-theme-hope-docs-demo.netlify.app/demo/\"}],[\"meta\",{\"property\":\"og:site_name\",\"content\":\"Forensics-Wiki\"}],[\"meta\",{\"property\":\"og:title\",\"content\":\"引入\"}],[\"meta\",{\"property\":\"og:description\",\"content\":\"目录 电子数据取证引入 (yr.md); Forensics-Wiki常见问题 (cj.md); 商业软件授权问题 (sq.md);\"}],[\"meta\",{\"property\":\"og:type\",\"content\":\"article\"}],[\"meta\",{\"property\":\"og:locale\",\"content\":\"zh-CN\"}],[\"meta\",{\"property\":\"article:author\",\"content\":\"Forensics-Wiki\"}],[\"script\",{\"type\":\"application/ld+json\"},\"{\\\"@context\\\":\\\"https://schema.org\\\",\\\"@type\\\":\\\"Article\\\",\\\"headline\\\":\\\"引入\\\",\\\"image\\\":[\\\"\\\"],\\\"dateModified\\\":null,\\\"author\\\":[{\\\"@type\\\":\\\"Person\\\",\\\"name\\\":\\\"Forensics-Wiki\\\",\\\"url\\\":\\\"https://github.com/Forensics-wiki\\\"}]}\"]]},\"headers\":[{\"level\":2,\"title\":\"目录\",\"slug\":\"目录\",\"link\":\"#目录\",\"children\":[]}],\"readingTime\":{\"minutes\":0.12,\"words\":35},\"filePathRelative\":\"demo/README.md\",\"autoDesc\":true}")
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updatePageData) {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ data }) => {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  })
+}

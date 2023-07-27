@@ -1,5 +1,5 @@
 try {
-  self['workbox:window:6.5.3'] && _();
+  self['workbox:window:7.0.0'] && _();
 } catch (e) {}
 
 /*
@@ -39,7 +39,7 @@ function messageSW(sw, data) {
 }
 
 try {
-  self['workbox:core:6.5.3'] && _();
+  self['workbox:core:7.0.0'] && _();
 } catch (e) {}
 
 /*
@@ -97,7 +97,7 @@ function dontWaitFor(promise) {
 const logger = (() => {
   // Don't overwrite this value if it's already set.
   // See https://github.com/GoogleChrome/workbox/pull/2284#issuecomment-560470923
-  if (!('__WB_DISABLE_DEV_LOGS' in self)) {
+  if (!('__WB_DISABLE_DEV_LOGS' in globalThis)) {
     self.__WB_DISABLE_DEV_LOGS = false;
   }
 

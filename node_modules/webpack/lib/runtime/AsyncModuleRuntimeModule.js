@@ -8,23 +8,26 @@ const RuntimeGlobals = require("../RuntimeGlobals");
 const Template = require("../Template");
 const HelperRuntimeModule = require("./HelperRuntimeModule");
 
+/** @typedef {import("../Compilation")} Compilation */
+
 class AsyncModuleRuntimeModule extends HelperRuntimeModule {
 	constructor() {
 		super("async module");
 	}
 
 	/**
-	 * @returns {string} runtime code
+	 * @returns {string | null} runtime code
 	 */
 	generate() {
-		const { runtimeTemplate } = this.compilation;
+		const compilation = /** @type {Compilation} */ (this.compilation);
+		const { runtimeTemplate } = compilation;
 		const fn = RuntimeGlobals.asyncModule;
 		return Template.asString([
 			'var webpackQueues = typeof Symbol === "function" ? Symbol("webpack queues") : "__webpack_queues__";',
-			'var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "__webpack_exports__";',
+			`var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "${RuntimeGlobals.exports}";`,
 			'var webpackError = typeof Symbol === "function" ? Symbol("webpack error") : "__webpack_error__";',
 			`var resolveQueue = ${runtimeTemplate.basicFunction("queue", [
-				"if(queue && !queue.d) {",
+				"if(queue && queue.d < 1) {",
 				Template.indent([
 					"queue.d = 1;",
 					`queue.forEach(${runtimeTemplate.expressionFunction(
@@ -73,7 +76,7 @@ class AsyncModuleRuntimeModule extends HelperRuntimeModule {
 			)};`,
 			`${fn} = ${runtimeTemplate.basicFunction("module, body, hasAwait", [
 				"var queue;",
-				"hasAwait && ((queue = []).d = 1);",
+				"hasAwait && ((queue = []).d = -1);",
 				"var depQueues = new Set();",
 				"var exports = module.exports;",
 				"var currentDeps;",
@@ -121,7 +124,7 @@ class AsyncModuleRuntimeModule extends HelperRuntimeModule {
 					"(err ? reject(promise[webpackError] = err) : outerResolve(exports)), resolveQueue(queue)",
 					"err"
 				)});`,
-				"queue && (queue.d = 0);"
+				"queue && queue.d < 0 && (queue.d = 0);"
 			])};`
 		]);
 	}

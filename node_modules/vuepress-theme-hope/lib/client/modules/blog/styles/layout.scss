@@ -1,13 +1,11 @@
 .theme-container {
-  .page.blog {
+  .vp-page.vp-blog {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     box-sizing: border-box;
 
-    min-height: 100vh;
-    margin: 0 auto;
     padding-top: var(--navbar-height);
     padding-bottom: 2rem;
 
@@ -16,10 +14,10 @@
     transition: background var(--color-transition);
   }
 
-  &.has-toc .page.blog {
+  &.has-toc .vp-page.vp-blog {
     @media (min-width: hope-config.$pc) {
       // fix toc padding
-      padding-right: 0;
+      padding-inline-end: 0;
     }
   }
 }

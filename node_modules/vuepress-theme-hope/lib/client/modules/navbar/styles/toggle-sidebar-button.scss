@@ -1,6 +1,6 @@
 @use "vuepress-shared/styles/reset";
 
-.toggle-sidebar-button {
+.vp-toggle-sidebar-button {
   @include reset.button;
 
   display: none;
@@ -18,7 +18,7 @@
 
   @media screen and (max-width: hope-config.$tablet) {
     display: block;
-    padding-right: var(--navbar-mobile-horizontal-padding);
+    padding-inline-end: var(--navbar-mobile-horizontal-padding);
   }
 
   &::before,

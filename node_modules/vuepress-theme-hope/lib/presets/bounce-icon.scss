@@ -1,0 +1,45 @@
+@keyframes bounce {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+
+  10% {
+    transform: scale(1.1, 0.9) translateY(0);
+  }
+
+  30% {
+    transform: scale(0.9, 1.1) translateY(-0.5em);
+  }
+
+  50% {
+    transform: scale(1.05, 0.95) translateY(0);
+  }
+
+  57% {
+    transform: scale(1) translateY(-0.125em);
+  }
+
+  64% {
+    transform: scale(1) translateY(0);
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+// auto links
+.nav-link,
+// project home
+// project card
+.vp-project-card,// page title
+.vp-page-title h1,
+.vp-project-home .vp-feature-item {
+  &:hover .icon {
+    animation-name: bounce;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier(0.28, 0.84, 0.42, 1);
+    animation-delay: 0s;
+    animation-direction: normal;
+  }
+}

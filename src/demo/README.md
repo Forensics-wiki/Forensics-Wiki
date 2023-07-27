@@ -1,15 +1,13 @@
 ---
-title: Windows取证
+title: 引入
 index: false
-icon: windows
+icon: network-wired
 ---
 
-## Catalog
+## 目录
 
-- [Markdown Enhance](markdown.md)
+- [电子数据取证引入](yr.md)
 
-- [Page Config](page.md)
+- [Forensics-Wiki常见问题](cj.md)
 
-- [Function Disable](disable.md)
-
-- [Encryption Demo](encrypt.md)
+- [商业软件授权问题](sq.md)

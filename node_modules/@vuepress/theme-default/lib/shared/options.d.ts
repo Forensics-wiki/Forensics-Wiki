@@ -42,8 +42,8 @@ export interface DefaultThemePluginsOptions {
      */
     prismjs?: boolean;
 }
-export declare type DefaultThemeLocaleOptions = DefaultThemeData;
-export declare type DefaultThemeData = ThemeData<DefaultThemeLocaleData>;
+export type DefaultThemeLocaleOptions = DefaultThemeData;
+export type DefaultThemeData = ThemeData<DefaultThemeLocaleData>;
 export interface DefaultThemeLocaleData extends LocaleData {
     /**
      * Default color mode

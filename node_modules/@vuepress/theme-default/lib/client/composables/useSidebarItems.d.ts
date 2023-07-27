@@ -1,7 +1,7 @@
 import type { PageHeader } from '@vuepress/client';
 import type { ComputedRef, InjectionKey } from 'vue';
 import type { DefaultThemeData, DefaultThemeNormalPageFrontmatter, ResolvedSidebarItem, SidebarConfigArray, SidebarConfigObject } from '../../shared/index.js';
-export declare type SidebarItemsRef = ComputedRef<ResolvedSidebarItem[]>;
+export type SidebarItemsRef = ComputedRef<ResolvedSidebarItem[]>;
 export declare const sidebarItemsSymbol: InjectionKey<SidebarItemsRef>;
 /**
  * Inject sidebar items global computed

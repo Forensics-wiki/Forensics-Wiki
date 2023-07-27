@@ -1,0 +1,217 @@
+.artalk > .atk-list {
+  position: relative;
+
+  & > .atk-list-header {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 17px 10px 17px;
+
+    .atk-text {
+      display: inline-block;
+    }
+
+    /* 下拉选择层 */
+    .atk-dropdown-wrap {
+      position: relative;
+      cursor: pointer;
+
+      .atk-arrow-down-icon {
+        cursor: pointer;
+        vertical-align: middle;
+        border-top: 5px solid var(--at-color-grey);
+        border-left: 3px solid transparent;
+        border-right: 3px solid transparent;
+        margin-top: -1px;
+        margin-left: 0.8rem;
+        display: inline-block;
+      }
+
+      &:hover {
+        .atk-dropdown {
+          display: block;
+        }
+      }
+
+      .atk-dropdown {
+        z-index: 888;
+        display: none;
+        height: auto !important;
+        max-height: calc(100vh - 2.7rem);
+        overflow-y: auto;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 100%;
+        background-color: var(--at-color-bg);
+        padding: 0.6rem 0;
+        border: 1px solid var(--at-color-border);
+        text-align: center;
+        border-radius: $block-radius;
+        white-space: nowrap;
+        margin: 0;
+        list-style: none;
+      }
+
+      .atk-dropdown-item {
+        span, a {
+          display: block;
+          line-height: 2rem;
+          position: relative;
+          border-bottom: none;
+          font-weight: 400;
+          padding: 0 1.5rem;
+
+          &:hover {
+            color: var(--at-color-main);
+          }
+        }
+
+        &.active span, a {
+          color: var(--at-color-main);
+        }
+      }
+    }
+
+    .atk-comment-count {
+      font-size: 15px;
+
+      .atk-comment-count-num {
+        font-size: 22px;
+        margin-right: 4px;
+      }
+    }
+
+    .atk-right-action {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+
+      & > span {
+        font-size: 14px;
+        color: var(--at-color-meta);
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+
+        &.atk-on, &.atk-on * {
+          color: var(--at-color-main);
+        }
+
+        &:not(:last-child):not(.atk-hide) {
+          margin-right: 10px;
+          padding-right: 10px;
+        }
+
+        .atk-unread-badge {
+          position: absolute;
+          top: -5px;
+          left: -6px;
+          color: #fff;
+          background: var(--at-color-pink);
+          text-align: center;
+          min-width: 16px;
+          height: 16px;
+          padding: 0 3px;
+          border-radius: 8px;
+          line-height: 16px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  & > .atk-list-body {
+    min-height: 150px;
+
+    .atk-list-comments-wrap {
+      .atk-main-editor {
+      }
+    }
+  }
+
+  & > .atk-list-footer {
+    z-index: 1;
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+
+    @media only screen and (max-width: 768px) {
+      position: relative;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .atk-copyright {
+      display: block;
+      font-size: 12px;
+      color: var(--at-color-meta);
+      padding-right: 15px;
+      margin-top: 5px;
+
+      a {
+        color: var(--at-color-main);
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.atk-list-no-comment {
+  height: 150px;
+  display: flex;
+  font-size: 19px;
+  justify-content: center;
+  align-items: center;
+  word-break: break-word;
+  text-align: center;
+}
+
+.atk-list-read-more {
+  border-top: 1px dashed var(--at-color-border);
+  margin-top: 28px;
+  padding-bottom: 25px;
+
+  @media only screen and (max-width: 768px) {
+    padding-bottom: 10px;
+  }
+
+  &.atk-err .atk-text {
+    color: var(--at-color-red) !important;
+  }
+
+  .atk-list-read-more-inner {
+    cursor: pointer;
+    user-select: none;
+    padding: 0 15px;
+    font-size: $font-size;
+    border-radius: $block-radius;
+    border: 1px solid transparent;
+    display: flex;
+    height: 30px;
+    flex-direction: row;
+    place-content: center;
+    align-items: center;
+    width: 120px;
+    margin: 0 auto;
+    margin-top: -15px;
+    background: var(--at-color-bg);
+    border-color: var(--at-color-border);
+
+    & > .atk-loading-icon {
+      height: 15px;
+      width: 15px;
+    }
+
+    & > .atk-text {
+      color: var(--at-color-meta);
+    }
+
+    &:hover {
+      background: var(--at-color-bg-grey);
+      & > .atk-text {
+      }
+    }
+  }
+}

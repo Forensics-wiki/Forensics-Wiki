@@ -277,7 +277,7 @@ this.workbox.backgroundSync = (function (exports, WorkboxError_js, logger_js, as
   }));
 
   try {
-    self['workbox:background-sync:6.5.3'] && _();
+    self['workbox:background-sync:7.0.0'] && _();
   } catch (e) {}
 
   /*
@@ -635,46 +635,12 @@ this.workbox.backgroundSync = (function (exports, WorkboxError_js, logger_js, as
 
   class StorableRequest {
     /**
-     * Accepts an object of request data that can be used to construct a
-     * `Request` but can also be stored in IndexedDB.
-     *
-     * @param {Object} requestData An object of request data that includes the
-     *     `url` plus any relevant properties of
-     *     [requestInit]{@link https://fetch.spec.whatwg.org/#requestinit}.
-     */
-    constructor(requestData) {
-      {
-        assert_js.assert.isType(requestData, 'object', {
-          moduleName: 'workbox-background-sync',
-          className: 'StorableRequest',
-          funcName: 'constructor',
-          paramName: 'requestData'
-        });
-        assert_js.assert.isType(requestData.url, 'string', {
-          moduleName: 'workbox-background-sync',
-          className: 'StorableRequest',
-          funcName: 'constructor',
-          paramName: 'requestData.url'
-        });
-      } // If the request's mode is `navigate`, convert it to `same-origin` since
-      // navigation requests can't be constructed via script.
-
-
-      if (requestData['mode'] === 'navigate') {
-        requestData['mode'] = 'same-origin';
-      }
-
-      this._requestData = requestData;
-    }
-    /**
      * Converts a Request object to a plain object that can be structured
      * cloned or JSON-stringified.
      *
      * @param {Request} request
      * @return {Promise<StorableRequest>}
      */
-
-
     static async fromRequest(request) {
       const requestData = {
         url: request.url,
@@ -702,6 +668,40 @@ this.workbox.backgroundSync = (function (exports, WorkboxError_js, logger_js, as
       }
 
       return new StorableRequest(requestData);
+    }
+    /**
+     * Accepts an object of request data that can be used to construct a
+     * `Request` but can also be stored in IndexedDB.
+     *
+     * @param {Object} requestData An object of request data that includes the
+     *     `url` plus any relevant properties of
+     *     [requestInit]{@link https://fetch.spec.whatwg.org/#requestinit}.
+     */
+
+
+    constructor(requestData) {
+      {
+        assert_js.assert.isType(requestData, 'object', {
+          moduleName: 'workbox-background-sync',
+          className: 'StorableRequest',
+          funcName: 'constructor',
+          paramName: 'requestData'
+        });
+        assert_js.assert.isType(requestData.url, 'string', {
+          moduleName: 'workbox-background-sync',
+          className: 'StorableRequest',
+          funcName: 'constructor',
+          paramName: 'requestData.url'
+        });
+      } // If the request's mode is `navigate`, convert it to `same-origin` since
+      // navigation requests can't be constructed via script.
+
+
+      if (requestData['mode'] === 'navigate') {
+        requestData['mode'] = 'same-origin';
+      }
+
+      this._requestData = requestData;
     }
     /**
      * Returns a deep clone of the instances `_requestData` object.

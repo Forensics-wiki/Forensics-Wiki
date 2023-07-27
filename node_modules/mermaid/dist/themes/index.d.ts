@@ -17,8 +17,8 @@ declare namespace _default {
     }
 }
 export default _default;
-import { getThemeVariables as baseThemeVariables } from "./theme-base";
-import { getThemeVariables as darkThemeVariables } from "./theme-dark";
-import { getThemeVariables as defaultThemeVariables } from "./theme-default";
-import { getThemeVariables as forestThemeVariables } from "./theme-forest";
-import { getThemeVariables as neutralThemeVariables } from "./theme-neutral";
+import { getThemeVariables as baseThemeVariables } from './theme-base.js';
+import { getThemeVariables as darkThemeVariables } from './theme-dark.js';
+import { getThemeVariables as defaultThemeVariables } from './theme-default.js';
+import { getThemeVariables as forestThemeVariables } from './theme-forest.js';
+import { getThemeVariables as neutralThemeVariables } from './theme-neutral.js';

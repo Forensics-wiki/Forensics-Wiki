@@ -10,7 +10,7 @@
     "noUnusedParameters": true,
     "removeComments": true,
     "sourceMap": false,
-    "outDir": "dist",
+    "outDir": "dist"
   },
   "files": [
     "src/mhchemParser.ts",

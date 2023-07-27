@@ -4,7 +4,7 @@ declare namespace _default {
 }
 export default _default;
 declare namespace ReqMarkers {
-    const CONTAINS: string;
-    const ARROW: string;
+    let CONTAINS: string;
+    let ARROW: string;
 }
 declare function insertLineEndings(parentNode: any, conf: any): void;

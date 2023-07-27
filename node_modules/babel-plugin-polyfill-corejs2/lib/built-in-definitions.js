@@ -2,11 +2,8 @@
 
 exports.__esModule = true;
 exports.StaticProperties = exports.InstanceProperties = exports.CommonIterators = exports.BuiltIns = void 0;
-
 var _corejs2BuiltIns = _interopRequireDefault(require("@babel/compat-data/corejs2-built-ins"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 const define = (name, pure, global = [], meta) => {
   return {
     name,
@@ -15,15 +12,11 @@ const define = (name, pure, global = [], meta) => {
     meta
   };
 };
-
 const pureAndGlobal = (pure, global, minRuntimeVersion = null) => define(global[0], pure, global, {
   minRuntimeVersion
 });
-
 const globalOnly = global => define(global[0], null, global);
-
 const pureOnly = (pure, name) => define(name, pure, []);
-
 const ArrayNatureIterators = ["es6.object.to-string", "es6.array.iterator", "web.dom.iterable"];
 const CommonIterators = ["es6.string.iterator", ...ArrayNatureIterators];
 exports.CommonIterators = CommonIterators;
@@ -40,7 +33,7 @@ const BuiltIns = {
   Promise: pureAndGlobal("promise", PromiseDependencies),
   RegExp: globalOnly(["es6.regexp.constructor"]),
   Set: pureAndGlobal("set", ["es6.set", ...CommonIterators]),
-  Symbol: pureAndGlobal("symbol", ["es6.symbol"]),
+  Symbol: pureAndGlobal("symbol/index", ["es6.symbol"]),
   Uint8Array: globalOnly(["es6.typed.uint8-array"]),
   Uint8ClampedArray: globalOnly(["es6.typed.uint8-clamped-array"]),
   Uint16Array: globalOnly(["es6.typed.uint16-array"]),
@@ -112,14 +105,13 @@ const InstanceProperties = {
   trimRight: globalOnly(["es7.string.trim-right"]),
   trimStart: globalOnly(["es7.string.trim-left"]),
   values: globalOnly(ArrayNatureIterators)
-}; // This isn't present in older @babel/compat-data versions
+};
 
+// This isn't present in older @babel/compat-data versions
 exports.InstanceProperties = InstanceProperties;
-
 if ("es6.array.slice" in _corejs2BuiltIns.default) {
   InstanceProperties.slice = globalOnly(["es6.array.slice"]);
 }
-
 const StaticProperties = {
   Array: {
     from: pureAndGlobal("array/from", ["es6.symbol", "es6.array.from", ...CommonIterators]),

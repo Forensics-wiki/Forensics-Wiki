@@ -1,133 +1,164 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var decode_codepoint_1 = __importDefault(require("entities/lib/decode_codepoint"));
-var entities_json_1 = __importDefault(require("entities/lib/maps/entities.json"));
-var legacy_json_1 = __importDefault(require("entities/lib/maps/legacy.json"));
-var xml_json_1 = __importDefault(require("entities/lib/maps/xml.json"));
-function whitespace(c) {
-    return c === " " || c === "\n" || c === "\t" || c === "\f" || c === "\r";
+exports.QuoteType = void 0;
+var decode_js_1 = require("entities/lib/decode.js");
+var CharCodes;
+(function (CharCodes) {
+    CharCodes[CharCodes["Tab"] = 9] = "Tab";
+    CharCodes[CharCodes["NewLine"] = 10] = "NewLine";
+    CharCodes[CharCodes["FormFeed"] = 12] = "FormFeed";
+    CharCodes[CharCodes["CarriageReturn"] = 13] = "CarriageReturn";
+    CharCodes[CharCodes["Space"] = 32] = "Space";
+    CharCodes[CharCodes["ExclamationMark"] = 33] = "ExclamationMark";
+    CharCodes[CharCodes["Number"] = 35] = "Number";
+    CharCodes[CharCodes["Amp"] = 38] = "Amp";
+    CharCodes[CharCodes["SingleQuote"] = 39] = "SingleQuote";
+    CharCodes[CharCodes["DoubleQuote"] = 34] = "DoubleQuote";
+    CharCodes[CharCodes["Dash"] = 45] = "Dash";
+    CharCodes[CharCodes["Slash"] = 47] = "Slash";
+    CharCodes[CharCodes["Zero"] = 48] = "Zero";
+    CharCodes[CharCodes["Nine"] = 57] = "Nine";
+    CharCodes[CharCodes["Semi"] = 59] = "Semi";
+    CharCodes[CharCodes["Lt"] = 60] = "Lt";
+    CharCodes[CharCodes["Eq"] = 61] = "Eq";
+    CharCodes[CharCodes["Gt"] = 62] = "Gt";
+    CharCodes[CharCodes["Questionmark"] = 63] = "Questionmark";
+    CharCodes[CharCodes["UpperA"] = 65] = "UpperA";
+    CharCodes[CharCodes["LowerA"] = 97] = "LowerA";
+    CharCodes[CharCodes["UpperF"] = 70] = "UpperF";
+    CharCodes[CharCodes["LowerF"] = 102] = "LowerF";
+    CharCodes[CharCodes["UpperZ"] = 90] = "UpperZ";
+    CharCodes[CharCodes["LowerZ"] = 122] = "LowerZ";
+    CharCodes[CharCodes["LowerX"] = 120] = "LowerX";
+    CharCodes[CharCodes["OpeningSquareBracket"] = 91] = "OpeningSquareBracket";
+})(CharCodes || (CharCodes = {}));
+/** All the states the tokenizer can be in. */
+var State;
+(function (State) {
+    State[State["Text"] = 1] = "Text";
+    State[State["BeforeTagName"] = 2] = "BeforeTagName";
+    State[State["InTagName"] = 3] = "InTagName";
+    State[State["InSelfClosingTag"] = 4] = "InSelfClosingTag";
+    State[State["BeforeClosingTagName"] = 5] = "BeforeClosingTagName";
+    State[State["InClosingTagName"] = 6] = "InClosingTagName";
+    State[State["AfterClosingTagName"] = 7] = "AfterClosingTagName";
+    // Attributes
+    State[State["BeforeAttributeName"] = 8] = "BeforeAttributeName";
+    State[State["InAttributeName"] = 9] = "InAttributeName";
+    State[State["AfterAttributeName"] = 10] = "AfterAttributeName";
+    State[State["BeforeAttributeValue"] = 11] = "BeforeAttributeValue";
+    State[State["InAttributeValueDq"] = 12] = "InAttributeValueDq";
+    State[State["InAttributeValueSq"] = 13] = "InAttributeValueSq";
+    State[State["InAttributeValueNq"] = 14] = "InAttributeValueNq";
+    // Declarations
+    State[State["BeforeDeclaration"] = 15] = "BeforeDeclaration";
+    State[State["InDeclaration"] = 16] = "InDeclaration";
+    // Processing instructions
+    State[State["InProcessingInstruction"] = 17] = "InProcessingInstruction";
+    // Comments & CDATA
+    State[State["BeforeComment"] = 18] = "BeforeComment";
+    State[State["CDATASequence"] = 19] = "CDATASequence";
+    State[State["InSpecialComment"] = 20] = "InSpecialComment";
+    State[State["InCommentLike"] = 21] = "InCommentLike";
+    // Special tags
+    State[State["BeforeSpecialS"] = 22] = "BeforeSpecialS";
+    State[State["SpecialStartSequence"] = 23] = "SpecialStartSequence";
+    State[State["InSpecialTag"] = 24] = "InSpecialTag";
+    State[State["BeforeEntity"] = 25] = "BeforeEntity";
+    State[State["BeforeNumericEntity"] = 26] = "BeforeNumericEntity";
+    State[State["InNamedEntity"] = 27] = "InNamedEntity";
+    State[State["InNumericEntity"] = 28] = "InNumericEntity";
+    State[State["InHexEntity"] = 29] = "InHexEntity";
+})(State || (State = {}));
+function isWhitespace(c) {
+    return (c === CharCodes.Space ||
+        c === CharCodes.NewLine ||
+        c === CharCodes.Tab ||
+        c === CharCodes.FormFeed ||
+        c === CharCodes.CarriageReturn);
+}
+function isEndOfTagSection(c) {
+    return c === CharCodes.Slash || c === CharCodes.Gt || isWhitespace(c);
+}
+function isNumber(c) {
+    return c >= CharCodes.Zero && c <= CharCodes.Nine;
 }
 function isASCIIAlpha(c) {
-    return (c >= "a" && c <= "z") || (c >= "A" && c <= "Z");
+    return ((c >= CharCodes.LowerA && c <= CharCodes.LowerZ) ||
+        (c >= CharCodes.UpperA && c <= CharCodes.UpperZ));
 }
-function ifElseState(upper, SUCCESS, FAILURE) {
-    var lower = upper.toLowerCase();
-    if (upper === lower) {
-        return function (t, c) {
-            if (c === lower) {
-                t._state = SUCCESS;
-            }
-            else {
-                t._state = FAILURE;
-                t._index--;
-            }
-        };
-    }
-    return function (t, c) {
-        if (c === lower || c === upper) {
-            t._state = SUCCESS;
-        }
-        else {
-            t._state = FAILURE;
-            t._index--;
-        }
-    };
+function isHexDigit(c) {
+    return ((c >= CharCodes.UpperA && c <= CharCodes.UpperF) ||
+        (c >= CharCodes.LowerA && c <= CharCodes.LowerF));
 }
-function consumeSpecialNameChar(upper, NEXT_STATE) {
-    var lower = upper.toLowerCase();
-    return function (t, c) {
-        if (c === lower || c === upper) {
-            t._state = NEXT_STATE;
-        }
-        else {
-            t._state = 3 /* InTagName */;
-            t._index--; // Consume the token again
-        }
-    };
-}
-var stateBeforeCdata1 = ifElseState("C", 24 /* BeforeCdata2 */, 16 /* InDeclaration */);
-var stateBeforeCdata2 = ifElseState("D", 25 /* BeforeCdata3 */, 16 /* InDeclaration */);
-var stateBeforeCdata3 = ifElseState("A", 26 /* BeforeCdata4 */, 16 /* InDeclaration */);
-var stateBeforeCdata4 = ifElseState("T", 27 /* BeforeCdata5 */, 16 /* InDeclaration */);
-var stateBeforeCdata5 = ifElseState("A", 28 /* BeforeCdata6 */, 16 /* InDeclaration */);
-var stateBeforeScript1 = consumeSpecialNameChar("R", 35 /* BeforeScript2 */);
-var stateBeforeScript2 = consumeSpecialNameChar("I", 36 /* BeforeScript3 */);
-var stateBeforeScript3 = consumeSpecialNameChar("P", 37 /* BeforeScript4 */);
-var stateBeforeScript4 = consumeSpecialNameChar("T", 38 /* BeforeScript5 */);
-var stateAfterScript1 = ifElseState("R", 40 /* AfterScript2 */, 1 /* Text */);
-var stateAfterScript2 = ifElseState("I", 41 /* AfterScript3 */, 1 /* Text */);
-var stateAfterScript3 = ifElseState("P", 42 /* AfterScript4 */, 1 /* Text */);
-var stateAfterScript4 = ifElseState("T", 43 /* AfterScript5 */, 1 /* Text */);
-var stateBeforeStyle1 = consumeSpecialNameChar("Y", 45 /* BeforeStyle2 */);
-var stateBeforeStyle2 = consumeSpecialNameChar("L", 46 /* BeforeStyle3 */);
-var stateBeforeStyle3 = consumeSpecialNameChar("E", 47 /* BeforeStyle4 */);
-var stateAfterStyle1 = ifElseState("Y", 49 /* AfterStyle2 */, 1 /* Text */);
-var stateAfterStyle2 = ifElseState("L", 50 /* AfterStyle3 */, 1 /* Text */);
-var stateAfterStyle3 = ifElseState("E", 51 /* AfterStyle4 */, 1 /* Text */);
-var stateBeforeSpecialT = consumeSpecialNameChar("I", 54 /* BeforeTitle1 */);
-var stateBeforeTitle1 = consumeSpecialNameChar("T", 55 /* BeforeTitle2 */);
-var stateBeforeTitle2 = consumeSpecialNameChar("L", 56 /* BeforeTitle3 */);
-var stateBeforeTitle3 = consumeSpecialNameChar("E", 57 /* BeforeTitle4 */);
-var stateAfterSpecialTEnd = ifElseState("I", 58 /* AfterTitle1 */, 1 /* Text */);
-var stateAfterTitle1 = ifElseState("T", 59 /* AfterTitle2 */, 1 /* Text */);
-var stateAfterTitle2 = ifElseState("L", 60 /* AfterTitle3 */, 1 /* Text */);
-var stateAfterTitle3 = ifElseState("E", 61 /* AfterTitle4 */, 1 /* Text */);
-var stateBeforeEntity = ifElseState("#", 63 /* BeforeNumericEntity */, 64 /* InNamedEntity */);
-var stateBeforeNumericEntity = ifElseState("X", 66 /* InHexEntity */, 65 /* InNumericEntity */);
+var QuoteType;
+(function (QuoteType) {
+    QuoteType[QuoteType["NoValue"] = 0] = "NoValue";
+    QuoteType[QuoteType["Unquoted"] = 1] = "Unquoted";
+    QuoteType[QuoteType["Single"] = 2] = "Single";
+    QuoteType[QuoteType["Double"] = 3] = "Double";
+})(QuoteType = exports.QuoteType || (exports.QuoteType = {}));
+/**
+ * Sequences used to match longer strings.
+ *
+ * We don't have `Script`, `Style`, or `Title` here. Instead, we re-use the *End
+ * sequences with an increased offset.
+ */
+var Sequences = {
+    Cdata: new Uint8Array([0x43, 0x44, 0x41, 0x54, 0x41, 0x5b]),
+    CdataEnd: new Uint8Array([0x5d, 0x5d, 0x3e]),
+    CommentEnd: new Uint8Array([0x2d, 0x2d, 0x3e]),
+    ScriptEnd: new Uint8Array([0x3c, 0x2f, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74]),
+    StyleEnd: new Uint8Array([0x3c, 0x2f, 0x73, 0x74, 0x79, 0x6c, 0x65]),
+    TitleEnd: new Uint8Array([0x3c, 0x2f, 0x74, 0x69, 0x74, 0x6c, 0x65]), // `</title`
+};
 var Tokenizer = /** @class */ (function () {
-    function Tokenizer(options, cbs) {
-        var _a;
+    function Tokenizer(_a, cbs) {
+        var _b = _a.xmlMode, xmlMode = _b === void 0 ? false : _b, _c = _a.decodeEntities, decodeEntities = _c === void 0 ? true : _c;
+        this.cbs = cbs;
         /** The current state the tokenizer is in. */
-        this._state = 1 /* Text */;
+        this.state = State.Text;
         /** The read buffer. */
         this.buffer = "";
         /** The beginning of the section that is currently being read. */
         this.sectionStart = 0;
         /** The index within the buffer that we are currently looking at. */
-        this._index = 0;
-        /**
-         * Data that has already been processed will be removed from the buffer occasionally.
-         * `_bufferOffset` keeps track of how many characters have been removed, to make sure position information is accurate.
-         */
-        this.bufferOffset = 0;
+        this.index = 0;
         /** Some behavior, eg. when decoding entities, is done while we are in another state. This keeps track of the other state type. */
-        this.baseState = 1 /* Text */;
+        this.baseState = State.Text;
         /** For special parsing behavior inside of script and style tags. */
-        this.special = 1 /* None */;
+        this.isSpecial = false;
         /** Indicates whether the tokenizer has been paused. */
         this.running = true;
-        /** Indicates whether the tokenizer has finished running / `.end` has been called. */
-        this.ended = false;
-        this.cbs = cbs;
-        this.xmlMode = !!(options === null || options === void 0 ? void 0 : options.xmlMode);
-        this.decodeEntities = (_a = options === null || options === void 0 ? void 0 : options.decodeEntities) !== null && _a !== void 0 ? _a : true;
+        /** The offset of the current buffer. */
+        this.offset = 0;
+        this.currentSequence = undefined;
+        this.sequenceIndex = 0;
+        this.trieIndex = 0;
+        this.trieCurrent = 0;
+        /** For named entities, the index of the value. For numeric entities, the code point. */
+        this.entityResult = 0;
+        this.entityExcess = 0;
+        this.xmlMode = xmlMode;
+        this.decodeEntities = decodeEntities;
+        this.entityTrie = xmlMode ? decode_js_1.xmlDecodeTree : decode_js_1.htmlDecodeTree;
     }
     Tokenizer.prototype.reset = function () {
-        this._state = 1 /* Text */;
+        this.state = State.Text;
         this.buffer = "";
         this.sectionStart = 0;
-        this._index = 0;
-        this.bufferOffset = 0;
-        this.baseState = 1 /* Text */;
-        this.special = 1 /* None */;
+        this.index = 0;
+        this.baseState = State.Text;
+        this.currentSequence = undefined;
         this.running = true;
-        this.ended = false;
+        this.offset = 0;
     };
     Tokenizer.prototype.write = function (chunk) {
-        if (this.ended)
-            this.cbs.onerror(Error(".write() after done!"));
-        this.buffer += chunk;
+        this.offset += this.buffer.length;
+        this.buffer = chunk;
         this.parse();
     };
-    Tokenizer.prototype.end = function (chunk) {
-        if (this.ended)
-            this.cbs.onerror(Error(".end() after done!"));
-        if (chunk)
-            this.write(chunk);
-        this.ended = true;
+    Tokenizer.prototype.end = function () {
         if (this.running)
             this.finish();
     };
@@ -136,36 +167,159 @@ var Tokenizer = /** @class */ (function () {
     };
     Tokenizer.prototype.resume = function () {
         this.running = true;
-        if (this._index < this.buffer.length) {
+        if (this.index < this.buffer.length + this.offset) {
             this.parse();
-        }
-        if (this.ended) {
-            this.finish();
         }
     };
     /**
      * The current index within all of the written data.
      */
-    Tokenizer.prototype.getAbsoluteIndex = function () {
-        return this.bufferOffset + this._index;
+    Tokenizer.prototype.getIndex = function () {
+        return this.index;
+    };
+    /**
+     * The start of the current section.
+     */
+    Tokenizer.prototype.getSectionStart = function () {
+        return this.sectionStart;
     };
     Tokenizer.prototype.stateText = function (c) {
-        if (c === "<") {
-            if (this._index > this.sectionStart) {
-                this.cbs.ontext(this.getSection());
+        if (c === CharCodes.Lt ||
+            (!this.decodeEntities && this.fastForwardTo(CharCodes.Lt))) {
+            if (this.index > this.sectionStart) {
+                this.cbs.ontext(this.sectionStart, this.index);
             }
-            this._state = 2 /* BeforeTagName */;
-            this.sectionStart = this._index;
+            this.state = State.BeforeTagName;
+            this.sectionStart = this.index;
         }
-        else if (this.decodeEntities &&
-            c === "&" &&
-            (this.special === 1 /* None */ || this.special === 4 /* Title */)) {
-            if (this._index > this.sectionStart) {
-                this.cbs.ontext(this.getSection());
+        else if (this.decodeEntities && c === CharCodes.Amp) {
+            this.state = State.BeforeEntity;
+        }
+    };
+    Tokenizer.prototype.stateSpecialStartSequence = function (c) {
+        var isEnd = this.sequenceIndex === this.currentSequence.length;
+        var isMatch = isEnd
+            ? // If we are at the end of the sequence, make sure the tag name has ended
+                isEndOfTagSection(c)
+            : // Otherwise, do a case-insensitive comparison
+                (c | 0x20) === this.currentSequence[this.sequenceIndex];
+        if (!isMatch) {
+            this.isSpecial = false;
+        }
+        else if (!isEnd) {
+            this.sequenceIndex++;
+            return;
+        }
+        this.sequenceIndex = 0;
+        this.state = State.InTagName;
+        this.stateInTagName(c);
+    };
+    /** Look for an end tag. For <title> tags, also decode entities. */
+    Tokenizer.prototype.stateInSpecialTag = function (c) {
+        if (this.sequenceIndex === this.currentSequence.length) {
+            if (c === CharCodes.Gt || isWhitespace(c)) {
+                var endOfText = this.index - this.currentSequence.length;
+                if (this.sectionStart < endOfText) {
+                    // Spoof the index so that reported locations match up.
+                    var actualIndex = this.index;
+                    this.index = endOfText;
+                    this.cbs.ontext(this.sectionStart, endOfText);
+                    this.index = actualIndex;
+                }
+                this.isSpecial = false;
+                this.sectionStart = endOfText + 2; // Skip over the `</`
+                this.stateInClosingTagName(c);
+                return; // We are done; skip the rest of the function.
             }
-            this.baseState = 1 /* Text */;
-            this._state = 62 /* BeforeEntity */;
-            this.sectionStart = this._index;
+            this.sequenceIndex = 0;
+        }
+        if ((c | 0x20) === this.currentSequence[this.sequenceIndex]) {
+            this.sequenceIndex += 1;
+        }
+        else if (this.sequenceIndex === 0) {
+            if (this.currentSequence === Sequences.TitleEnd) {
+                // We have to parse entities in <title> tags.
+                if (this.decodeEntities && c === CharCodes.Amp) {
+                    this.state = State.BeforeEntity;
+                }
+            }
+            else if (this.fastForwardTo(CharCodes.Lt)) {
+                // Outside of <title> tags, we can fast-forward.
+                this.sequenceIndex = 1;
+            }
+        }
+        else {
+            // If we see a `<`, set the sequence index to 1; useful for eg. `<</script>`.
+            this.sequenceIndex = Number(c === CharCodes.Lt);
+        }
+    };
+    Tokenizer.prototype.stateCDATASequence = function (c) {
+        if (c === Sequences.Cdata[this.sequenceIndex]) {
+            if (++this.sequenceIndex === Sequences.Cdata.length) {
+                this.state = State.InCommentLike;
+                this.currentSequence = Sequences.CdataEnd;
+                this.sequenceIndex = 0;
+                this.sectionStart = this.index + 1;
+            }
+        }
+        else {
+            this.sequenceIndex = 0;
+            this.state = State.InDeclaration;
+            this.stateInDeclaration(c); // Reconsume the character
+        }
+    };
+    /**
+     * When we wait for one specific character, we can speed things up
+     * by skipping through the buffer until we find it.
+     *
+     * @returns Whether the character was found.
+     */
+    Tokenizer.prototype.fastForwardTo = function (c) {
+        while (++this.index < this.buffer.length + this.offset) {
+            if (this.buffer.charCodeAt(this.index - this.offset) === c) {
+                return true;
+            }
+        }
+        /*
+         * We increment the index at the end of the `parse` loop,
+         * so set it to `buffer.length - 1` here.
+         *
+         * TODO: Refactor `parse` to increment index before calling states.
+         */
+        this.index = this.buffer.length + this.offset - 1;
+        return false;
+    };
+    /**
+     * Comments and CDATA end with `-->` and `]]>`.
+     *
+     * Their common qualities are:
+     * - Their end sequences have a distinct character they start with.
+     * - That character is then repeated, so we have to check multiple repeats.
+     * - All characters but the start character of the sequence can be skipped.
+     */
+    Tokenizer.prototype.stateInCommentLike = function (c) {
+        if (c === this.currentSequence[this.sequenceIndex]) {
+            if (++this.sequenceIndex === this.currentSequence.length) {
+                if (this.currentSequence === Sequences.CdataEnd) {
+                    this.cbs.oncdata(this.sectionStart, this.index, 2);
+                }
+                else {
+                    this.cbs.oncomment(this.sectionStart, this.index, 2);
+                }
+                this.sequenceIndex = 0;
+                this.sectionStart = this.index + 1;
+                this.state = State.Text;
+            }
+        }
+        else if (this.sequenceIndex === 0) {
+            // Fast-forward to the first character of the sequence
+            if (this.fastForwardTo(this.currentSequence[0])) {
+                this.sequenceIndex = 1;
+            }
+        }
+        else if (c !== this.currentSequence[this.sequenceIndex - 1]) {
+            // Allow long sequences, eg. --->, ]]]>
+            this.sequenceIndex = 0;
         }
     };
     /**
@@ -175,449 +329,411 @@ var Tokenizer = /** @class */ (function () {
      * We allow anything that wouldn't end the tag.
      */
     Tokenizer.prototype.isTagStartChar = function (c) {
-        return (isASCIIAlpha(c) ||
-            (this.xmlMode && !whitespace(c) && c !== "/" && c !== ">"));
+        return this.xmlMode ? !isEndOfTagSection(c) : isASCIIAlpha(c);
+    };
+    Tokenizer.prototype.startSpecial = function (sequence, offset) {
+        this.isSpecial = true;
+        this.currentSequence = sequence;
+        this.sequenceIndex = offset;
+        this.state = State.SpecialStartSequence;
     };
     Tokenizer.prototype.stateBeforeTagName = function (c) {
-        if (c === "/") {
-            this._state = 5 /* BeforeClosingTagName */;
+        if (c === CharCodes.ExclamationMark) {
+            this.state = State.BeforeDeclaration;
+            this.sectionStart = this.index + 1;
         }
-        else if (c === "<") {
-            this.cbs.ontext(this.getSection());
-            this.sectionStart = this._index;
+        else if (c === CharCodes.Questionmark) {
+            this.state = State.InProcessingInstruction;
+            this.sectionStart = this.index + 1;
         }
-        else if (c === ">" ||
-            this.special !== 1 /* None */ ||
-            whitespace(c)) {
-            this._state = 1 /* Text */;
+        else if (this.isTagStartChar(c)) {
+            var lower = c | 0x20;
+            this.sectionStart = this.index;
+            if (!this.xmlMode && lower === Sequences.TitleEnd[2]) {
+                this.startSpecial(Sequences.TitleEnd, 3);
+            }
+            else {
+                this.state =
+                    !this.xmlMode && lower === Sequences.ScriptEnd[2]
+                        ? State.BeforeSpecialS
+                        : State.InTagName;
+            }
         }
-        else if (c === "!") {
-            this._state = 15 /* BeforeDeclaration */;
-            this.sectionStart = this._index + 1;
-        }
-        else if (c === "?") {
-            this._state = 17 /* InProcessingInstruction */;
-            this.sectionStart = this._index + 1;
-        }
-        else if (!this.isTagStartChar(c)) {
-            this._state = 1 /* Text */;
+        else if (c === CharCodes.Slash) {
+            this.state = State.BeforeClosingTagName;
         }
         else {
-            this._state =
-                !this.xmlMode && (c === "s" || c === "S")
-                    ? 32 /* BeforeSpecialS */
-                    : !this.xmlMode && (c === "t" || c === "T")
-                        ? 52 /* BeforeSpecialT */
-                        : 3 /* InTagName */;
-            this.sectionStart = this._index;
+            this.state = State.Text;
+            this.stateText(c);
         }
     };
     Tokenizer.prototype.stateInTagName = function (c) {
-        if (c === "/" || c === ">" || whitespace(c)) {
-            this.emitToken("onopentagname");
-            this._state = 8 /* BeforeAttributeName */;
-            this._index--;
+        if (isEndOfTagSection(c)) {
+            this.cbs.onopentagname(this.sectionStart, this.index);
+            this.sectionStart = -1;
+            this.state = State.BeforeAttributeName;
+            this.stateBeforeAttributeName(c);
         }
     };
     Tokenizer.prototype.stateBeforeClosingTagName = function (c) {
-        if (whitespace(c)) {
+        if (isWhitespace(c)) {
             // Ignore
         }
-        else if (c === ">") {
-            this._state = 1 /* Text */;
-        }
-        else if (this.special !== 1 /* None */) {
-            if (this.special !== 4 /* Title */ && (c === "s" || c === "S")) {
-                this._state = 33 /* BeforeSpecialSEnd */;
-            }
-            else if (this.special === 4 /* Title */ &&
-                (c === "t" || c === "T")) {
-                this._state = 53 /* BeforeSpecialTEnd */;
-            }
-            else {
-                this._state = 1 /* Text */;
-                this._index--;
-            }
-        }
-        else if (!this.isTagStartChar(c)) {
-            this._state = 20 /* InSpecialComment */;
-            this.sectionStart = this._index;
+        else if (c === CharCodes.Gt) {
+            this.state = State.Text;
         }
         else {
-            this._state = 6 /* InClosingTagName */;
-            this.sectionStart = this._index;
+            this.state = this.isTagStartChar(c)
+                ? State.InClosingTagName
+                : State.InSpecialComment;
+            this.sectionStart = this.index;
         }
     };
     Tokenizer.prototype.stateInClosingTagName = function (c) {
-        if (c === ">" || whitespace(c)) {
-            this.emitToken("onclosetag");
-            this._state = 7 /* AfterClosingTagName */;
-            this._index--;
+        if (c === CharCodes.Gt || isWhitespace(c)) {
+            this.cbs.onclosetag(this.sectionStart, this.index);
+            this.sectionStart = -1;
+            this.state = State.AfterClosingTagName;
+            this.stateAfterClosingTagName(c);
         }
     };
     Tokenizer.prototype.stateAfterClosingTagName = function (c) {
         // Skip everything until ">"
-        if (c === ">") {
-            this._state = 1 /* Text */;
-            this.sectionStart = this._index + 1;
+        if (c === CharCodes.Gt || this.fastForwardTo(CharCodes.Gt)) {
+            this.state = State.Text;
+            this.baseState = State.Text;
+            this.sectionStart = this.index + 1;
         }
     };
     Tokenizer.prototype.stateBeforeAttributeName = function (c) {
-        if (c === ">") {
-            this.cbs.onopentagend();
-            this._state = 1 /* Text */;
-            this.sectionStart = this._index + 1;
+        if (c === CharCodes.Gt) {
+            this.cbs.onopentagend(this.index);
+            if (this.isSpecial) {
+                this.state = State.InSpecialTag;
+                this.sequenceIndex = 0;
+            }
+            else {
+                this.state = State.Text;
+            }
+            this.baseState = this.state;
+            this.sectionStart = this.index + 1;
         }
-        else if (c === "/") {
-            this._state = 4 /* InSelfClosingTag */;
+        else if (c === CharCodes.Slash) {
+            this.state = State.InSelfClosingTag;
         }
-        else if (!whitespace(c)) {
-            this._state = 9 /* InAttributeName */;
-            this.sectionStart = this._index;
+        else if (!isWhitespace(c)) {
+            this.state = State.InAttributeName;
+            this.sectionStart = this.index;
         }
     };
     Tokenizer.prototype.stateInSelfClosingTag = function (c) {
-        if (c === ">") {
-            this.cbs.onselfclosingtag();
-            this._state = 1 /* Text */;
-            this.sectionStart = this._index + 1;
-            this.special = 1 /* None */; // Reset special state, in case of self-closing special tags
+        if (c === CharCodes.Gt) {
+            this.cbs.onselfclosingtag(this.index);
+            this.state = State.Text;
+            this.baseState = State.Text;
+            this.sectionStart = this.index + 1;
+            this.isSpecial = false; // Reset special state, in case of self-closing special tags
         }
-        else if (!whitespace(c)) {
-            this._state = 8 /* BeforeAttributeName */;
-            this._index--;
+        else if (!isWhitespace(c)) {
+            this.state = State.BeforeAttributeName;
+            this.stateBeforeAttributeName(c);
         }
     };
     Tokenizer.prototype.stateInAttributeName = function (c) {
-        if (c === "=" || c === "/" || c === ">" || whitespace(c)) {
-            this.cbs.onattribname(this.getSection());
+        if (c === CharCodes.Eq || isEndOfTagSection(c)) {
+            this.cbs.onattribname(this.sectionStart, this.index);
             this.sectionStart = -1;
-            this._state = 10 /* AfterAttributeName */;
-            this._index--;
+            this.state = State.AfterAttributeName;
+            this.stateAfterAttributeName(c);
         }
     };
     Tokenizer.prototype.stateAfterAttributeName = function (c) {
-        if (c === "=") {
-            this._state = 11 /* BeforeAttributeValue */;
+        if (c === CharCodes.Eq) {
+            this.state = State.BeforeAttributeValue;
         }
-        else if (c === "/" || c === ">") {
-            this.cbs.onattribend(undefined);
-            this._state = 8 /* BeforeAttributeName */;
-            this._index--;
+        else if (c === CharCodes.Slash || c === CharCodes.Gt) {
+            this.cbs.onattribend(QuoteType.NoValue, this.index);
+            this.state = State.BeforeAttributeName;
+            this.stateBeforeAttributeName(c);
         }
-        else if (!whitespace(c)) {
-            this.cbs.onattribend(undefined);
-            this._state = 9 /* InAttributeName */;
-            this.sectionStart = this._index;
+        else if (!isWhitespace(c)) {
+            this.cbs.onattribend(QuoteType.NoValue, this.index);
+            this.state = State.InAttributeName;
+            this.sectionStart = this.index;
         }
     };
     Tokenizer.prototype.stateBeforeAttributeValue = function (c) {
-        if (c === '"') {
-            this._state = 12 /* InAttributeValueDq */;
-            this.sectionStart = this._index + 1;
+        if (c === CharCodes.DoubleQuote) {
+            this.state = State.InAttributeValueDq;
+            this.sectionStart = this.index + 1;
         }
-        else if (c === "'") {
-            this._state = 13 /* InAttributeValueSq */;
-            this.sectionStart = this._index + 1;
+        else if (c === CharCodes.SingleQuote) {
+            this.state = State.InAttributeValueSq;
+            this.sectionStart = this.index + 1;
         }
-        else if (!whitespace(c)) {
-            this._state = 14 /* InAttributeValueNq */;
-            this.sectionStart = this._index;
-            this._index--; // Reconsume token
+        else if (!isWhitespace(c)) {
+            this.sectionStart = this.index;
+            this.state = State.InAttributeValueNq;
+            this.stateInAttributeValueNoQuotes(c); // Reconsume token
         }
     };
     Tokenizer.prototype.handleInAttributeValue = function (c, quote) {
-        if (c === quote) {
-            this.emitToken("onattribdata");
-            this.cbs.onattribend(quote);
-            this._state = 8 /* BeforeAttributeName */;
+        if (c === quote ||
+            (!this.decodeEntities && this.fastForwardTo(quote))) {
+            this.cbs.onattribdata(this.sectionStart, this.index);
+            this.sectionStart = -1;
+            this.cbs.onattribend(quote === CharCodes.DoubleQuote
+                ? QuoteType.Double
+                : QuoteType.Single, this.index);
+            this.state = State.BeforeAttributeName;
         }
-        else if (this.decodeEntities && c === "&") {
-            this.emitToken("onattribdata");
-            this.baseState = this._state;
-            this._state = 62 /* BeforeEntity */;
-            this.sectionStart = this._index;
+        else if (this.decodeEntities && c === CharCodes.Amp) {
+            this.baseState = this.state;
+            this.state = State.BeforeEntity;
         }
     };
     Tokenizer.prototype.stateInAttributeValueDoubleQuotes = function (c) {
-        this.handleInAttributeValue(c, '"');
+        this.handleInAttributeValue(c, CharCodes.DoubleQuote);
     };
     Tokenizer.prototype.stateInAttributeValueSingleQuotes = function (c) {
-        this.handleInAttributeValue(c, "'");
+        this.handleInAttributeValue(c, CharCodes.SingleQuote);
     };
     Tokenizer.prototype.stateInAttributeValueNoQuotes = function (c) {
-        if (whitespace(c) || c === ">") {
-            this.emitToken("onattribdata");
-            this.cbs.onattribend(null);
-            this._state = 8 /* BeforeAttributeName */;
-            this._index--;
+        if (isWhitespace(c) || c === CharCodes.Gt) {
+            this.cbs.onattribdata(this.sectionStart, this.index);
+            this.sectionStart = -1;
+            this.cbs.onattribend(QuoteType.Unquoted, this.index);
+            this.state = State.BeforeAttributeName;
+            this.stateBeforeAttributeName(c);
         }
-        else if (this.decodeEntities && c === "&") {
-            this.emitToken("onattribdata");
-            this.baseState = this._state;
-            this._state = 62 /* BeforeEntity */;
-            this.sectionStart = this._index;
+        else if (this.decodeEntities && c === CharCodes.Amp) {
+            this.baseState = this.state;
+            this.state = State.BeforeEntity;
         }
     };
     Tokenizer.prototype.stateBeforeDeclaration = function (c) {
-        this._state =
-            c === "["
-                ? 23 /* BeforeCdata1 */
-                : c === "-"
-                    ? 18 /* BeforeComment */
-                    : 16 /* InDeclaration */;
+        if (c === CharCodes.OpeningSquareBracket) {
+            this.state = State.CDATASequence;
+            this.sequenceIndex = 0;
+        }
+        else {
+            this.state =
+                c === CharCodes.Dash
+                    ? State.BeforeComment
+                    : State.InDeclaration;
+        }
     };
     Tokenizer.prototype.stateInDeclaration = function (c) {
-        if (c === ">") {
-            this.cbs.ondeclaration(this.getSection());
-            this._state = 1 /* Text */;
-            this.sectionStart = this._index + 1;
+        if (c === CharCodes.Gt || this.fastForwardTo(CharCodes.Gt)) {
+            this.cbs.ondeclaration(this.sectionStart, this.index);
+            this.state = State.Text;
+            this.sectionStart = this.index + 1;
         }
     };
     Tokenizer.prototype.stateInProcessingInstruction = function (c) {
-        if (c === ">") {
-            this.cbs.onprocessinginstruction(this.getSection());
-            this._state = 1 /* Text */;
-            this.sectionStart = this._index + 1;
+        if (c === CharCodes.Gt || this.fastForwardTo(CharCodes.Gt)) {
+            this.cbs.onprocessinginstruction(this.sectionStart, this.index);
+            this.state = State.Text;
+            this.sectionStart = this.index + 1;
         }
     };
     Tokenizer.prototype.stateBeforeComment = function (c) {
-        if (c === "-") {
-            this._state = 19 /* InComment */;
-            this.sectionStart = this._index + 1;
+        if (c === CharCodes.Dash) {
+            this.state = State.InCommentLike;
+            this.currentSequence = Sequences.CommentEnd;
+            // Allow short comments (eg. <!-->)
+            this.sequenceIndex = 2;
+            this.sectionStart = this.index + 1;
         }
         else {
-            this._state = 16 /* InDeclaration */;
+            this.state = State.InDeclaration;
         }
-    };
-    Tokenizer.prototype.stateInComment = function (c) {
-        if (c === "-")
-            this._state = 21 /* AfterComment1 */;
     };
     Tokenizer.prototype.stateInSpecialComment = function (c) {
-        if (c === ">") {
-            this.cbs.oncomment(this.buffer.substring(this.sectionStart, this._index));
-            this._state = 1 /* Text */;
-            this.sectionStart = this._index + 1;
+        if (c === CharCodes.Gt || this.fastForwardTo(CharCodes.Gt)) {
+            this.cbs.oncomment(this.sectionStart, this.index, 0);
+            this.state = State.Text;
+            this.sectionStart = this.index + 1;
         }
-    };
-    Tokenizer.prototype.stateAfterComment1 = function (c) {
-        if (c === "-") {
-            this._state = 22 /* AfterComment2 */;
-        }
-        else {
-            this._state = 19 /* InComment */;
-        }
-    };
-    Tokenizer.prototype.stateAfterComment2 = function (c) {
-        if (c === ">") {
-            // Remove 2 trailing chars
-            this.cbs.oncomment(this.buffer.substring(this.sectionStart, this._index - 2));
-            this._state = 1 /* Text */;
-            this.sectionStart = this._index + 1;
-        }
-        else if (c !== "-") {
-            this._state = 19 /* InComment */;
-        }
-        // Else: stay in AFTER_COMMENT_2 (`--->`)
-    };
-    Tokenizer.prototype.stateBeforeCdata6 = function (c) {
-        if (c === "[") {
-            this._state = 29 /* InCdata */;
-            this.sectionStart = this._index + 1;
-        }
-        else {
-            this._state = 16 /* InDeclaration */;
-            this._index--;
-        }
-    };
-    Tokenizer.prototype.stateInCdata = function (c) {
-        if (c === "]")
-            this._state = 30 /* AfterCdata1 */;
-    };
-    Tokenizer.prototype.stateAfterCdata1 = function (c) {
-        if (c === "]")
-            this._state = 31 /* AfterCdata2 */;
-        else
-            this._state = 29 /* InCdata */;
-    };
-    Tokenizer.prototype.stateAfterCdata2 = function (c) {
-        if (c === ">") {
-            // Remove 2 trailing chars
-            this.cbs.oncdata(this.buffer.substring(this.sectionStart, this._index - 2));
-            this._state = 1 /* Text */;
-            this.sectionStart = this._index + 1;
-        }
-        else if (c !== "]") {
-            this._state = 29 /* InCdata */;
-        }
-        // Else: stay in AFTER_CDATA_2 (`]]]>`)
     };
     Tokenizer.prototype.stateBeforeSpecialS = function (c) {
-        if (c === "c" || c === "C") {
-            this._state = 34 /* BeforeScript1 */;
+        var lower = c | 0x20;
+        if (lower === Sequences.ScriptEnd[3]) {
+            this.startSpecial(Sequences.ScriptEnd, 4);
         }
-        else if (c === "t" || c === "T") {
-            this._state = 44 /* BeforeStyle1 */;
+        else if (lower === Sequences.StyleEnd[3]) {
+            this.startSpecial(Sequences.StyleEnd, 4);
         }
         else {
-            this._state = 3 /* InTagName */;
-            this._index--; // Consume the token again
+            this.state = State.InTagName;
+            this.stateInTagName(c); // Consume the token again
         }
     };
-    Tokenizer.prototype.stateBeforeSpecialSEnd = function (c) {
-        if (this.special === 2 /* Script */ && (c === "c" || c === "C")) {
-            this._state = 39 /* AfterScript1 */;
+    Tokenizer.prototype.stateBeforeEntity = function (c) {
+        // Start excess with 1 to include the '&'
+        this.entityExcess = 1;
+        this.entityResult = 0;
+        if (c === CharCodes.Number) {
+            this.state = State.BeforeNumericEntity;
         }
-        else if (this.special === 3 /* Style */ && (c === "t" || c === "T")) {
-            this._state = 48 /* AfterStyle1 */;
+        else if (c === CharCodes.Amp) {
+            // We have two `&` characters in a row. Stay in the current state.
         }
-        else
-            this._state = 1 /* Text */;
-    };
-    Tokenizer.prototype.stateBeforeSpecialLast = function (c, special) {
-        if (c === "/" || c === ">" || whitespace(c)) {
-            this.special = special;
-        }
-        this._state = 3 /* InTagName */;
-        this._index--; // Consume the token again
-    };
-    Tokenizer.prototype.stateAfterSpecialLast = function (c, sectionStartOffset) {
-        if (c === ">" || whitespace(c)) {
-            this.special = 1 /* None */;
-            this._state = 6 /* InClosingTagName */;
-            this.sectionStart = this._index - sectionStartOffset;
-            this._index--; // Reconsume the token
-        }
-        else
-            this._state = 1 /* Text */;
-    };
-    // For entities terminated with a semicolon
-    Tokenizer.prototype.parseFixedEntity = function (map) {
-        if (map === void 0) { map = this.xmlMode ? xml_json_1.default : entities_json_1.default; }
-        // Offset = 1
-        if (this.sectionStart + 1 < this._index) {
-            var entity = this.buffer.substring(this.sectionStart + 1, this._index);
-            if (Object.prototype.hasOwnProperty.call(map, entity)) {
-                this.emitPartial(map[entity]);
-                this.sectionStart = this._index + 1;
-            }
-        }
-    };
-    // Parses legacy entities (without trailing semicolon)
-    Tokenizer.prototype.parseLegacyEntity = function () {
-        var start = this.sectionStart + 1;
-        // The max length of legacy entities is 6
-        var limit = Math.min(this._index - start, 6);
-        while (limit >= 2) {
-            // The min length of legacy entities is 2
-            var entity = this.buffer.substr(start, limit);
-            if (Object.prototype.hasOwnProperty.call(legacy_json_1.default, entity)) {
-                this.emitPartial(legacy_json_1.default[entity]);
-                this.sectionStart += limit + 1;
-                return;
-            }
-            limit--;
+        else {
+            this.trieIndex = 0;
+            this.trieCurrent = this.entityTrie[0];
+            this.state = State.InNamedEntity;
+            this.stateInNamedEntity(c);
         }
     };
     Tokenizer.prototype.stateInNamedEntity = function (c) {
-        if (c === ";") {
-            this.parseFixedEntity();
-            // Retry as legacy entity if entity wasn't parsed
-            if (this.baseState === 1 /* Text */ &&
-                this.sectionStart + 1 < this._index &&
-                !this.xmlMode) {
-                this.parseLegacyEntity();
-            }
-            this._state = this.baseState;
+        this.entityExcess += 1;
+        this.trieIndex = (0, decode_js_1.determineBranch)(this.entityTrie, this.trieCurrent, this.trieIndex + 1, c);
+        if (this.trieIndex < 0) {
+            this.emitNamedEntity();
+            this.index--;
+            return;
         }
-        else if ((c < "0" || c > "9") && !isASCIIAlpha(c)) {
-            if (this.xmlMode || this.sectionStart + 1 === this._index) {
-                // Ignore
+        this.trieCurrent = this.entityTrie[this.trieIndex];
+        var masked = this.trieCurrent & decode_js_1.BinTrieFlags.VALUE_LENGTH;
+        // If the branch is a value, store it and continue
+        if (masked) {
+            // The mask is the number of bytes of the value, including the current byte.
+            var valueLength = (masked >> 14) - 1;
+            // If we have a legacy entity while parsing strictly, just skip the number of bytes
+            if (!this.allowLegacyEntity() && c !== CharCodes.Semi) {
+                this.trieIndex += valueLength;
             }
-            else if (this.baseState !== 1 /* Text */) {
-                if (c !== "=") {
-                    // Parse as legacy entity, without allowing additional characters.
-                    this.parseFixedEntity(legacy_json_1.default);
+            else {
+                // Add 1 as we have already incremented the excess
+                var entityStart = this.index - this.entityExcess + 1;
+                if (entityStart > this.sectionStart) {
+                    this.emitPartial(this.sectionStart, entityStart);
+                }
+                // If this is a surrogate pair, consume the next two bytes
+                this.entityResult = this.trieIndex;
+                this.trieIndex += valueLength;
+                this.entityExcess = 0;
+                this.sectionStart = this.index + 1;
+                if (valueLength === 0) {
+                    this.emitNamedEntity();
                 }
             }
-            else {
-                this.parseLegacyEntity();
-            }
-            this._state = this.baseState;
-            this._index--;
         }
     };
-    Tokenizer.prototype.decodeNumericEntity = function (offset, base, strict) {
-        var sectionStart = this.sectionStart + offset;
-        if (sectionStart !== this._index) {
-            // Parse entity
-            var entity = this.buffer.substring(sectionStart, this._index);
-            var parsed = parseInt(entity, base);
-            this.emitPartial(decode_codepoint_1.default(parsed));
-            this.sectionStart = strict ? this._index + 1 : this._index;
+    Tokenizer.prototype.emitNamedEntity = function () {
+        this.state = this.baseState;
+        if (this.entityResult === 0) {
+            return;
         }
-        this._state = this.baseState;
+        var valueLength = (this.entityTrie[this.entityResult] & decode_js_1.BinTrieFlags.VALUE_LENGTH) >>
+            14;
+        switch (valueLength) {
+            case 1: {
+                this.emitCodePoint(this.entityTrie[this.entityResult] &
+                    ~decode_js_1.BinTrieFlags.VALUE_LENGTH);
+                break;
+            }
+            case 2: {
+                this.emitCodePoint(this.entityTrie[this.entityResult + 1]);
+                break;
+            }
+            case 3: {
+                this.emitCodePoint(this.entityTrie[this.entityResult + 1]);
+                this.emitCodePoint(this.entityTrie[this.entityResult + 2]);
+            }
+        }
+    };
+    Tokenizer.prototype.stateBeforeNumericEntity = function (c) {
+        if ((c | 0x20) === CharCodes.LowerX) {
+            this.entityExcess++;
+            this.state = State.InHexEntity;
+        }
+        else {
+            this.state = State.InNumericEntity;
+            this.stateInNumericEntity(c);
+        }
+    };
+    Tokenizer.prototype.emitNumericEntity = function (strict) {
+        var entityStart = this.index - this.entityExcess - 1;
+        var numberStart = entityStart + 2 + Number(this.state === State.InHexEntity);
+        if (numberStart !== this.index) {
+            // Emit leading data if any
+            if (entityStart > this.sectionStart) {
+                this.emitPartial(this.sectionStart, entityStart);
+            }
+            this.sectionStart = this.index + Number(strict);
+            this.emitCodePoint((0, decode_js_1.replaceCodePoint)(this.entityResult));
+        }
+        this.state = this.baseState;
     };
     Tokenizer.prototype.stateInNumericEntity = function (c) {
-        if (c === ";") {
-            this.decodeNumericEntity(2, 10, true);
+        if (c === CharCodes.Semi) {
+            this.emitNumericEntity(true);
         }
-        else if (c < "0" || c > "9") {
-            if (!this.xmlMode) {
-                this.decodeNumericEntity(2, 10, false);
+        else if (isNumber(c)) {
+            this.entityResult = this.entityResult * 10 + (c - CharCodes.Zero);
+            this.entityExcess++;
+        }
+        else {
+            if (this.allowLegacyEntity()) {
+                this.emitNumericEntity(false);
             }
             else {
-                this._state = this.baseState;
+                this.state = this.baseState;
             }
-            this._index--;
+            this.index--;
         }
     };
     Tokenizer.prototype.stateInHexEntity = function (c) {
-        if (c === ";") {
-            this.decodeNumericEntity(3, 16, true);
+        if (c === CharCodes.Semi) {
+            this.emitNumericEntity(true);
         }
-        else if ((c < "a" || c > "f") &&
-            (c < "A" || c > "F") &&
-            (c < "0" || c > "9")) {
-            if (!this.xmlMode) {
-                this.decodeNumericEntity(3, 16, false);
+        else if (isNumber(c)) {
+            this.entityResult = this.entityResult * 16 + (c - CharCodes.Zero);
+            this.entityExcess++;
+        }
+        else if (isHexDigit(c)) {
+            this.entityResult =
+                this.entityResult * 16 + ((c | 0x20) - CharCodes.LowerA + 10);
+            this.entityExcess++;
+        }
+        else {
+            if (this.allowLegacyEntity()) {
+                this.emitNumericEntity(false);
             }
             else {
-                this._state = this.baseState;
+                this.state = this.baseState;
             }
-            this._index--;
+            this.index--;
         }
     };
+    Tokenizer.prototype.allowLegacyEntity = function () {
+        return (!this.xmlMode &&
+            (this.baseState === State.Text ||
+                this.baseState === State.InSpecialTag));
+    };
+    /**
+     * Remove data that has already been consumed from the buffer.
+     */
     Tokenizer.prototype.cleanup = function () {
-        if (this.sectionStart < 0) {
-            this.buffer = "";
-            this.bufferOffset += this._index;
-            this._index = 0;
+        // If we are inside of text or attributes, emit what we already have.
+        if (this.running && this.sectionStart !== this.index) {
+            if (this.state === State.Text ||
+                (this.state === State.InSpecialTag && this.sequenceIndex === 0)) {
+                this.cbs.ontext(this.sectionStart, this.index);
+                this.sectionStart = this.index;
+            }
+            else if (this.state === State.InAttributeValueDq ||
+                this.state === State.InAttributeValueSq ||
+                this.state === State.InAttributeValueNq) {
+                this.cbs.onattribdata(this.sectionStart, this.index);
+                this.sectionStart = this.index;
+            }
         }
-        else if (this.running) {
-            if (this._state === 1 /* Text */) {
-                if (this.sectionStart !== this._index) {
-                    this.cbs.ontext(this.buffer.substr(this.sectionStart));
-                }
-                this.buffer = "";
-                this.bufferOffset += this._index;
-                this._index = 0;
-            }
-            else if (this.sectionStart === this._index) {
-                // The section just started
-                this.buffer = "";
-                this.bufferOffset += this._index;
-                this._index = 0;
-            }
-            else {
-                // Remove everything unnecessary
-                this.buffer = this.buffer.substr(this.sectionStart);
-                this._index -= this.sectionStart;
-                this.bufferOffset += this.sectionStart;
-            }
-            this.sectionStart = 0;
-        }
+    };
+    Tokenizer.prototype.shouldContinue = function () {
+        return this.index < this.buffer.length + this.offset && this.running;
     };
     /**
      * Iterates through the buffer, calling the function corresponding to the current state.
@@ -625,285 +741,198 @@ var Tokenizer = /** @class */ (function () {
      * States that are more likely to be hit are higher up, as a performance improvement.
      */
     Tokenizer.prototype.parse = function () {
-        while (this._index < this.buffer.length && this.running) {
-            var c = this.buffer.charAt(this._index);
-            if (this._state === 1 /* Text */) {
-                this.stateText(c);
-            }
-            else if (this._state === 12 /* InAttributeValueDq */) {
-                this.stateInAttributeValueDoubleQuotes(c);
-            }
-            else if (this._state === 9 /* InAttributeName */) {
-                this.stateInAttributeName(c);
-            }
-            else if (this._state === 19 /* InComment */) {
-                this.stateInComment(c);
-            }
-            else if (this._state === 20 /* InSpecialComment */) {
-                this.stateInSpecialComment(c);
-            }
-            else if (this._state === 8 /* BeforeAttributeName */) {
-                this.stateBeforeAttributeName(c);
-            }
-            else if (this._state === 3 /* InTagName */) {
-                this.stateInTagName(c);
-            }
-            else if (this._state === 6 /* InClosingTagName */) {
-                this.stateInClosingTagName(c);
-            }
-            else if (this._state === 2 /* BeforeTagName */) {
-                this.stateBeforeTagName(c);
-            }
-            else if (this._state === 10 /* AfterAttributeName */) {
-                this.stateAfterAttributeName(c);
-            }
-            else if (this._state === 13 /* InAttributeValueSq */) {
-                this.stateInAttributeValueSingleQuotes(c);
-            }
-            else if (this._state === 11 /* BeforeAttributeValue */) {
-                this.stateBeforeAttributeValue(c);
-            }
-            else if (this._state === 5 /* BeforeClosingTagName */) {
-                this.stateBeforeClosingTagName(c);
-            }
-            else if (this._state === 7 /* AfterClosingTagName */) {
-                this.stateAfterClosingTagName(c);
-            }
-            else if (this._state === 32 /* BeforeSpecialS */) {
-                this.stateBeforeSpecialS(c);
-            }
-            else if (this._state === 21 /* AfterComment1 */) {
-                this.stateAfterComment1(c);
-            }
-            else if (this._state === 14 /* InAttributeValueNq */) {
-                this.stateInAttributeValueNoQuotes(c);
-            }
-            else if (this._state === 4 /* InSelfClosingTag */) {
-                this.stateInSelfClosingTag(c);
-            }
-            else if (this._state === 16 /* InDeclaration */) {
-                this.stateInDeclaration(c);
-            }
-            else if (this._state === 15 /* BeforeDeclaration */) {
-                this.stateBeforeDeclaration(c);
-            }
-            else if (this._state === 22 /* AfterComment2 */) {
-                this.stateAfterComment2(c);
-            }
-            else if (this._state === 18 /* BeforeComment */) {
-                this.stateBeforeComment(c);
-            }
-            else if (this._state === 33 /* BeforeSpecialSEnd */) {
-                this.stateBeforeSpecialSEnd(c);
-            }
-            else if (this._state === 53 /* BeforeSpecialTEnd */) {
-                stateAfterSpecialTEnd(this, c);
-            }
-            else if (this._state === 39 /* AfterScript1 */) {
-                stateAfterScript1(this, c);
-            }
-            else if (this._state === 40 /* AfterScript2 */) {
-                stateAfterScript2(this, c);
-            }
-            else if (this._state === 41 /* AfterScript3 */) {
-                stateAfterScript3(this, c);
-            }
-            else if (this._state === 34 /* BeforeScript1 */) {
-                stateBeforeScript1(this, c);
-            }
-            else if (this._state === 35 /* BeforeScript2 */) {
-                stateBeforeScript2(this, c);
-            }
-            else if (this._state === 36 /* BeforeScript3 */) {
-                stateBeforeScript3(this, c);
-            }
-            else if (this._state === 37 /* BeforeScript4 */) {
-                stateBeforeScript4(this, c);
-            }
-            else if (this._state === 38 /* BeforeScript5 */) {
-                this.stateBeforeSpecialLast(c, 2 /* Script */);
-            }
-            else if (this._state === 42 /* AfterScript4 */) {
-                stateAfterScript4(this, c);
-            }
-            else if (this._state === 43 /* AfterScript5 */) {
-                this.stateAfterSpecialLast(c, 6);
-            }
-            else if (this._state === 44 /* BeforeStyle1 */) {
-                stateBeforeStyle1(this, c);
-            }
-            else if (this._state === 29 /* InCdata */) {
-                this.stateInCdata(c);
-            }
-            else if (this._state === 45 /* BeforeStyle2 */) {
-                stateBeforeStyle2(this, c);
-            }
-            else if (this._state === 46 /* BeforeStyle3 */) {
-                stateBeforeStyle3(this, c);
-            }
-            else if (this._state === 47 /* BeforeStyle4 */) {
-                this.stateBeforeSpecialLast(c, 3 /* Style */);
-            }
-            else if (this._state === 48 /* AfterStyle1 */) {
-                stateAfterStyle1(this, c);
-            }
-            else if (this._state === 49 /* AfterStyle2 */) {
-                stateAfterStyle2(this, c);
-            }
-            else if (this._state === 50 /* AfterStyle3 */) {
-                stateAfterStyle3(this, c);
-            }
-            else if (this._state === 51 /* AfterStyle4 */) {
-                this.stateAfterSpecialLast(c, 5);
-            }
-            else if (this._state === 52 /* BeforeSpecialT */) {
-                stateBeforeSpecialT(this, c);
-            }
-            else if (this._state === 54 /* BeforeTitle1 */) {
-                stateBeforeTitle1(this, c);
-            }
-            else if (this._state === 55 /* BeforeTitle2 */) {
-                stateBeforeTitle2(this, c);
-            }
-            else if (this._state === 56 /* BeforeTitle3 */) {
-                stateBeforeTitle3(this, c);
-            }
-            else if (this._state === 57 /* BeforeTitle4 */) {
-                this.stateBeforeSpecialLast(c, 4 /* Title */);
-            }
-            else if (this._state === 58 /* AfterTitle1 */) {
-                stateAfterTitle1(this, c);
-            }
-            else if (this._state === 59 /* AfterTitle2 */) {
-                stateAfterTitle2(this, c);
-            }
-            else if (this._state === 60 /* AfterTitle3 */) {
-                stateAfterTitle3(this, c);
-            }
-            else if (this._state === 61 /* AfterTitle4 */) {
-                this.stateAfterSpecialLast(c, 5);
-            }
-            else if (this._state === 17 /* InProcessingInstruction */) {
-                this.stateInProcessingInstruction(c);
-            }
-            else if (this._state === 64 /* InNamedEntity */) {
-                this.stateInNamedEntity(c);
-            }
-            else if (this._state === 23 /* BeforeCdata1 */) {
-                stateBeforeCdata1(this, c);
-            }
-            else if (this._state === 62 /* BeforeEntity */) {
-                stateBeforeEntity(this, c);
-            }
-            else if (this._state === 24 /* BeforeCdata2 */) {
-                stateBeforeCdata2(this, c);
-            }
-            else if (this._state === 25 /* BeforeCdata3 */) {
-                stateBeforeCdata3(this, c);
-            }
-            else if (this._state === 30 /* AfterCdata1 */) {
-                this.stateAfterCdata1(c);
-            }
-            else if (this._state === 31 /* AfterCdata2 */) {
-                this.stateAfterCdata2(c);
-            }
-            else if (this._state === 26 /* BeforeCdata4 */) {
-                stateBeforeCdata4(this, c);
-            }
-            else if (this._state === 27 /* BeforeCdata5 */) {
-                stateBeforeCdata5(this, c);
-            }
-            else if (this._state === 28 /* BeforeCdata6 */) {
-                this.stateBeforeCdata6(c);
-            }
-            else if (this._state === 66 /* InHexEntity */) {
-                this.stateInHexEntity(c);
-            }
-            else if (this._state === 65 /* InNumericEntity */) {
-                this.stateInNumericEntity(c);
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            }
-            else if (this._state === 63 /* BeforeNumericEntity */) {
-                stateBeforeNumericEntity(this, c);
-            }
-            else {
-                this.cbs.onerror(Error("unknown _state"), this._state);
-            }
-            this._index++;
+        while (this.shouldContinue()) {
+            var c = this.buffer.charCodeAt(this.index - this.offset);
+            switch (this.state) {
+                case State.Text: {
+                    this.stateText(c);
+                    break;
+                }
+                case State.SpecialStartSequence: {
+                    this.stateSpecialStartSequence(c);
+                    break;
+                }
+                case State.InSpecialTag: {
+                    this.stateInSpecialTag(c);
+                    break;
+                }
+                case State.CDATASequence: {
+                    this.stateCDATASequence(c);
+                    break;
+                }
+                case State.InAttributeValueDq: {
+                    this.stateInAttributeValueDoubleQuotes(c);
+                    break;
+                }
+                case State.InAttributeName: {
+                    this.stateInAttributeName(c);
+                    break;
+                }
+                case State.InCommentLike: {
+                    this.stateInCommentLike(c);
+                    break;
+                }
+                case State.InSpecialComment: {
+                    this.stateInSpecialComment(c);
+                    break;
+                }
+                case State.BeforeAttributeName: {
+                    this.stateBeforeAttributeName(c);
+                    break;
+                }
+                case State.InTagName: {
+                    this.stateInTagName(c);
+                    break;
+                }
+                case State.InClosingTagName: {
+                    this.stateInClosingTagName(c);
+                    break;
+                }
+                case State.BeforeTagName: {
+                    this.stateBeforeTagName(c);
+                    break;
+                }
+                case State.AfterAttributeName: {
+                    this.stateAfterAttributeName(c);
+                    break;
+                }
+                case State.InAttributeValueSq: {
+                    this.stateInAttributeValueSingleQuotes(c);
+                    break;
+                }
+                case State.BeforeAttributeValue: {
+                    this.stateBeforeAttributeValue(c);
+                    break;
+                }
+                case State.BeforeClosingTagName: {
+                    this.stateBeforeClosingTagName(c);
+                    break;
+                }
+                case State.AfterClosingTagName: {
+                    this.stateAfterClosingTagName(c);
+                    break;
+                }
+                case State.BeforeSpecialS: {
+                    this.stateBeforeSpecialS(c);
+                    break;
+                }
+                case State.InAttributeValueNq: {
+                    this.stateInAttributeValueNoQuotes(c);
+                    break;
+                }
+                case State.InSelfClosingTag: {
+                    this.stateInSelfClosingTag(c);
+                    break;
+                }
+                case State.InDeclaration: {
+                    this.stateInDeclaration(c);
+                    break;
+                }
+                case State.BeforeDeclaration: {
+                    this.stateBeforeDeclaration(c);
+                    break;
+                }
+                case State.BeforeComment: {
+                    this.stateBeforeComment(c);
+                    break;
+                }
+                case State.InProcessingInstruction: {
+                    this.stateInProcessingInstruction(c);
+                    break;
+                }
+                case State.InNamedEntity: {
+                    this.stateInNamedEntity(c);
+                    break;
+                }
+                case State.BeforeEntity: {
+                    this.stateBeforeEntity(c);
+                    break;
+                }
+                case State.InHexEntity: {
+                    this.stateInHexEntity(c);
+                    break;
+                }
+                case State.InNumericEntity: {
+                    this.stateInNumericEntity(c);
+                    break;
+                }
+                default: {
+                    // `this._state === State.BeforeNumericEntity`
+                    this.stateBeforeNumericEntity(c);
+                }
+            }
+            this.index++;
         }
         this.cleanup();
     };
     Tokenizer.prototype.finish = function () {
+        if (this.state === State.InNamedEntity) {
+            this.emitNamedEntity();
+        }
         // If there is remaining data, emit it in a reasonable way
-        if (this.sectionStart < this._index) {
+        if (this.sectionStart < this.index) {
             this.handleTrailingData();
         }
         this.cbs.onend();
     };
+    /** Handle any trailing data. */
     Tokenizer.prototype.handleTrailingData = function () {
-        var data = this.buffer.substr(this.sectionStart);
-        if (this._state === 29 /* InCdata */ ||
-            this._state === 30 /* AfterCdata1 */ ||
-            this._state === 31 /* AfterCdata2 */) {
-            this.cbs.oncdata(data);
-        }
-        else if (this._state === 19 /* InComment */ ||
-            this._state === 21 /* AfterComment1 */ ||
-            this._state === 22 /* AfterComment2 */) {
-            this.cbs.oncomment(data);
-        }
-        else if (this._state === 64 /* InNamedEntity */ && !this.xmlMode) {
-            this.parseLegacyEntity();
-            if (this.sectionStart < this._index) {
-                this._state = this.baseState;
-                this.handleTrailingData();
+        var endIndex = this.buffer.length + this.offset;
+        if (this.state === State.InCommentLike) {
+            if (this.currentSequence === Sequences.CdataEnd) {
+                this.cbs.oncdata(this.sectionStart, endIndex, 0);
+            }
+            else {
+                this.cbs.oncomment(this.sectionStart, endIndex, 0);
             }
         }
-        else if (this._state === 65 /* InNumericEntity */ && !this.xmlMode) {
-            this.decodeNumericEntity(2, 10, false);
-            if (this.sectionStart < this._index) {
-                this._state = this.baseState;
-                this.handleTrailingData();
-            }
+        else if (this.state === State.InNumericEntity &&
+            this.allowLegacyEntity()) {
+            this.emitNumericEntity(false);
+            // All trailing data will have been consumed
         }
-        else if (this._state === 66 /* InHexEntity */ && !this.xmlMode) {
-            this.decodeNumericEntity(3, 16, false);
-            if (this.sectionStart < this._index) {
-                this._state = this.baseState;
-                this.handleTrailingData();
-            }
+        else if (this.state === State.InHexEntity &&
+            this.allowLegacyEntity()) {
+            this.emitNumericEntity(false);
+            // All trailing data will have been consumed
         }
-        else if (this._state !== 3 /* InTagName */ &&
-            this._state !== 8 /* BeforeAttributeName */ &&
-            this._state !== 11 /* BeforeAttributeValue */ &&
-            this._state !== 10 /* AfterAttributeName */ &&
-            this._state !== 9 /* InAttributeName */ &&
-            this._state !== 13 /* InAttributeValueSq */ &&
-            this._state !== 12 /* InAttributeValueDq */ &&
-            this._state !== 14 /* InAttributeValueNq */ &&
-            this._state !== 6 /* InClosingTagName */) {
-            this.cbs.ontext(data);
-        }
-        /*
-         * Else, ignore remaining data
-         * TODO add a way to remove current tag
-         */
-    };
-    Tokenizer.prototype.getSection = function () {
-        return this.buffer.substring(this.sectionStart, this._index);
-    };
-    Tokenizer.prototype.emitToken = function (name) {
-        this.cbs[name](this.getSection());
-        this.sectionStart = -1;
-    };
-    Tokenizer.prototype.emitPartial = function (value) {
-        if (this.baseState !== 1 /* Text */) {
-            this.cbs.onattribdata(value); // TODO implement the new event
+        else if (this.state === State.InTagName ||
+            this.state === State.BeforeAttributeName ||
+            this.state === State.BeforeAttributeValue ||
+            this.state === State.AfterAttributeName ||
+            this.state === State.InAttributeName ||
+            this.state === State.InAttributeValueSq ||
+            this.state === State.InAttributeValueDq ||
+            this.state === State.InAttributeValueNq ||
+            this.state === State.InClosingTagName) {
+            /*
+             * If we are currently in an opening or closing tag, us not calling the
+             * respective callback signals that the tag should be ignored.
+             */
         }
         else {
-            this.cbs.ontext(value);
+            this.cbs.ontext(this.sectionStart, endIndex);
+        }
+    };
+    Tokenizer.prototype.emitPartial = function (start, endIndex) {
+        if (this.baseState !== State.Text &&
+            this.baseState !== State.InSpecialTag) {
+            this.cbs.onattribdata(start, endIndex);
+        }
+        else {
+            this.cbs.ontext(start, endIndex);
+        }
+    };
+    Tokenizer.prototype.emitCodePoint = function (cp) {
+        if (this.baseState !== State.Text &&
+            this.baseState !== State.InSpecialTag) {
+            this.cbs.onattribentity(cp);
+        }
+        else {
+            this.cbs.ontextentity(cp);
         }
     };
     return Tokenizer;
 }());
 exports.default = Tokenizer;
+//# sourceMappingURL=Tokenizer.js.map

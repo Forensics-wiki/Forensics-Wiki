@@ -1,6 +1,6 @@
 {
     "name": "@types/debug",
-    "version": "4.1.7",
+    "version": "4.1.8",
     "description": "TypeScript definitions for debug",
     "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/debug",
     "license": "MIT",
@@ -52,6 +52,6 @@
     "dependencies": {
         "@types/ms": "*"
     },
-    "typesPublisherContentHash": "b83b27a0dee1329b5308b30bc0a4193efda8f025b3f5d9301130acb5be89a5b7",
-    "typeScriptVersion": "3.6"
+    "typesPublisherContentHash": "6d8d8268f4110e0cf997f520c8d5502b7b157897f51429179aa2eec7eeb58c66",
+    "typeScriptVersion": "4.3"
 }

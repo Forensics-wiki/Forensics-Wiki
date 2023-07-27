@@ -3,7 +3,7 @@ this.workbox.recipes = (function (exports, registerRoute_js, StaleWhileRevalidat
     'use strict';
 
     try {
-      self['workbox:recipes:6.5.3'] && _();
+      self['workbox:recipes:7.0.0'] && _();
     } catch (e) {}
 
     /*

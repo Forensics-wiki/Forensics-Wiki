@@ -1,0 +1,2 @@
+import{h,i,V as r}from"./index.js";const o=/,/g,u="-->";class a extends h{parse(s,e){if(s==="")this.a&&(this.j.push(this.a),this.f.onCue?.(this.a),this.a=null),this.c=i.None;else if(this.c===i.Cue)this.a.text+=(this.a.text?`
+`:"")+s;else if(s.includes(u)){const t=this.o(s,e);t&&(this.a=new r(t[0],t[1],t[2].join(" ")),this.a.id=this.l,this.c=i.Cue)}this.l=s}o(s,e){return super.o(s.replace(o,"."),e)}}function c(){return new a}export{a as SRTParser,c as default};

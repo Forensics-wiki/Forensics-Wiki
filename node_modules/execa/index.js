@@ -9,9 +9,11 @@ import onetime from 'onetime';
 import {makeError} from './lib/error.js';
 import {normalizeStdio, normalizeStdioNode} from './lib/stdio.js';
 import {spawnedKill, spawnedCancel, setupTimeout, validateTimeout, setExitHandler} from './lib/kill.js';
-import {handleInput, getSpawnedResult, makeAllStream, validateInputSync} from './lib/stream.js';
+import {addPipeMethods} from './lib/pipe.js';
+import {handleInput, getSpawnedResult, makeAllStream, handleInputSync} from './lib/stream.js';
 import {mergePromise, getSpawnedPromise} from './lib/promise.js';
-import {joinCommand, parseCommand, getEscapedCommand} from './lib/command.js';
+import {joinCommand, parseCommand, parseTemplates, getEscapedCommand} from './lib/command.js';
+import {logCommand, verboseDefault} from './lib/verbose.js';
 
 const DEFAULT_MAX_BUFFER = 1000 * 1000 * 100;
 
@@ -44,6 +46,7 @@ const handleArguments = (file, args, options = {}) => {
 		cleanup: true,
 		all: false,
 		windowsHide: true,
+		verbose: verboseDefault,
 		...options,
 	};
 
@@ -76,6 +79,7 @@ export function execa(file, args, options) {
 	const parsed = handleArguments(file, args, options);
 	const command = joinCommand(file, args);
 	const escapedCommand = getEscapedCommand(file, args);
+	logCommand(escapedCommand, parsed.options);
 
 	validateTimeout(parsed.options);
 
@@ -97,7 +101,8 @@ export function execa(file, args, options) {
 			isCanceled: false,
 			killed: false,
 		}));
-		return mergePromise(dummySpawned, errorPromise);
+		mergePromise(dummySpawned, errorPromise);
+		return dummySpawned;
 	}
 
 	const spawnedPromise = getSpawnedPromise(spawned);
@@ -154,23 +159,26 @@ export function execa(file, args, options) {
 
 	const handlePromiseOnce = onetime(handlePromise);
 
-	handleInput(spawned, parsed.options.input);
+	handleInput(spawned, parsed.options);
 
 	spawned.all = makeAllStream(spawned, parsed.options);
 
-	return mergePromise(spawned, handlePromiseOnce);
+	addPipeMethods(spawned);
+	mergePromise(spawned, handlePromiseOnce);
+	return spawned;
 }
 
 export function execaSync(file, args, options) {
 	const parsed = handleArguments(file, args, options);
 	const command = joinCommand(file, args);
 	const escapedCommand = getEscapedCommand(file, args);
+	logCommand(escapedCommand, parsed.options);
 
-	validateInputSync(parsed.options);
+	const input = handleInputSync(parsed.options);
 
 	let result;
 	try {
-		result = childProcess.spawnSync(parsed.file, parsed.args, parsed.options);
+		result = childProcess.spawnSync(parsed.file, parsed.args, {...parsed.options, input});
 	} catch (error) {
 		throw makeError({
 			error,
@@ -223,6 +231,40 @@ export function execaSync(file, args, options) {
 		killed: false,
 	};
 }
+
+const normalizeScriptStdin = ({input, inputFile, stdio}) => input === undefined && inputFile === undefined && stdio === undefined
+	? {stdin: 'inherit'}
+	: {};
+
+const normalizeScriptOptions = (options = {}) => ({
+	preferLocal: true,
+	...normalizeScriptStdin(options),
+	...options,
+});
+
+function create$(options) {
+	function $(templatesOrOptions, ...expressions) {
+		if (!Array.isArray(templatesOrOptions)) {
+			return create$({...options, ...templatesOrOptions});
+		}
+
+		const [file, ...args] = parseTemplates(templatesOrOptions, expressions);
+		return execa(file, args, normalizeScriptOptions(options));
+	}
+
+	$.sync = (templates, ...expressions) => {
+		if (!Array.isArray(templates)) {
+			throw new TypeError('Please use $(options).sync`command` instead of $.sync(options)`command`.');
+		}
+
+		const [file, ...args] = parseTemplates(templates, expressions);
+		return execaSync(file, args, normalizeScriptOptions(options));
+	};
+
+	return $;
+}
+
+export const $ = create$();
 
 export function execaCommand(command, options) {
 	const [file, ...args] = parseCommand(command);

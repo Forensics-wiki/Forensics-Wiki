@@ -3,7 +3,7 @@ this.workbox.streams = (function (exports, assert_js, Deferred_js, logger_js, Wo
     'use strict';
 
     try {
-      self['workbox:streams:6.5.3'] && _();
+      self['workbox:streams:7.0.0'] && _();
     } catch (e) {}
 
     /*
@@ -75,8 +75,14 @@ this.workbox.streams = (function (exports, assert_js, Deferred_js, logger_js, Wo
       const logMessages = [];
       const stream = new ReadableStream({
         pull(controller) {
-          return readerPromises[i].then(reader => reader.read()).then(result => {
-            if (result.done) {
+          return readerPromises[i].then(reader => {
+            if (reader instanceof ReadableStreamDefaultReader) {
+              return reader.read();
+            } else {
+              return;
+            }
+          }).then(result => {
+            if (result === null || result === void 0 ? void 0 : result.done) {
               {
                 logMessages.push(['Reached the end of source:', sourcePromises[i]]);
               }
@@ -108,7 +114,7 @@ this.workbox.streams = (function (exports, assert_js, Deferred_js, logger_js, Wo
 
               return this.pull(controller);
             } else {
-              controller.enqueue(result.value);
+              controller.enqueue(result === null || result === void 0 ? void 0 : result.value);
             }
           }).catch(error => {
             {

@@ -14,6 +14,8 @@ const memoize = require("../util/memoize");
 /** @typedef {import("../Dependency").TRANSITIVE} TRANSITIVE */
 /** @typedef {import("../ModuleGraph")} ModuleGraph */
 /** @typedef {import("../WebpackError")} WebpackError */
+/** @typedef {import("../serialization/ObjectMiddleware").ObjectDeserializerContext} ObjectDeserializerContext */
+/** @typedef {import("../serialization/ObjectMiddleware").ObjectSerializerContext} ObjectSerializerContext */
 
 const getCriticalDependencyWarning = memoize(() =>
 	require("./CriticalDependencyWarning")
@@ -21,6 +23,10 @@ const getCriticalDependencyWarning = memoize(() =>
 
 /** @typedef {ContextOptions & { request: string }} ContextDependencyOptions */
 
+/**
+ * @param {RegExp | null | undefined} r regexp
+ * @returns {string} stringified regexp
+ */
 const regExpToString = r => (r ? r + "" : "");
 
 class ContextDependency extends Dependency {
@@ -33,7 +39,7 @@ class ContextDependency extends Dependency {
 
 		this.options = options;
 		this.userRequest = this.options && this.options.request;
-		/** @type {false | string} */
+		/** @type {false | undefined | string} */
 		this.critical = false;
 		this.hadGlobalOrStickyRegExp = false;
 
@@ -48,6 +54,7 @@ class ContextDependency extends Dependency {
 		this.request = undefined;
 		this.range = undefined;
 		this.valueRange = undefined;
+		/** @type {boolean | string | undefined} */
 		this.inShorthand = undefined;
 		// TODO refactor this
 		this.replaces = undefined;
@@ -91,7 +98,7 @@ class ContextDependency extends Dependency {
 	/**
 	 * Returns warnings
 	 * @param {ModuleGraph} moduleGraph module graph
-	 * @returns {WebpackError[]} warnings
+	 * @returns {WebpackError[] | null | undefined} warnings
 	 */
 	getWarnings(moduleGraph) {
 		let warnings = super.getWarnings(moduleGraph);
@@ -115,6 +122,9 @@ class ContextDependency extends Dependency {
 		return warnings;
 	}
 
+	/**
+	 * @param {ObjectSerializerContext} context context
+	 */
 	serialize(context) {
 		const { write } = context;
 
@@ -132,6 +142,9 @@ class ContextDependency extends Dependency {
 		super.serialize(context);
 	}
 
+	/**
+	 * @param {ObjectDeserializerContext} context context
+	 */
 	deserialize(context) {
 		const { read } = context;
 

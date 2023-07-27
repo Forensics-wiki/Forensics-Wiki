@@ -1425,8 +1425,129 @@ CoSELayout.prototype.tileCompoundMembers = function (childGraphMap, idToNode) {
 };
 
 CoSELayout.prototype.tileNodes = function (nodes, minWidth) {
+  var horizontalOrg = this.tileNodesByFavoringDim(nodes, minWidth, true);
+  var verticalOrg = this.tileNodesByFavoringDim(nodes, minWidth, false);
+
+  var horizontalRatio = this.getOrgRatio(horizontalOrg);
+  var verticalRatio = this.getOrgRatio(verticalOrg);
+  var bestOrg;
+
+  // the best ratio is the one that is closer to 1 since the ratios are already normalized
+  // and the best organization is the one that has the best ratio
+  if (verticalRatio < horizontalRatio) {
+    bestOrg = verticalOrg;
+  } else {
+    bestOrg = horizontalOrg;
+  }
+
+  return bestOrg;
+};
+
+// get the width/height ratio of the organization that is normalized so that it will not be less than 1
+CoSELayout.prototype.getOrgRatio = function (organization) {
+  // get dimensions and calculate the initial ratio
+  var width = organization.width;
+  var height = organization.height;
+  var ratio = width / height;
+
+  // if the initial ratio is less then 1 then inverse it
+  if (ratio < 1) {
+    ratio = 1 / ratio;
+  }
+
+  // return the normalized ratio
+  return ratio;
+};
+
+/*
+ * Calculates the ideal width for the rows. This method assumes that
+ * each node has the same sizes and calculates the ideal row width that
+ * approximates a square shaped complex accordingly. However, since nodes would
+ * have different sizes some rows would have different sizes and the resulting
+ * shape would not be an exact square.
+ */
+CoSELayout.prototype.calcIdealRowWidth = function (members, favorHorizontalDim) {
+  // To approximate a square shaped complex we need to make complex width equal to complex height.
+  // To achieve this we need to solve the following equation system for hc:
+  // (x + bx) * hc - bx = (y + by) * vc - by, hc * vc = n
+  // where x is the avarage width of the nodes, y is the avarage height of nodes
+  // bx and by are the buffer sizes in horizontal and vertical dimensions accordingly,
+  // hc and vc are the number of rows in horizontal and vertical dimensions
+  // n is number of members.
+
   var verticalPadding = CoSEConstants.TILING_PADDING_VERTICAL;
   var horizontalPadding = CoSEConstants.TILING_PADDING_HORIZONTAL;
+
+  // number of members
+  var membersSize = members.length;
+
+  // sum of the width of all members
+  var totalWidth = 0;
+
+  // sum of the height of all members
+  var totalHeight = 0;
+
+  var maxWidth = 0;
+
+  // traverse all members to calculate total width and total height and get the maximum members width
+  members.forEach(function (node) {
+    totalWidth += node.getWidth();
+    totalHeight += node.getHeight();
+
+    if (node.getWidth() > maxWidth) {
+      maxWidth = node.getWidth();
+    }
+  });
+
+  // average width of the members
+  var averageWidth = totalWidth / membersSize;
+
+  // average height of the members
+  var averageHeight = totalHeight / membersSize;
+
+  // solving the initial equation system for the hc yields the following second degree equation:
+  // hc^2 * (x+bx) + hc * (by - bx) - n * (y + by) = 0
+
+  // the delta value to solve the equation above for hc
+  var delta = Math.pow(verticalPadding - horizontalPadding, 2) + 4 * (averageWidth + horizontalPadding) * (averageHeight + verticalPadding) * membersSize;
+
+  // solve the equation using delta value to calculate the horizontal count
+  // that represents the number of nodes in an ideal row
+  var horizontalCountDouble = (horizontalPadding - verticalPadding + Math.sqrt(delta)) / (2 * (averageWidth + horizontalPadding));
+  // round the calculated horizontal count up or down according to the favored dimension
+  var horizontalCount;
+
+  if (favorHorizontalDim) {
+    horizontalCount = Math.ceil(horizontalCountDouble);
+    // if horizontalCount count is not a float value then both of rounding to floor and ceil
+    // will yield the same values. Instead of repeating the same calculation try going up
+    // while favoring horizontal dimension in such cases
+    if ( horizontalCount == horizontalCountDouble ) {
+      horizontalCount++;
+    }
+  } else {
+    horizontalCount = Math.floor(horizontalCountDouble);
+  }
+
+  // ideal width to be calculated
+  var idealWidth = horizontalCount * (averageWidth + horizontalPadding) - horizontalPadding;
+
+  // if max width is bigger than calculated ideal width reset ideal width to it
+  if (maxWidth > idealWidth) {
+    idealWidth = maxWidth;
+  }
+
+  // add the left-right margins to the ideal row width
+  idealWidth += horizontalPadding * 2;
+
+  // return the ideal row width1
+  return idealWidth;
+};
+
+CoSELayout.prototype.tileNodesByFavoringDim = function (nodes, minWidth, favorHorizontalDim) {
+  var verticalPadding = CoSEConstants.TILING_PADDING_VERTICAL;
+  var horizontalPadding = CoSEConstants.TILING_PADDING_HORIZONTAL;
+  var tilingCompareBy = CoSEConstants.TILING_COMPARE_BY;
   var organization = {
     rows: [],
     rowWidth: [],
@@ -1439,13 +1560,26 @@ CoSELayout.prototype.tileNodes = function (nodes, minWidth) {
     centerY: 0
   };
 
-  // Sort the nodes in ascending order of their areas
+  if (tilingCompareBy) {
+    organization.idealRowWidth = this.calcIdealRowWidth(nodes, favorHorizontalDim);
+  }
+
+  var getNodeArea = function( n ) {
+    return n.rect.width * n.rect.height;
+  };
+
+  var areaCompareFcn = function(n1, n2){
+    return getNodeArea( n2 ) - getNodeArea( n1 );
+  };
+
+  // Sort the nodes in descending order of their areas
   nodes.sort(function (n1, n2) {
-    if (n1.rect.width * n1.rect.height > n2.rect.width * n2.rect.height)
-      return -1;
-    if (n1.rect.width * n1.rect.height < n2.rect.width * n2.rect.height)
-      return 1;
-    return 0;
+    var cmpBy = areaCompareFcn;
+    if ( organization.idealRowWidth ) {
+      cmpBy = tilingCompareBy;
+      return cmpBy( n1.id, n2.id );
+    }
+    return cmpBy( n1, n2 );
   });
 
   // Create the organization -> calculate compound center
@@ -1469,7 +1603,11 @@ CoSELayout.prototype.tileNodes = function (nodes, minWidth) {
       this.insertNodeToRow(organization, lNode, 0, minWidth);
     }
     else if (this.canAddHorizontal(organization, lNode.rect.width, lNode.rect.height)) {
-      this.insertNodeToRow(organization, lNode, this.getShortestRowIndex(organization), minWidth);
+      var rowIndex = organization.rows.length - 1;
+      if (!organization.idealRowWidth) {
+        rowIndex = this.getShortestRowIndex(organization);
+      }
+      this.insertNodeToRow(organization, lNode, rowIndex, minWidth);
     }
     else {
       this.insertNodeToRow(organization, lNode, organization.rows.length, minWidth);
@@ -1559,6 +1697,15 @@ CoSELayout.prototype.getLongestRowIndex = function (organization) {
 * the aspect ratio(1) or not.
 */
 CoSELayout.prototype.canAddHorizontal = function (organization, extraWidth, extraHeight) {
+
+  // if there is an ideal row width specified use it instead of checking the aspect ratio
+  if (organization.idealRowWidth) {
+    var lastRowIndex = organization.rows.length - 1;
+    var lastRowWidth = organization.rowWidth[lastRowIndex];
+
+    // check and return if ideal row width will be exceed if the node is added to the row
+    return lastRowWidth + extraWidth + organization.horizontalPadding <= organization.idealRowWidth;
+  }
 
   var sri = this.getShortestRowIndex(organization);
 

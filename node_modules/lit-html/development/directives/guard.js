@@ -5,7 +5,7 @@
  */
 import { noChange } from '../lit-html.js';
 import { directive, Directive } from '../directive.js';
-// A sentinal that indicates guard() hasn't rendered anything yet
+// A sentinel that indicates guard() hasn't rendered anything yet
 const initialValue = {};
 class GuardDirective extends Directive {
     constructor() {

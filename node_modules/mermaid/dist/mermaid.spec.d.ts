@@ -1,1 +1,1 @@
-import './diagram-api/diagram-orchestration';
+import './diagram-api/diagram-orchestration.js';
