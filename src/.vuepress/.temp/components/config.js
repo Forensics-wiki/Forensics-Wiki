@@ -1,13 +1,13 @@
 import { defineClientConfig } from "@vuepress/client";
-import { hasGlobalComponent } from "D:/aforensicswiki/forensics-wiki/node_modules/vuepress-shared/lib/client/index.js";
+import { hasGlobalComponent } from "D:/github/Forensics-Wiki/node_modules/vuepress-shared/lib/client/index.js";
 import { h } from "vue";
 
-import { useScriptTag } from "D:/aforensicswiki/forensics-wiki/node_modules/@vueuse/core/index.mjs";
-import Badge from "D:/aforensicswiki/forensics-wiki/node_modules/vuepress-plugin-components/lib/client/components/Badge.js";
-import FontIcon from "D:/aforensicswiki/forensics-wiki/node_modules/vuepress-plugin-components/lib/client/components/FontIcon.js";
-import BackToTop from "D:/aforensicswiki/forensics-wiki/node_modules/vuepress-plugin-components/lib/client/components/BackToTop.js";
+import { useScriptTag } from "D:/github/Forensics-Wiki/node_modules/@vueuse/core/index.mjs";
+import Badge from "D:/github/Forensics-Wiki/node_modules/vuepress-plugin-components/lib/client/components/Badge.js";
+import FontIcon from "D:/github/Forensics-Wiki/node_modules/vuepress-plugin-components/lib/client/components/FontIcon.js";
+import BackToTop from "D:/github/Forensics-Wiki/node_modules/vuepress-plugin-components/lib/client/components/BackToTop.js";
 
-import "D:/aforensicswiki/forensics-wiki/node_modules/vuepress-plugin-components/lib/client/styles/sr-only.scss";
+import "D:/github/Forensics-Wiki/node_modules/vuepress-plugin-components/lib/client/styles/sr-only.scss";
 
 export default defineClientConfig({
   enhance: ({ app }) => {
