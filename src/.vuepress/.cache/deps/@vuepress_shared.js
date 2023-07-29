@@ -2,8 +2,8 @@ import {
   isArray,
   isFunction,
   isString
-} from "./chunk-OB5VABF2.js";
-import "./chunk-AUZ3RYOM.js";
+} from "./chunk-C54VHFQG.js";
+import "./chunk-2LSFTFF7.js";
 
 // node_modules/@vuepress/shared/dist/index.js
 var resolveHeadIdentifier = ([

@@ -158,6 +158,13 @@ export default sidebar({
       link: "dx/",
       children: "structure",
     },
+    {
+      text: "Android数据存储技术",
+      icon: "database",
+      prefix: "cc/",
+      link: "cc/",
+      children: "structure",
+    },
   ],
   "/ios/": [
     "",

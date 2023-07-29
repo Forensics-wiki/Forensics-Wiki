@@ -10,6 +10,7 @@ import clientConfig8 from 'D:/github/Forensics-Wiki/node_modules/vuepress-plugin
 import clientConfig9 from 'D:/github/Forensics-Wiki/src/.vuepress/.temp/md-enhance/config.js'
 import clientConfig10 from 'D:/github/Forensics-Wiki/node_modules/vuepress-plugin-photo-swipe/lib/client/config.js'
 import clientConfig11 from 'D:/github/Forensics-Wiki/src/.vuepress/.temp/theme-hope/config.js'
+import clientConfig12 from 'D:/github/Forensics-Wiki/node_modules/vuepress-plugin-search-pro/lib/client/config.js'
 
 export const clientConfigs = [
   clientConfig0,
@@ -24,4 +25,5 @@ export const clientConfigs = [
   clientConfig9,
   clientConfig10,
   clientConfig11,
+  clientConfig12,
 ]

@@ -1,6 +1,8 @@
 export const pagesData = {
   // path: /
   "v-8daa1a0e": () => import(/* webpackChunkName: "v-8daa1a0e" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/index.html.js").then(({ data }) => data),
+  // path: /android/cc.html
+  "v-68fb20c0": () => import(/* webpackChunkName: "v-68fb20c0" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/android/cc.html.js").then(({ data }) => data),
   // path: /android/dx.html
   "v-7c91bde8": () => import(/* webpackChunkName: "v-7c91bde8" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/android/dx.html.js").then(({ data }) => data),
   // path: /android/
@@ -21,10 +23,6 @@ export const pagesData = {
   "v-78a344bc": () => import(/* webpackChunkName: "v-78a344bc" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/base/win.html.js").then(({ data }) => data),
   // path: /base/zz.html
   "v-51403c58": () => import(/* webpackChunkName: "v-51403c58" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/base/zz.html.js").then(({ data }) => data),
-  // path: /ios/dx.html
-  "v-56dc102a": () => import(/* webpackChunkName: "v-56dc102a" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/ios/dx.html.js").then(({ data }) => data),
-  // path: /ios/
-  "v-7448383b": () => import(/* webpackChunkName: "v-7448383b" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/ios/index.html.js").then(({ data }) => data),
   // path: /demo/cj.html
   "v-6f4cca1f": () => import(/* webpackChunkName: "v-6f4cca1f" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/cj.html.js").then(({ data }) => data),
   // path: /demo/
@@ -33,6 +31,10 @@ export const pagesData = {
   "v-6cbb2af0": () => import(/* webpackChunkName: "v-6cbb2af0" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/sq.html.js").then(({ data }) => data),
   // path: /demo/yr.html
   "v-08bca6ad": () => import(/* webpackChunkName: "v-08bca6ad" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/yr.html.js").then(({ data }) => data),
+  // path: /ios/dx.html
+  "v-56dc102a": () => import(/* webpackChunkName: "v-56dc102a" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/ios/dx.html.js").then(({ data }) => data),
+  // path: /ios/
+  "v-7448383b": () => import(/* webpackChunkName: "v-7448383b" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/ios/index.html.js").then(({ data }) => data),
   // path: /linux/basecommand.html
   "v-0fcdf09a": () => import(/* webpackChunkName: "v-0fcdf09a" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/linux/basecommand.html.js").then(({ data }) => data),
   // path: /linux/cdn.html
@@ -41,12 +43,6 @@ export const pagesData = {
   "v-3a5070e2": () => import(/* webpackChunkName: "v-3a5070e2" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/linux/intr.html.js").then(({ data }) => data),
   // path: /linux/
   "v-f0383c18": () => import(/* webpackChunkName: "v-f0383c18" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/linux/index.html.js").then(({ data }) => data),
-  // path: /windows/bitlocker.html
-  "v-32efb0d9": () => import(/* webpackChunkName: "v-32efb0d9" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/windows/bitlocker.html.js").then(({ data }) => data),
-  // path: /windows/efs.html
-  "v-74f4a32c": () => import(/* webpackChunkName: "v-74f4a32c" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/windows/efs.html.js").then(({ data }) => data),
-  // path: /windows/
-  "v-d7a4cff6": () => import(/* webpackChunkName: "v-d7a4cff6" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/windows/index.html.js").then(({ data }) => data),
   // path: /volatility/base.html
   "v-3de34fb7": () => import(/* webpackChunkName: "v-3de34fb7" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/volatility/base.html.js").then(({ data }) => data),
   // path: /volatility/install.html
@@ -57,6 +53,12 @@ export const pagesData = {
   "v-5aca0811": () => import(/* webpackChunkName: "v-5aca0811" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/volatility/index.html.js").then(({ data }) => data),
   // path: /volatility/winvol.html
   "v-c533b1de": () => import(/* webpackChunkName: "v-c533b1de" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/volatility/winvol.html.js").then(({ data }) => data),
+  // path: /windows/bitlocker.html
+  "v-32efb0d9": () => import(/* webpackChunkName: "v-32efb0d9" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/windows/bitlocker.html.js").then(({ data }) => data),
+  // path: /windows/efs.html
+  "v-74f4a32c": () => import(/* webpackChunkName: "v-74f4a32c" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/windows/efs.html.js").then(({ data }) => data),
+  // path: /windows/
+  "v-d7a4cff6": () => import(/* webpackChunkName: "v-d7a4cff6" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/windows/index.html.js").then(({ data }) => data),
   // path: /writeup/2022changancup.html
   "v-ac6d791e": () => import(/* webpackChunkName: "v-ac6d791e" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/writeup/2022changancup.html.js").then(({ data }) => data),
   // path: /writeup/

@@ -1,0 +1,292 @@
+@use "vuepress-shared/styles/reset";
+
+@keyframes search-pro-fade-in {
+  from {
+    opacity: 0.2;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.search-pro-modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 997;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: auto;
+
+  width: 100vw;
+  height: 100vh;
+
+  cursor: default;
+}
+
+.search-pro-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
+
+  width: 100vw;
+  height: 100vh;
+
+  animation: 0.25s search-pro-fade-in;
+
+  backdrop-filter: blur(10px);
+}
+
+.search-pro-modal {
+  position: absolute;
+  z-index: 999;
+
+  display: flex;
+  flex-direction: column;
+
+  width: calc(100% - 6rem);
+  max-width: 50em;
+  border-radius: 10px;
+
+  background: var(--vp-bg);
+  box-shadow: 2px 2px 10px 0 var(--card-shadow);
+
+  transition: background var(--vp-ct);
+  animation: 0.15s pwa-opened;
+
+  @media (max-width: hope-config.$laptop) {
+    animation: 0.25s pwa-mobile;
+  }
+
+  @media (max-width: hope-config.$tablet) {
+    width: 100vw;
+    max-width: unset;
+    height: 100vh;
+  }
+}
+
+.search-pro-box {
+  display: flex;
+  margin: 1rem;
+
+  form {
+    position: relative;
+    display: flex;
+    flex: 1;
+  }
+
+  label {
+    position: absolute;
+    top: calc(50% - 0.75rem);
+
+    // NOTE: Compatible with Android Wechat
+    // inset-inline-start: 0.5rem;
+    left: 0.5rem;
+    color: var(--vp-tc);
+
+    #{hope-config.$rtl-selector} & {
+      right: 0.5rem;
+      left: unset;
+    }
+
+    .search-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+.search-pro-clear-button {
+  @include reset.button;
+  position: absolute;
+  top: calc(50% - 10px);
+
+  // NOTE: Compatible with Android Wechat
+  // inset-inline-end: 0.75rem;
+  right: 0.75rem;
+
+  padding: 0;
+
+  color: var(--vp-tc);
+
+  #{hope-config.$rtl-selector} & {
+    right: 0.75rem;
+    left: unset;
+  }
+
+  &:hover {
+    border-radius: 50%;
+    background-color: rgb(0 0 0 / 10%);
+  }
+}
+
+.search-pro-close-button {
+  @include reset.button;
+  display: none;
+
+  // NOTE: Compatible with Android Wechat
+  // margin-inline: 0.5rem -0.5rem;
+  margin-inline-start: 0.5rem;
+  margin-inline-end: -0.5rem;
+  padding: 0.5rem;
+
+  color: var(--grey3);
+
+  font-size: 1rem;
+
+  @media (max-width: hope-config.$tablet) {
+    display: block;
+  }
+}
+
+.search-pro-input {
+  flex: 1;
+
+  width: 0;
+  margin: 0;
+
+  // NOTE: Compatible with Android Wechat
+  // padding-inline: 2.5rem 1rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-inline-start: 2.5rem;
+  padding-inline-end: 2rem;
+  border: 0;
+  border: 2px solid var(--vp-tc);
+  border-radius: 8px;
+
+  background: var(--vp-bg);
+  color: var(--vp-c);
+  outline: none;
+
+  font-size: 1.25rem;
+  line-height: 2.5;
+
+  -webkit-appearance: none;
+  appearance: none;
+
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+.search-pro-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  z-index: 20;
+
+  overflow: visible;
+  overflow-y: auto;
+
+  max-height: 50vh;
+  margin: 0;
+  padding: 0;
+  border-radius: 0.5rem;
+
+  background-color: var(--vp-bg);
+  box-shadow: 2px 2px 10px 0 var(--card-shadow);
+  list-style: none;
+
+  line-height: 1.5;
+}
+
+.search-pro-suggestion {
+  padding: 0.25rem 1rem;
+  border-top: 1px solid var(--vp-brc);
+  cursor: pointer;
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &.active,
+  &:hover {
+    background-color: var(--vp-bglt);
+  }
+}
+
+.search-pro-auto-complete {
+  display: none;
+  float: right;
+
+  margin: 0 0.5rem;
+  padding: 4px;
+  border: 1px solid var(--vp-brc);
+  border-radius: 4px;
+
+  box-shadow: 1px 1px 4px 0 var(--card-shadow);
+
+  font-size: 12px;
+  line-height: 1;
+
+  .search-pro-suggestion.active & {
+    display: block;
+  }
+}
+
+.search-pro-result-wrapper {
+  flex-grow: 1;
+
+  overflow-y: auto;
+
+  min-height: 40vh;
+  max-height: calc(80vh - 10rem);
+  padding: 0 1rem;
+
+  @media (max-width: hope-config.$tablet) {
+    min-height: unset;
+    max-height: unset;
+  }
+
+  &.loading,
+  &.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1.5rem;
+
+    font-weight: 600;
+    font-size: 22px;
+    text-align: center;
+  }
+}
+
+.search-pro-hints {
+  margin-top: 1rem;
+  padding: 0.75rem 0.5rem;
+  box-shadow: 0 -1px 4px 0 var(--card-shadow);
+  line-height: 1;
+}
+
+.search-pro-hint {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0.5rem;
+
+  kbd {
+    margin: 0 0.5rem;
+    padding: 2px;
+    border: 1px solid var(--vp-brc);
+    border-radius: 4px;
+
+    box-shadow: 1px 1px 4px 0 var(--card-shadow);
+
+    + kbd {
+      margin-inline-start: -0.25rem;
+    }
+  }
+
+  svg {
+    display: block;
+    width: 15px;
+    height: 15px;
+  }
+}

@@ -1,6 +1,11 @@
 <template><div><h2 id="目录" tabindex="-1"><a class="header-anchor" href="#目录" aria-hidden="true">#</a> 目录</h2>
 <ul>
-<li><RouterLink to="/android/dx.html">彩信/短信取证</RouterLink></li>
+<li>
+<p><RouterLink to="/android/dx.html">彩信/短信取证</RouterLink></p>
+</li>
+<li>
+<p><RouterLink to="/android/cc.html">Android数据存储技术</RouterLink></p>
+</li>
 </ul>
 <p>安卓取证是指对Android操作系统进行取证。Android是目前全球最大的移动操作系统之一，拥有庞大的用户群体和众多的应用程序，因此安卓取证在电子取证中也是非常重要的一部分。以下是一些安卓取证的基本概念和技术：</p>
 <ol>

@@ -34,5 +34,5 @@ highlights:
 
 
 copyright: false
-footer: CC BY-NC 协议, 版权所有 © 2021-2023 Forensics-Wiki
+footer: CC BY-NC-SA 4.0 协议, 版权所有 © 2021-2023 Forensics-Wiki
 ---

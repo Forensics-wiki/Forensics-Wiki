@@ -1,7 +1,8 @@
 <template><div><h2 id="介绍" tabindex="-1"><a class="header-anchor" href="#介绍" aria-hidden="true">#</a> 介绍</h2>
 <p>BitLocker加密是Windows的一种数据保护功能，主要用于解决由于计算机设备的物理丢失导致的数据失窃或恶意泄漏，能够同时支持FAT和NTFS两种格式，可以加密电脑的整个系统分区，也可以加密可移动的便携存储设备，如U盘和移动硬盘等。</p>
 <p>BitLocker使用AES（高级加密标准/Advanced Encryption Standard）128位或256位的加密算法进行加密，其加密的安全可靠性得到了保证，通常情况下，只要密码有足够强度，这种加密就很难被破解。 <strong>因此，当取证中遇到涉案的电脑、U盘等被Bitlocker加密的情况，破解加密获取涉案数据就变得尤为重要。</strong></p>
-<h2 id="注意" tabindex="-1"><a class="header-anchor" href="#注意" aria-hidden="true">#</a> 注意</h2>
+<div class="hint-container warning">
+<p class="hint-container-title">注意</p>
 <ul>
 <li>
 <p>家庭版无此功能</p>
@@ -10,6 +11,7 @@
 <p>分区可用空间会变小</p>
 </li>
 </ul>
+</div>
 <h2 id="加密过程" tabindex="-1"><a class="header-anchor" href="#加密过程" aria-hidden="true">#</a> 加密过程</h2>
 <ol>
 <li>对一个磁盘进行BitLocker加密的方法很简单，打开资源管理器，在想要加密的磁盘分区上点击右键，选择“启用BitLocker”即可。（在“控制面板”-“系统和安全”-“BitLocker驱动器加密”里也可以启用和管理加密。）</li>
