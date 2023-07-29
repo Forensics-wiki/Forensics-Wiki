@@ -2,7 +2,7 @@
   "name": "forensics-wiki",
   "version": "2.0.0",
   "description": "电子数据取证wiki",
-  "license": "CC BY-NC",
+  "license": "CC BY-NC-SA 4.0",
   "type": "module",
   "scripts": {
     "docs:build": "vuepress build src",

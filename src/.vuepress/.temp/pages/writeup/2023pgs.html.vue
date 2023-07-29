@@ -1,4 +1,4 @@
-<template><div><p>因图片较多，上传超时，因为贴上原文链接</p>
+<template><div><p>因图片较多，上传超时，故贴上原文链接</p>
 <h2 id="晋级赛" tabindex="-1"><a class="header-anchor" href="#晋级赛" aria-hidden="true">#</a> 晋级赛</h2>
 <h3 id="向子瑜" tabindex="-1"><a class="header-anchor" href="#向子瑜" aria-hidden="true">#</a> 向子瑜</h3>
 <p><a href="https://mp.weixin.qq.com/s/KyeHWgnfRdR0yUZm9PUYhQ" target="_blank" rel="noopener noreferrer">https://mp.weixin.qq.com/s/KyeHWgnfRdR0yUZm9PUYhQ<ExternalLinkIcon/></a></p>

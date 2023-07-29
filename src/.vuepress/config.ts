@@ -13,6 +13,20 @@ export default defineUserConfig({
   // Enable it with pwa
   // shouldPrefetch: false,
   theme,
+
+  head: [
+    ['script', { charset: 'UTF-8', id: 'LA_COLLECT', src: '//sdk.51.la/js-sdk-pro.min.js' }],
+    ['script', {}, `
+      window.LA = window.LA || {};
+      LA.id = "K2xUaYGSFQf9s7gd";
+      LA.ck = "K2xUaYGSFQf9s7gd";
+      (function () {
+        var la = document.createElement('script'); la.type = 'text/javascript'; la.async = true;
+        la.src = '//sdk.51.la/js-sdk-pro.min.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(la, s);
+      })();
+    `],
+  ],
   
   plugins: [
     searchProPlugin({
@@ -31,5 +45,4 @@ export default defineUserConfig({
       ],
     }),
   ],
-  
 });

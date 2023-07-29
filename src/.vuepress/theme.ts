@@ -3,7 +3,7 @@ import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
 
 export default hopeTheme({
-  hostname: "https://vuepress-theme-hope-docs-demo.netlify.app",
+  hostname: "https://www.forensics-wiki.com/",
 
   author: {
     name: "Forensics-Wiki",
@@ -24,7 +24,7 @@ export default hopeTheme({
   // sidebar
   sidebar,
 
-  footer: "Forensics-Wiki",
+  footer: "CC BY-NC-SA 4.0 协议",
 
   displayFooter: true,
 
