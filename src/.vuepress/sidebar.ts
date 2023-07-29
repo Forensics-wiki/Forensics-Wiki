@@ -185,5 +185,12 @@ export default sidebar({
       link: "2022changancup/",
       children: "structure",
     },
+    {
+      text: "2023年第一届盘古石杯",
+      icon: "award",
+      prefix: "2023pgs/",
+      link: "2023pgs/",
+      children: "structure",
+    },
   ]
 });

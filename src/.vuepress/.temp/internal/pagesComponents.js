@@ -9,6 +9,14 @@ export const pagesComponents = {
   "v-7c91bde8": defineAsyncComponent(() => import(/* webpackChunkName: "v-7c91bde8" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/android/dx.html.vue")),
   // path: /android/
   "v-c1f0fcce": defineAsyncComponent(() => import(/* webpackChunkName: "v-c1f0fcce" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/android/index.html.vue")),
+  // path: /demo/cj.html
+  "v-6f4cca1f": defineAsyncComponent(() => import(/* webpackChunkName: "v-6f4cca1f" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/cj.html.vue")),
+  // path: /demo/
+  "v-1473bf53": defineAsyncComponent(() => import(/* webpackChunkName: "v-1473bf53" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/index.html.vue")),
+  // path: /demo/sq.html
+  "v-6cbb2af0": defineAsyncComponent(() => import(/* webpackChunkName: "v-6cbb2af0" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/sq.html.vue")),
+  // path: /demo/yr.html
+  "v-08bca6ad": defineAsyncComponent(() => import(/* webpackChunkName: "v-08bca6ad" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/yr.html.vue")),
   // path: /base/dd.html
   "v-260c2c94": defineAsyncComponent(() => import(/* webpackChunkName: "v-260c2c94" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/base/dd.html.vue")),
   // path: /base/gs.html
@@ -25,14 +33,6 @@ export const pagesComponents = {
   "v-78a344bc": defineAsyncComponent(() => import(/* webpackChunkName: "v-78a344bc" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/base/win.html.vue")),
   // path: /base/zz.html
   "v-51403c58": defineAsyncComponent(() => import(/* webpackChunkName: "v-51403c58" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/base/zz.html.vue")),
-  // path: /demo/cj.html
-  "v-6f4cca1f": defineAsyncComponent(() => import(/* webpackChunkName: "v-6f4cca1f" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/cj.html.vue")),
-  // path: /demo/
-  "v-1473bf53": defineAsyncComponent(() => import(/* webpackChunkName: "v-1473bf53" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/index.html.vue")),
-  // path: /demo/sq.html
-  "v-6cbb2af0": defineAsyncComponent(() => import(/* webpackChunkName: "v-6cbb2af0" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/sq.html.vue")),
-  // path: /demo/yr.html
-  "v-08bca6ad": defineAsyncComponent(() => import(/* webpackChunkName: "v-08bca6ad" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/demo/yr.html.vue")),
   // path: /ios/dx.html
   "v-56dc102a": defineAsyncComponent(() => import(/* webpackChunkName: "v-56dc102a" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/ios/dx.html.vue")),
   // path: /ios/
@@ -63,6 +63,8 @@ export const pagesComponents = {
   "v-d7a4cff6": defineAsyncComponent(() => import(/* webpackChunkName: "v-d7a4cff6" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/windows/index.html.vue")),
   // path: /writeup/2022changancup.html
   "v-ac6d791e": defineAsyncComponent(() => import(/* webpackChunkName: "v-ac6d791e" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/writeup/2022changancup.html.vue")),
+  // path: /writeup/2023pgs.html
+  "v-befc5eac": defineAsyncComponent(() => import(/* webpackChunkName: "v-befc5eac" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/writeup/2023pgs.html.vue")),
   // path: /writeup/
   "v-689a56ae": defineAsyncComponent(() => import(/* webpackChunkName: "v-689a56ae" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/writeup/index.html.vue")),
   // path: /404.html
