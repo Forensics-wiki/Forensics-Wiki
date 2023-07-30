@@ -9,6 +9,10 @@ export const pagesComponents = {
   "v-7c91bde8": defineAsyncComponent(() => import(/* webpackChunkName: "v-7c91bde8" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/android/dx.html.vue")),
   // path: /android/
   "v-c1f0fcce": defineAsyncComponent(() => import(/* webpackChunkName: "v-c1f0fcce" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/android/index.html.vue")),
+  // path: /ios/dx.html
+  "v-56dc102a": defineAsyncComponent(() => import(/* webpackChunkName: "v-56dc102a" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/ios/dx.html.vue")),
+  // path: /ios/
+  "v-7448383b": defineAsyncComponent(() => import(/* webpackChunkName: "v-7448383b" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/ios/index.html.vue")),
   // path: /base/dd.html
   "v-260c2c94": defineAsyncComponent(() => import(/* webpackChunkName: "v-260c2c94" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/base/dd.html.vue")),
   // path: /base/gs.html
@@ -41,10 +45,6 @@ export const pagesComponents = {
   "v-3a5070e2": defineAsyncComponent(() => import(/* webpackChunkName: "v-3a5070e2" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/linux/intr.html.vue")),
   // path: /linux/
   "v-f0383c18": defineAsyncComponent(() => import(/* webpackChunkName: "v-f0383c18" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/linux/index.html.vue")),
-  // path: /ios/dx.html
-  "v-56dc102a": defineAsyncComponent(() => import(/* webpackChunkName: "v-56dc102a" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/ios/dx.html.vue")),
-  // path: /ios/
-  "v-7448383b": defineAsyncComponent(() => import(/* webpackChunkName: "v-7448383b" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/ios/index.html.vue")),
   // path: /volatility/base.html
   "v-3de34fb7": defineAsyncComponent(() => import(/* webpackChunkName: "v-3de34fb7" */"D:/github/Forensics-Wiki/src/.vuepress/.temp/pages/volatility/base.html.vue")),
   // path: /volatility/install.html

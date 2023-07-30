@@ -3,14 +3,10 @@ import theme from "./theme.js";
 import { hopeTheme } from "vuepress-theme-hope";
 import { searchProPlugin } from "vuepress-plugin-search-pro";
 
-const statisticsPlugin = (options, context) => ({
-  name: 'statistics-plugin',
-  clientAppEnhanceFiles: context => {
-    return context.isProd
-      ? require.resolve('./statistics.client.js')
-      : require.resolve('./statistics.client.dev.js')
-  }
-});
+const statisticsScript = `
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id:"K2xUaYGSFQf9s7gd",ck:"K2xUaYGSFQf9s7gd"});</script>
+`;
 
 export default defineUserConfig({
   base: "/",
@@ -33,6 +29,5 @@ export default defineUserConfig({
         },
       ],
     }),
-    statisticsPlugin, // 在这里添加统计插件
   ],
 });
