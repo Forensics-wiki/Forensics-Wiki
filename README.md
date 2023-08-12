@@ -2,7 +2,7 @@
 
 ## 项目简介🔎
 
-Forensics-Wiki是一个关于电子数据取证的维基百科，网址：https://www.forensics-wiki.com。旨在为国内的取证从业者提供高质量的学习平台。
+Forensics-Wiki是一个关于电子数据取证的维基百科，网址：https://www.forensics-wiki.com/ 。旨在为国内的取证从业者提供高质量的学习平台。
 
 ## 内容完善进程⌚
 
