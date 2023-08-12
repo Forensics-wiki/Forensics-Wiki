@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/046a9ceb-8190-4e15-b8db-432a2eb948d0/deploy-status)](https://app.netlify.com/sites/iridescent-lollipop-b27be2/deploys)
+
 # Forensics-Wiki
 
 ## 项目简介🔎
@@ -98,3 +100,12 @@ pnpm docs:clean-dev  # 清除缓存并启动开发服务器
 > 9. **感谢您的贡献：** 最后，衷心感谢您为Forensics-Wiki项目做出的贡献！您的努力将有助于项目的持续发展和数字取证知识的传播。
 >
 > 如果您有疑问或需要进一步帮助，请随时与我们联系。期待您优秀的贡献！
+
+## Star History ✨
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Forensics-wiki/Forensics-Wiki&type=Date)](https://star-history.com/#Forensics-wiki/Forensics-Wiki&Date)
+
+
+## Copyleft
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可。
