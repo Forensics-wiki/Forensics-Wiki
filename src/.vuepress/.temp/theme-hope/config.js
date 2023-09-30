@@ -1,12 +1,12 @@
 import { defineClientConfig } from "@vuepress/client";
-import { VPLink } from "D:/github/Forensics-Wiki/node_modules/vuepress-shared/lib/client/index.js";
+import { VPLink } from "/Users/gszf/Documents/GitHub/Forensics-Wiki/node_modules/vuepress-shared/lib/client/index.js";
 
-import { HopeIcon, Layout, NotFound, useScrollPromise, injectDarkmode, setupDarkmode, setupSidebarItems } from "D:/github/Forensics-Wiki/node_modules/vuepress-theme-hope/lib/bundle/export.js";
+import { HopeIcon, Layout, NotFound, useScrollPromise, injectDarkmode, setupDarkmode, setupSidebarItems } from "/Users/gszf/Documents/GitHub/Forensics-Wiki/node_modules/vuepress-theme-hope/lib/bundle/export.js";
 
-import { defineAutoCatalogIconComponent } from "D:/github/Forensics-Wiki/node_modules/vuepress-plugin-auto-catalog/lib/client/index.js"
-import Slide from "D:/github/Forensics-Wiki/node_modules/vuepress-plugin-md-enhance/lib/client/SlidePage.js";
+import { defineAutoCatalogIconComponent } from "/Users/gszf/Documents/GitHub/Forensics-Wiki/node_modules/vuepress-plugin-auto-catalog/lib/client/index.js"
+import Slide from "/Users/gszf/Documents/GitHub/Forensics-Wiki/node_modules/vuepress-plugin-md-enhance/lib/client/SlidePage.js";
 
-import "D:/github/Forensics-Wiki/node_modules/vuepress-theme-hope/lib/bundle/styles/all.scss";
+import "/Users/gszf/Documents/GitHub/Forensics-Wiki/node_modules/vuepress-theme-hope/lib/bundle/styles/all.scss";
 
 defineAutoCatalogIconComponent(HopeIcon);
 

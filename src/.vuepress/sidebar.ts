@@ -117,6 +117,13 @@ export default sidebar({
       link: "cdn/",
       children: "structure",
     },
+    {
+      text: "宝塔面板取证",
+      icon: "sitemap",
+      prefix: "bt/",
+      link: "bt/",
+      children: "structure",
+    },
   ],
   "/volatility/": [
     "",

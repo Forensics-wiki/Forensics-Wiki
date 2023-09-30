@@ -12,7 +12,7 @@ pageview: true
 
 仅支持“美亚柏科信息安全研究所”的钉钉用户进行登录
 
-登陆：https://update.svrdustman.cn/mydz/ 即可获得授权
+登录：https://update.svrdustman.cn/mydz/ 即可获得授权
 
 第一次授权一般都为7天，后面续期为30天。
 

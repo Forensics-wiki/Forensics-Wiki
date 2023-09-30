@@ -1,6 +1,6 @@
 <template><div><h2 id="美亚柏科产品" tabindex="-1"><a class="header-anchor" href="#美亚柏科产品" aria-hidden="true">#</a> 美亚柏科产品</h2>
 <p>仅支持“美亚柏科信息安全研究所”的钉钉用户进行登录</p>
-<p>登陆：<a href="https://update.svrdustman.cn/mydz/" target="_blank" rel="noopener noreferrer">https://update.svrdustman.cn/mydz/<ExternalLinkIcon/></a> 即可获得授权</p>
+<p>登录：<a href="https://update.svrdustman.cn/mydz/" target="_blank" rel="noopener noreferrer">https://update.svrdustman.cn/mydz/<ExternalLinkIcon/></a> 即可获得授权</p>
 <p>第一次授权一般都为7天，后面续期为30天。</p>
 <figure><img src="https://bu.dusays.com/2023/07/25/64bfdd36702b1.png" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure>
 <figure><img src="https://bu.dusays.com/2023/07/25/64bfdd44d791c.png" alt="null" tabindex="0" loading="lazy"><figcaption>null</figcaption></figure>

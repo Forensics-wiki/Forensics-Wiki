@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../../../node_modules/mermaid/dist/mermaid.core.mjs"],
-  "sourcesContent": ["import \"ts-dedent\";\r\nimport { K } from \"./mermaid-aad43469.js\";\r\nimport \"dayjs\";\r\nimport \"@braintree/sanitize-url\";\r\nimport \"d3\";\r\nimport \"dompurify\";\r\nimport \"khroma\";\r\nimport \"lodash-es/memoize.js\";\r\nimport \"stylis\";\r\nimport \"lodash-es/isEmpty.js\";\r\nexport {\r\n  K as default\r\n};\r\n"],
+  "sourcesContent": ["import \"ts-dedent\";\nimport { K } from \"./mermaid-aad43469.js\";\nimport \"dayjs\";\nimport \"@braintree/sanitize-url\";\nimport \"d3\";\nimport \"dompurify\";\nimport \"khroma\";\nimport \"lodash-es/memoize.js\";\nimport \"stylis\";\nimport \"lodash-es/isEmpty.js\";\nexport {\n  K as default\n};\n"],
   "mappings": ";;;;;;;;;;AAEA,mBAAO;AACP,0BAAO;",
   "names": []
 }
