@@ -35,6 +35,7 @@ Forensics-Wiki是一个关于电子数据取证的维基百科，网址：https:
 - Windows取证
   - EFS加密与解密技术
   - Bitlocker加密与解密方法
+  - 注册表取证
 
 - Linux与服务器取证
   - 概述
