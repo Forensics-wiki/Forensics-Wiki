@@ -31,20 +31,6 @@ export const pagesData = {
   "v-6cbb2af0": () => import(/* webpackChunkName: "v-6cbb2af0" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/demo/sq.html.js").then(({ data }) => data),
   // path: /demo/yr.html
   "v-08bca6ad": () => import(/* webpackChunkName: "v-08bca6ad" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/demo/yr.html.js").then(({ data }) => data),
-  // path: /ios/
-  "v-7448383b": () => import(/* webpackChunkName: "v-7448383b" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/ios/index.html.js").then(({ data }) => data),
-  // path: /ios/dx.html
-  "v-56dc102a": () => import(/* webpackChunkName: "v-56dc102a" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/ios/dx.html.js").then(({ data }) => data),
-  // path: /linux/
-  "v-f0383c18": () => import(/* webpackChunkName: "v-f0383c18" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/index.html.js").then(({ data }) => data),
-  // path: /linux/basecommand.html
-  "v-0fcdf09a": () => import(/* webpackChunkName: "v-0fcdf09a" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/basecommand.html.js").then(({ data }) => data),
-  // path: /linux/bt.html
-  "v-5699db53": () => import(/* webpackChunkName: "v-5699db53" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/bt.html.js").then(({ data }) => data),
-  // path: /linux/cdn.html
-  "v-001e82c0": () => import(/* webpackChunkName: "v-001e82c0" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/cdn.html.js").then(({ data }) => data),
-  // path: /linux/intr.html
-  "v-3a5070e2": () => import(/* webpackChunkName: "v-3a5070e2" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/intr.html.js").then(({ data }) => data),
   // path: /volatility/
   "v-5aca0811": () => import(/* webpackChunkName: "v-5aca0811" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/volatility/index.html.js").then(({ data }) => data),
   // path: /volatility/base.html
@@ -55,12 +41,28 @@ export const pagesData = {
   "v-6b9c0bff": () => import(/* webpackChunkName: "v-6b9c0bff" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/volatility/js.html.js").then(({ data }) => data),
   // path: /volatility/winvol.html
   "v-c533b1de": () => import(/* webpackChunkName: "v-c533b1de" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/volatility/winvol.html.js").then(({ data }) => data),
+  // path: /ios/
+  "v-7448383b": () => import(/* webpackChunkName: "v-7448383b" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/ios/index.html.js").then(({ data }) => data),
+  // path: /ios/dx.html
+  "v-56dc102a": () => import(/* webpackChunkName: "v-56dc102a" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/ios/dx.html.js").then(({ data }) => data),
   // path: /windows/
   "v-d7a4cff6": () => import(/* webpackChunkName: "v-d7a4cff6" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/windows/index.html.js").then(({ data }) => data),
   // path: /windows/bitlocker.html
   "v-32efb0d9": () => import(/* webpackChunkName: "v-32efb0d9" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/windows/bitlocker.html.js").then(({ data }) => data),
   // path: /windows/efs.html
   "v-74f4a32c": () => import(/* webpackChunkName: "v-74f4a32c" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/windows/efs.html.js").then(({ data }) => data),
+  // path: /windows/zc.html
+  "v-6a9e8bab": () => import(/* webpackChunkName: "v-6a9e8bab" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/windows/zc.html.js").then(({ data }) => data),
+  // path: /linux/
+  "v-f0383c18": () => import(/* webpackChunkName: "v-f0383c18" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/index.html.js").then(({ data }) => data),
+  // path: /linux/basecommand.html
+  "v-0fcdf09a": () => import(/* webpackChunkName: "v-0fcdf09a" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/basecommand.html.js").then(({ data }) => data),
+  // path: /linux/bt.html
+  "v-5699db53": () => import(/* webpackChunkName: "v-5699db53" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/bt.html.js").then(({ data }) => data),
+  // path: /linux/cdn.html
+  "v-001e82c0": () => import(/* webpackChunkName: "v-001e82c0" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/cdn.html.js").then(({ data }) => data),
+  // path: /linux/intr.html
+  "v-3a5070e2": () => import(/* webpackChunkName: "v-3a5070e2" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/linux/intr.html.js").then(({ data }) => data),
   // path: /writeup/2022changancup.html
   "v-ac6d791e": () => import(/* webpackChunkName: "v-ac6d791e" */"/Users/gszf/Documents/GitHub/Forensics-Wiki/src/.vuepress/.temp/pages/writeup/2022changancup.html.js").then(({ data }) => data),
   // path: /writeup/2023pgs.html

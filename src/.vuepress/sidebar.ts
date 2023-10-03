@@ -93,6 +93,13 @@ export default sidebar({
       link: "efs/",
       children: "structure",
     },
+    {
+      text: "注册表取证",
+      icon: "book",
+      prefix: "zc/",
+      link: "zc/",
+      children: "structure",
+    }
   ],
   "/linux/": [
     "",
