@@ -1,7 +1,0 @@
-@use "vuepress-shared/styles/shining";
-
-.vp-project-home {
-  .vp-feature-item {
-    @include shining.shining;
-  }
-}
