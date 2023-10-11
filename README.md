@@ -1,9 +1,5 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/046a9ceb-8190-4e15-b8db-432a2eb948d0/deploy-status)](https://app.netlify.com/sites/iridescent-lollipop-b27be2/deploys)
 
----
-comments: true
----
-
 # Forensics-Wiki
 
 ## 项目简介🔎
