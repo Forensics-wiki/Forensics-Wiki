@@ -96,6 +96,41 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://www.forensics-wiki.com/tools/</loc>
+         <lastmod>2023-10-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.forensics-wiki.com/tools/autopsy/</loc>
+         <lastmod>2023-10-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.forensics-wiki.com/tools/dumpit/</loc>
+         <lastmod>2023-10-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.forensics-wiki.com/tools/everything/</loc>
+         <lastmod>2023-10-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.forensics-wiki.com/tools/ftkimager/</loc>
+         <lastmod>2023-10-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.forensics-wiki.com/tools/navicat/</loc>
+         <lastmod>2023-10-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.forensics-wiki.com/tools/rstudio/</loc>
+         <lastmod>2023-10-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://www.forensics-wiki.com/volatility/base/</loc>
          <lastmod>2023-10-12</lastmod>
          <changefreq>daily</changefreq>
