@@ -10,19 +10,10 @@ comments: true
 
 ## 内存取证新选择
 
-1. **[memory-image-auto-analyzer](https://github.com/Randark-JMT/memory-image-auto-analyzer)** From [Randark-JMT](https://github.com/Randark-JMT)
+   - **[memory-image-auto-analyzer](https://github.com/Randark-JMT/memory-image-auto-analyzer)** From [Randark-JMT](https://github.com/Randark-JMT)
 
-   一个雏形，一个基于Volatility进行可视化、自动化内存镜像分析的工具
+      一个雏形，一个基于Volatility进行可视化、自动化内存镜像分析的工具
 
-   ### TODO - 项目规划-windows
+   - **[VolatilityPro](https://github.com/Tokeii0/VolatilityPro)** From [Tokeii0](https://github.com/Tokeii0/) 
 
-   - pslist 和 pstree 整合进树状组件，支持选中进程进行 dump （ memdump 和 procdump ）
-   - 加入网络分析，包含 netscan
-   - 加入环境信息分析，包含注册表 printkey，环境变量 envars
-   - 加入凭据分析，包含 lsadump ， hashdump 和 mimikatz （需要处理 crypto 库）
-   - filescan 加入常见结果筛选，加入正则搜索，加入提取功能
-   - 加入常见信息提取，如剪贴板，桌面截图
-
-2. **[VolatilityPro](https://github.com/Tokeii0/VolatilityPro)** From [Tokeii0](https://github.com/Tokeii0/) 
-
-   一款用于自动化处理内存取证的Python脚本，并提供GUI界面
+      一款用于自动化处理内存取证的Python脚本，并提供GUI界面
