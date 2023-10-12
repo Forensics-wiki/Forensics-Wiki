@@ -12,10 +12,12 @@ edit_uri: https://github.com/Forensics-wiki/Forensics-Wiki/tree/main/docs/
 # 版权
 copyright: CC BY-NC-SA 4.0 协议
 
+# 自定义js-51la统计
+extra_javascript:
+  - js/51la.js
+
 extra:
-
-  generator: false  
-
+  generator: false
   # 页脚社交媒体
   social:
     - icon: fontawesome/brands/qq 
