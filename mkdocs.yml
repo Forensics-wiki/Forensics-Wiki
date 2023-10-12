@@ -148,6 +148,14 @@ nav:
       - Android数据存储技术: android/data.md
   - iOS取证:
       - 彩信/短信取证: iOS/sms.md
+  - 工具介绍:
+      - 介绍: tools/index.md
+      - Autopsy: tools/autopsy.md
+      - DumpIt: tools/dumpit.md
+      - Everything: tools/everything.md
+      - FTK Imager: tools/ftkimager.md
+      - Navicat Premium: tools/navicat.md
+      - R-Studio Network: tools/rstudio.md
   - 赛题Writeup:
       - 赛题Writeup: writeup/index.md
       - 2022长安杯Writeup: writeup/2022changancup.md
