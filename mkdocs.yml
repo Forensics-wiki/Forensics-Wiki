@@ -143,6 +143,7 @@ nav:
       - 安装: volatility/install.md
       - 基本用法: volatility/base.md
       - 命令参考: volatility/cmd.md
+      - MemProcFS: volatility/MemProcFS.md
   - 安卓取证:
       - 彩信/短信取证: android/sms.md
       - Android数据存储技术: android/data.md
