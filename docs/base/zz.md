@@ -18,7 +18,7 @@ comments: true
 ![null](https://bu.dusays.com/2023/07/25/64bfec6a9d47d.png)
 
 ![null](https://bu.dusays.com/2023/07/25/64bfec6bd98b2.png)
-关于各镜像的区别请参考 [证据文件格式](https://wj.didctf.com/doc/4/)
+- 关于各镜像的区别请参考 [证据文件格式](https://www.forensics-wiki.com/base/gs/)
 
 5. 证据项信息根据实际填写
 6. 镜像目标选择
