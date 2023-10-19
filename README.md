@@ -18,6 +18,12 @@ Forensics-Wiki是一个关于电子数据取证的维基百科，网址：https:
 
 我们提供相关的[电子数据取证靶场](https://forensics.didctf.com)，您可以通过关注微信公众号获取邀请码。
 
+## 贡献者✌️
+
+<a href="https://github.com/Forensics-wiki/Forensics-Wiki/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Forensics-wiki/Forensics-Wiki" />
+</a>
+
 ## Star History ✨
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Forensics-wiki/Forensics-Wiki&type=Date)](https://star-history.com/#Forensics-wiki/Forensics-Wiki&Date)
