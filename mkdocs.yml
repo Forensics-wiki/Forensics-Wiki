@@ -138,6 +138,7 @@ nav:
       - 基础命令: linux/basecommand.md
       - CDN基础: linux/cdn.md
       - 宝塔面板取证: linux/bt.md
+      - 常见webshell工具流量特征: linux/webshell.md
   - 内存取证:
       - 介绍: volatility/js.md
       - 安装: volatility/install.md
