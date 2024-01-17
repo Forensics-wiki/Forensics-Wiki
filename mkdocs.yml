@@ -42,8 +42,8 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
@@ -139,6 +139,7 @@ nav:
       - CDN基础: linux/cdn.md
       - 宝塔面板取证: linux/bt.md
       - 常见webshell工具流量特征: linux/webshell.md
+      - 野火IM分析: linux/yhim.md
   - 内存取证:
       - 介绍: volatility/js.md
       - 安装: volatility/install.md
