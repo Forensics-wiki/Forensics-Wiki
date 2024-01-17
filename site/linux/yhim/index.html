@@ -1981,7 +1981,7 @@
   <h1>野火IM分析</h1>
 
 <blockquote>
-<p>转自：WXjzc-再战野火IM
+<p>转自：WXjzc-再战野火IM<br />
 原文链接：<a href="https://www.cnblogs.com/WXjzc/p/17770436.html">https://www.cnblogs.com/WXjzc/p/17770436.html</a></p>
 <p>起因是在盘古石决赛时，有一个手机取证的APP是基于野火IM进行的开发。当时未按照正常方式解出，没找出数据库密钥。
 后续又在以前的某一次全国比武中发现了野火IM的考点，直接问密码如何来。
@@ -1992,62 +1992,62 @@
 <p>一开始复盘时，考虑到野火IM是开源产品，因此在GitHub中查找，但并未找到其so的源码。这次参考实录中的内容，得知源码的开源地址为<a href="https://github.com/LeonDevLifeLog/proto">野火开源协议栈</a>
 因此先来源码分析，后面用frida来做。不过通过正面的源码分析后，已经可以知道密钥的生成方式，frida那里是用于往后遇到其他闭源产品时，能通过frida去处理。</p>
 <h2 id="_1">源码<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>克隆源码仓库并阅读，在<code>proto</code>目录下可以看到<code>MessageDB.h</code>，往src目录翻，可以看到<code>MessageDB.cc</code>，在这个代码文件中，可以看到生成sql语句的代码
-<img alt="" src="../images/yhim/2817142-20231017185228418-1812982849.png" />
-而<code>db</code>则由<code>DB2</code>这个类创建
-<img alt="" src="../images/yhim/2817142-20231017185228891-1673447550.png" />
-<code>DB2::Open</code>中传入数据库密钥
-<img alt="" src="../images/yhim/2817142-20231017185229204-396221973.png" />
-<img alt="" src="../images/yhim/2817142-20231017185229514-671228346.png" />
-搜索调用，能发现是在<code>business.cc</code>中打开了数据库
-<img alt="" src="../images/yhim/2817142-20231017185229793-209873540.png" />
-在<code>setAuthInfo</code>函数中，调用<code>decodeToken</code>函数来解密token并生成密钥
-<img alt="" src="../images/yhim/2817142-20231017185230134-2091479337.png" />
-<code>decodeToken</code>中，先对token解base64，随后调用<code>decrypt_data</code>进行解密，该函数的定义在<code>libemqtt.cc</code>中
-<img alt="" src="../images/yhim/2817142-20231017185230516-157124813.png" />
-<img alt="" src="../images/yhim/2817142-20231017185230877-2087910305.png" />
-很明显用了aes来解密，key是常量<code>0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x78,0x79,0x7A,0x7B,0x7C,0x7D,0x7E,0x7F</code>
-<img alt="" src="../images/yhim/2817142-20231017185231241-1110073313.png" />
-<img alt="" src="../images/yhim/2817142-20231017185231583-67292812.png" />
-又可以看到iv的生成方式，由于解密传入的<code>uiKeyLen</code>就是key的长度，根据生成方式，iv与key相同
-<img alt="" src="../images/yhim/2817142-20231017185231897-487894470.png" />
-<img alt="" src="../images/yhim/2817142-20231017185232180-8158683.png" />
-接下来需要获取token，逆一下apk，很容易就能找到位置，在app的data目录下的<code>shared_prefs/config.xml</code>中
-<img alt="" src="../images/yhim/2817142-20231017185232458-752219472.png" />
-<img alt="" src="../images/yhim/2817142-20231017185232791-1976023325.png" />
-得到token为<code>800MdqKouy0Fb557abV+xAP112wQHm22bTVrr+VwQsh555Q+OCKgUQanxCX2HgAUbztEbl+RduchQfy8Msi14v8+6BATZWCIBmo3W9av2u8v4+ovfLh0mcKSDZomvFzUhYWt53KHWXp4bWmdVtG3kCKGOtsKmZDuAA3rnVy5pUA=</code>
-cyberchef直接解，按照生成方式，解密后的内容以<code>|</code>区分，密钥为最后一个，即<code>62a9e3e2-7ffc-42e1-aa65-d6046e009d6b</code>
-<img alt="" src="../images/yhim/2817142-20231017185233148-1695914661.png" />
-尝试解密数据库，<code>DB Browser for SQLite</code>使用<code>SQLCipher 4</code>的默认参数即可解密
-<img alt="" src="../images/yhim/2817142-20231017185233548-1911937999.png" />
-<img alt="" src="../images/yhim/2817142-20231017185233952-1038721564.png" /></p>
+<p>克隆源码仓库并阅读，在<code>proto</code>目录下可以看到<code>MessageDB.h</code>，往src目录翻，可以看到<code>MessageDB.cc</code>，在这个代码文件中，可以看到生成sql语句的代码</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185228418-1812982849.png" /></p>
+<p>而<code>db</code>则由<code>DB2</code>这个类创建</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185228891-1673447550.png" /></p>
+<p><code>DB2::Open</code>中传入数据库密钥</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185229204-396221973.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185229514-671228346.png" /></p>
+<p>搜索调用，能发现是在<code>business.cc</code>中打开了数据库</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185229793-209873540.png" /></p>
+<p>在<code>setAuthInfo</code>函数中，调用<code>decodeToken</code>函数来解密token并生成密钥</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185230134-2091479337.png" /></p>
+<p><code>decodeToken</code>中，先对token解base64，随后调用<code>decrypt_data</code>进行解密，该函数的定义在<code>libemqtt.cc</code>中</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185230516-157124813.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185230877-2087910305.png" /></p>
+<p>很明显用了aes来解密，key是常量<code>0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x78,0x79,0x7A,0x7B,0x7C,0x7D,0x7E,0x7F</code></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185231241-1110073313.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185231583-67292812.png" /></p>
+<p>又可以看到iv的生成方式，由于解密传入的<code>uiKeyLen</code>就是key的长度，根据生成方式，iv与key相同</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185231897-487894470.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185232180-8158683.png" /></p>
+<p>接下来需要获取token，逆一下apk，很容易就能找到位置，在app的data目录下的<code>shared_prefs/config.xml</code>中</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185232458-752219472.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185232791-1976023325.png" /></p>
+<p>得到token为<code>800MdqKouy0Fb557abV+xAP112wQHm22bTVrr+VwQsh555Q+OCKgUQanxCX2HgAUbztEbl+RduchQfy8Msi14v8+6BATZWCIBmo3W9av2u8v4+ovfLh0mcKSDZomvFzUhYWt53KHWXp4bWmdVtG3kCKGOtsKmZDuAA3rnVy5pUA=</code></p>
+<p>cyberchef直接解，按照生成方式，解密后的内容以<code>|</code>区分，密钥为最后一个，即<code>62a9e3e2-7ffc-42e1-aa65-d6046e009d6b</code></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185233148-1695914661.png" /></p>
+<p>尝试解密数据库，<code>DB Browser for SQLite</code>使用<code>SQLCipher 4</code>的默认参数即可解密</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185233548-1911937999.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185233952-1038721564.png" /></p>
 <h2 id="_2">逆向<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>读取<code>id</code>和<code>token</code>传入<code>connect</code>，读取的配置文件是<code>sharedPreferences</code>目录下的<code>config.xml</code>
-<img alt="" src="../images/yhim/2817142-20231017185234335-1455058783.png" />
-不断跟进<code>connect</code>方法，在<code>cn.wildfirechat.remote.ChatManager</code>类中
-<img alt="" src="../images/yhim/2817142-20231017185234675-508625496.png" />
-在<code>cn.wildfirechat.client.IRemoteClient</code>接口中
-<img alt="" src="../images/yhim/2817142-20231017185234961-27490230.png" />
-它的内部类<code>Stub</code>的内部类<code>Proxy</code>中有实现
-<img alt="" src="../images/yhim/2817142-20231017185235303-850743563.png" />
-跟踪<code>Stub</code>，最终将<code>id</code>和<code>token</code>传入<code>initProto</code>方法
-<img alt="" src="../images/yhim/2817142-20231017185235664-990096825.png" />
-将token传入了<code>setAuthInfo</code>，是native层的方法，这就和之前源码分析那里对上了
-<img alt="" src="../images/yhim/2817142-20231017185236128-1117530376.png" />
-<img alt="" src="../images/yhim/2817142-20231017185236511-906702297.png" />
-找到加载的so，通过查看exports中是否存在<code>setAuthInfo</code>的方式确定待分析的so为<code>libabab.so</code>
-![]](./images/yhim/2817142-20231017185236784-1866942808.png)
-<img alt="" src="../images/yhim/2817142-20231017185237088-1880053227.png" />
-<img alt="" src="../images/yhim/2817142-20231017185237419-1872822803.png" />
-在这里正向看很难看出什么东西，慢慢跟进<code>sub_ADD80</code>
-<img alt="" src="../images/yhim/2817142-20231017185237753-962096211.png" />
-<img alt="" src="../images/yhim/2817142-20231017185238050-161346355.png" />
-可以看到一些字符串，显然是通过<code>sub_30830</code>和源码中的函数产生了某些关联，可以直接查它的引用
-<img alt="" src="../images/yhim/2817142-20231017185238393-1967487118.png" />
-能找到<code>Open</code>函数了，进一步通过上面的<code>open db</code>来找函数，hook这些函数的参数，就能找到密钥
-<img alt="" src="../images/yhim/2817142-20231017185238704-2032610735.png" />
-<img alt="" src="../images/yhim/2817142-20231017185238990-734866920.png" />
-由于应用采用多进程的方式，网上找个脚本来跑，稍微改一下，能找到<code>libjavacore.so</code>去加载了<code>libabab.so</code>，但是没办法搞到<code>libabab.so</code>的module对象，并且监听数据库也没有监听到打开记录，后来发现是模拟器原因，在模拟器中没法找到。。真机中就可以找到了</p>
+<p>读取<code>id</code>和<code>token</code>传入<code>connect</code>，读取的配置文件是<code>sharedPreferences</code>目录下的<code>config.xml</code></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185234335-1455058783.png" /></p>
+<p>不断跟进<code>connect</code>方法，在<code>cn.wildfirechat.remote.ChatManager</code>类中</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185234675-508625496.png" /></p>
+<p>在<code>cn.wildfirechat.client.IRemoteClient</code>接口中</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185234961-27490230.png" /></p>
+<p>它的内部类<code>Stub</code>的内部类<code>Proxy</code>中有实现</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185235303-850743563.png" /></p>
+<p>跟踪<code>Stub</code>，最终将<code>id</code>和<code>token</code>传入<code>initProto</code>方法</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185235664-990096825.png" /></p>
+<p>将token传入了<code>setAuthInfo</code>，是native层的方法，这就和之前源码分析那里对上了</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185236128-1117530376.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185236511-906702297.png" /></p>
+<p>找到加载的so，通过查看exports中是否存在<code>setAuthInfo</code>的方式确定待分析的so为<code>libabab.so</code></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185236784-1866942808.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185237088-1880053227.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185237419-1872822803.png" /></p>
+<p>在这里正向看很难看出什么东西，慢慢跟进<code>sub_ADD80</code></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185237753-962096211.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185238050-161346355.png" /></p>
+<p>可以看到一些字符串，显然是通过<code>sub_30830</code>和源码中的函数产生了某些关联，可以直接查它的引用</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185238393-1967487118.png" /></p>
+<p>能找到<code>Open</code>函数了，进一步通过上面的<code>open db</code>来找函数，hook这些函数的参数，就能找到密钥</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185238704-2032610735.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185238990-734866920.png" /></p>
+<p>由于应用采用多进程的方式，网上找个脚本来跑，稍微改一下，能找到<code>libjavacore.so</code>去加载了<code>libabab.so</code>，但是没办法搞到<code>libabab.so</code>的module对象，并且监听数据库也没有监听到打开记录，后来发现是模拟器原因，在模拟器中没法找到。。真机中就可以找到了</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># -*- coding: utf-8 -*-</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">codecs</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">import</span> <span class="nn">frida</span>
@@ -2121,10 +2121,10 @@ cyberchef直接解，按照生成方式，解密后的内容以<code>|</code>区
 <a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a><span class="n">device</span><span class="o">.</span><span class="n">resume</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
 <a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 </code></pre></div>
-<p><img alt="" src="../images/yhim/2817142-20231017185239299-1723539508.png" />
-这是真机中的情况，这里换成了最新的野火IMdemo，可以看到确实加载了
-<img alt="" src="../images/yhim/2817142-20231017185239632-34875337.png" />
-接下来写脚本即可（地址基于最新的野火IMdemo中arm64架构的so文件)Z</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185239299-1723539508.png" /></p>
+<p>这是真机中的情况，这里换成了最新的野火IMdemo，可以看到确实加载了</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185239632-34875337.png" /></p>
+<p>接下来写脚本即可（地址基于最新的野火IMdemo中arm64架构的so文件)Z</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">jscode</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="s2">setImmediate(function () {</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="s2">  Java.perform(function () {</span>
@@ -2149,10 +2149,10 @@ cyberchef直接解，按照生成方式，解密后的内容以<code>|</code>区
 <a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="s2">})</span>
 <a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="s2">&quot;&quot;&quot;</span>
 </code></pre></div>
-<p>可以看到输出的密钥和解密结果一致
-<img alt="" src="../images/yhim/2817142-20231017185239917-2026235325.png" />
-<img alt="" src="../images/yhim/2817142-20231017185240290-1390911405.png" />
-<img alt="" src="../images/yhim/2817142-20231017185240620-984935237.png" /></p>
+<p>可以看到输出的密钥和解密结果一致</p>
+<p><img alt="" src="../images/yhim/2817142-20231017185239917-2026235325.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185240290-1390911405.png" /></p>
+<p><img alt="" src="../images/yhim/2817142-20231017185240620-984935237.png" /></p>
 
 
 

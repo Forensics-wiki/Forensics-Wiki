@@ -1,4 +1,4 @@
-> 转自：WXjzc-再战野火IM
+> 转自：WXjzc-再战野火IM  
 >原文链接：https://www.cnblogs.com/WXjzc/p/17770436.html
 
 > 起因是在盘古石决赛时，有一个手机取证的APP是基于野火IM进行的开发。当时未按照正常方式解出，没找出数据库密钥。
@@ -13,63 +13,118 @@
 ## 源码
 
 克隆源码仓库并阅读，在`proto`目录下可以看到`MessageDB.h`，往src目录翻，可以看到`MessageDB.cc`，在这个代码文件中，可以看到生成sql语句的代码
+
 ![](./images/yhim/2817142-20231017185228418-1812982849.png)
+
 而`db`则由`DB2`这个类创建
+
 ![](./images/yhim/2817142-20231017185228891-1673447550.png)
+
 `DB2::Open`中传入数据库密钥
+
 ![](./images/yhim/2817142-20231017185229204-396221973.png)
+
 ![](./images/yhim/2817142-20231017185229514-671228346.png)
+
 搜索调用，能发现是在`business.cc`中打开了数据库
+
 ![](./images/yhim/2817142-20231017185229793-209873540.png)
+
 在`setAuthInfo`函数中，调用`decodeToken`函数来解密token并生成密钥
+
 ![](./images/yhim/2817142-20231017185230134-2091479337.png)
+
 `decodeToken`中，先对token解base64，随后调用`decrypt_data`进行解密，该函数的定义在`libemqtt.cc`中
+
 ![](./images/yhim/2817142-20231017185230516-157124813.png)
+
 ![](./images/yhim/2817142-20231017185230877-2087910305.png)
+
 很明显用了aes来解密，key是常量`0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x78,0x79,0x7A,0x7B,0x7C,0x7D,0x7E,0x7F`
+
 ![](./images/yhim/2817142-20231017185231241-1110073313.png)
+
 ![](./images/yhim/2817142-20231017185231583-67292812.png)
+
 又可以看到iv的生成方式，由于解密传入的`uiKeyLen`就是key的长度，根据生成方式，iv与key相同
+
 ![](./images/yhim/2817142-20231017185231897-487894470.png)
+
 ![](./images/yhim/2817142-20231017185232180-8158683.png)
+
 接下来需要获取token，逆一下apk，很容易就能找到位置，在app的data目录下的`shared_prefs/config.xml`中
+
 ![](./images/yhim/2817142-20231017185232458-752219472.png)
+
 ![](./images/yhim/2817142-20231017185232791-1976023325.png)
+
 得到token为`800MdqKouy0Fb557abV+xAP112wQHm22bTVrr+VwQsh555Q+OCKgUQanxCX2HgAUbztEbl+RduchQfy8Msi14v8+6BATZWCIBmo3W9av2u8v4+ovfLh0mcKSDZomvFzUhYWt53KHWXp4bWmdVtG3kCKGOtsKmZDuAA3rnVy5pUA=`
+
 cyberchef直接解，按照生成方式，解密后的内容以`|`区分，密钥为最后一个，即`62a9e3e2-7ffc-42e1-aa65-d6046e009d6b`
+
 ![](./images/yhim/2817142-20231017185233148-1695914661.png)
+
 尝试解密数据库，`DB Browser for SQLite`使用`SQLCipher 4`的默认参数即可解密
+
 ![](./images/yhim/2817142-20231017185233548-1911937999.png)
+
 ![](./images/yhim/2817142-20231017185233952-1038721564.png)
+
 
 ## 逆向
 
 读取`id`和`token`传入`connect`，读取的配置文件是`sharedPreferences`目录下的`config.xml`
+
 ![](./images/yhim/2817142-20231017185234335-1455058783.png)
+
 不断跟进`connect`方法，在`cn.wildfirechat.remote.ChatManager`类中
+
 ![](./images/yhim/2817142-20231017185234675-508625496.png)
+
 在`cn.wildfirechat.client.IRemoteClient`接口中
+
 ![](./images/yhim/2817142-20231017185234961-27490230.png)
+
 它的内部类`Stub`的内部类`Proxy`中有实现
+
 ![](./images/yhim/2817142-20231017185235303-850743563.png)
+
 跟踪`Stub`，最终将`id`和`token`传入`initProto`方法
+
 ![](./images/yhim/2817142-20231017185235664-990096825.png)
+
 将token传入了`setAuthInfo`，是native层的方法，这就和之前源码分析那里对上了
+
 ![](./images/yhim/2817142-20231017185236128-1117530376.png)
+
 ![](./images/yhim/2817142-20231017185236511-906702297.png)
+
 找到加载的so，通过查看exports中是否存在`setAuthInfo`的方式确定待分析的so为`libabab.so`
-![]](./images/yhim/2817142-20231017185236784-1866942808.png)
+
+![](./images/yhim/2817142-20231017185236784-1866942808.png)
+
 ![](./images/yhim/2817142-20231017185237088-1880053227.png)
+
 ![](./images/yhim/2817142-20231017185237419-1872822803.png)
+
 在这里正向看很难看出什么东西，慢慢跟进`sub_ADD80`
+
 ![](./images/yhim/2817142-20231017185237753-962096211.png)
+
 ![](./images/yhim/2817142-20231017185238050-161346355.png)
+
 可以看到一些字符串，显然是通过`sub_30830`和源码中的函数产生了某些关联，可以直接查它的引用
+
 ![](./images/yhim/2817142-20231017185238393-1967487118.png)
+
 能找到`Open`函数了，进一步通过上面的`open db`来找函数，hook这些函数的参数，就能找到密钥
+
 ![](./images/yhim/2817142-20231017185238704-2032610735.png)
+
 ![](./images/yhim/2817142-20231017185238990-734866920.png)
+
 由于应用采用多进程的方式，网上找个脚本来跑，稍微改一下，能找到`libjavacore.so`去加载了`libabab.so`，但是没办法搞到`libabab.so`的module对象，并且监听数据库也没有监听到打开记录，后来发现是模拟器原因，在模拟器中没法找到。。真机中就可以找到了
+
 
 ```python
 # -*- coding: utf-8 -*-
@@ -147,8 +202,11 @@ sys.stdin.read()
 ```
 
 ![](./images/yhim/2817142-20231017185239299-1723539508.png)
+
 这是真机中的情况，这里换成了最新的野火IMdemo，可以看到确实加载了
+
 ![](./images/yhim/2817142-20231017185239632-34875337.png)
+
 接下来写脚本即可（地址基于最新的野火IMdemo中arm64架构的so文件)Z
 
 ```python
@@ -178,6 +236,9 @@ setImmediate(function () {
 ```
 
 可以看到输出的密钥和解密结果一致
+
 ![](./images/yhim/2817142-20231017185239917-2026235325.png)
+
 ![](./images/yhim/2817142-20231017185240290-1390911405.png)
+
 ![](./images/yhim/2817142-20231017185240620-984935237.png)
