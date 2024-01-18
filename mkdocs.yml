@@ -139,7 +139,6 @@ nav:
       - CDN基础: linux/cdn.md
       - 宝塔面板取证: linux/bt.md
       - 常见webshell工具流量特征: linux/webshell.md
-      - 野火IM分析: linux/yhim.md
   - 内存取证:
       - 介绍: volatility/js.md
       - 安装: volatility/install.md
@@ -164,4 +163,5 @@ nav:
       - 2022长安杯Writeup: writeup/2022changancup.md
       - 2023盘古石杯Writeup: writeup/2023pgs.md
       - 2023龙信杯Writeup: writeup/2023lxb.md
-
+  - 开源程序解析:
+      - 野火IM: open/yhim.md
