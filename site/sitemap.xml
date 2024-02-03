@@ -146,12 +146,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.forensics-wiki.com/volatility/base/</loc>
+         <loc>https://www.forensics-wiki.com/volatility/Windowsbase/</loc>
          <lastmod>2024-02-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.forensics-wiki.com/volatility/cmd/</loc>
+         <loc>https://www.forensics-wiki.com/volatility/Windowscmd/</loc>
          <lastmod>2024-02-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -162,6 +162,11 @@
     </url>
     <url>
          <loc>https://www.forensics-wiki.com/volatility/js/</loc>
+         <lastmod>2024-02-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.forensics-wiki.com/volatility/profile/</loc>
          <lastmod>2024-02-03</lastmod>
          <changefreq>daily</changefreq>
     </url>

@@ -27,8 +27,10 @@ comments: true
 - 内存取证
     - [简介](./volatility/js.md)
     - [安装步骤](./volatility/install.md)
-    - [基本用法](./volatility/base.md)
-    - [命令参考](./volatility/cmd.md)
+    - [Windows基本用法](./volatility/Windowsbase.md)
+    - [Windows命令参考](./volatility/Windowscmd.md)
+    - [Win-Profiles](./volatility/profile.md)
+    - [MemProcFS](./volatility/MemProcFS.md)
 
 - 安卓取证
     - [短信/彩信取证技术](./android/sms.md)
@@ -37,7 +39,19 @@ comments: true
 - iOS取证
     - [短信/彩信取证方法](./iOS/sms.md)
 
+- 工具介绍:
+    - [介绍](./tools/index.md)
+    - [Autopsy](./tools/autopsy.md)
+    - [DumpIt](./tools/dumpit.md))
+    - [Everything](./tools/everything.md)
+    - [FTK Imager](./tools/ftkimager.md)
+    - [Navicat Premium](./tools/navicat.md)
+    - [R-Studio Network](./tools/rstudio.md)
+
 - 赛题解析
     - [首届盘古石电子数据取证大赛晋级赛解析](./writeup/2023pgs.md)
     - [第四届长安杯电子数据取证大赛解析](./writeup/2022changancup.md)
     - [2023龙信杯电子数据取证竞赛](./writeup/2023lxb.md)
+	
+- 开源程序解析
+	- [野火IM](./open/yhim.md)

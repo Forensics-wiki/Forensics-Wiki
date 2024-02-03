@@ -142,8 +142,9 @@ nav:
   - 内存取证:
       - 介绍: volatility/js.md
       - 安装: volatility/install.md
-      - 基本用法: volatility/base.md
-      - 命令参考: volatility/cmd.md
+      - Windows基本用法: volatility/Windowsbase.md
+      - Windows命令参考: volatility/Windowscmd.md
+      - Win-Profiles : volatility/profile.md
       - MemProcFS: volatility/MemProcFS.md
   - 安卓取证:
       - 彩信/短信取证: android/sms.md
