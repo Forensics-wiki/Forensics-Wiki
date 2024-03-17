@@ -129,6 +129,7 @@ nav:
       - 镜像仿真-DD、E01: base/dd.md
       - 镜像仿真-Windows Server: base/win.md
       - 常见的时间戳转换: base/time.md
+      - 各类文件打开方式: base/openfiles.md
   - Windows取证:
       - Bitlocker加密与解密: windows/bitlocker.md
       - EFS加密与解密: windows/efs.md
