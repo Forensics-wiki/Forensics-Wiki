@@ -42,7 +42,7 @@ comments: true
 - 工具介绍:
     - [介绍](./tools/index.md)
     - [Autopsy](./tools/autopsy.md)
-    - [DumpIt](./tools/dumpit.md))
+    - [DumpIt](./tools/dumpit.md)
     - [Everything](./tools/everything.md)
     - [FTK Imager](./tools/ftkimager.md)
     - [Navicat Premium](./tools/navicat.md)

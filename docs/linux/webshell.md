@@ -25,7 +25,7 @@ comments: true
 
 1. payload在请求体中，采用url编码+base64编码，payload部分是明文传输。
 2. payload中有eval或assert、base64_decode这样的字符。
-3. payload中有默认固定的&z0=QGluaV9zZXQ...这样base64加密的攻击载荷，参数z0对应$_POST[z0]接收到的数据，且固定为QGluaV9zZXQ开头。进行base64解码后可看到代码：@ini_set("display_errors","0");@set_time_limit(0);@set_magic_quotes_runtime(0);这段意思是首先关闭报错和magic_quotes，接下来去获取主机的信息。
+3. payload中有默认固定的&z0=QGluaV9zZXQ...这样base64加密的攻击载荷，参数z0对应$_POST[z0]接收到的数据，且固定为QGluaV9zZXQ开头。进行base64解码后可看到代码：\@ini_set("display_errors","0");\@set_time_limit(0);\@set_magic_quotes_runtime(0);这段意思是首先关闭报错和magic_quotes，接下来去获取主机的信息。
 
 ![image.png](./assets/image2.png)<br />![image.png](./assets/image7.png)
 
@@ -40,7 +40,7 @@ comments: true
 ![image.png](./assets/image3.png)<br />![image.png](./assets/image4.png)
 
 1. 请求时可选择多种编码器，如果采用默认的方式，则仅进行url编码。
-2. 进行连接时会进行两次请求，第一次请求的payload和菜刀相似，也是@ini_set("display_errors","0");@set_time_limit(0);@set_magic_quotes_runtime(0);意思是关闭报错和magic_quotes，接下来区获取主机信息。这段代码基本是所有WebShell客户端链接PHP类WebShell都有的一种代码。
+2. 进行连接时会进行两次请求，第一次请求的payload和菜刀相似，也是\@ini_set ("display_errors","0");\@set_time_limit(0);\@set_magic_quotes_runtime(0);意思是关闭报错和magic_quotes，接下来区获取主机信息。这段代码基本是所有WebShell客户端链接PHP类WebShell都有的一种代码。
 3. 第二次请求会把主机的目录列出来。
 4. 由于蚁剑中包含了很多加密、绕过插件，所以导致很多流量被加密后无法识别，但是蚁剑混淆加密后还有一个比较明显的特征，即为参数名大多以“_0x.....=”这种形式（下划线可替换为其他）所以，以_0x开头的参数名，后面为加密数据的数据包也可识别为蚁剑的流量特征。
 ### 冰蝎

@@ -25,7 +25,7 @@ MemProcFS是Ulf Frisk（@UlfFrisk，https://twitter.com/UlfFrisk）开发的内�
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sJL3iclvPKDjXRiaY3nhRCwfSpIf2e7QTibIy8tkD7g1rczLe6ASOYcTPg.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sJL3iclvPKDjXRiaY3nhRCwfSpIf2e7QTibIy8tkD7g1rczLe6ASOYcTPg.png)
 
 **0x01. 安装**
 
@@ -35,13 +35,13 @@ MemProcFS的运行需要一些依赖的库。
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sE7iasT3EMGBZnHZFaJv7JfWT7xMRvFEgqpcNOMUCCDKBiaKPuicEJMbtQ.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sE7iasT3EMGBZnHZFaJv7JfWT7xMRvFEgqpcNOMUCCDKBiaKPuicEJMbtQ.png)
 
 然后需要安装LeechCore。这是一个Python的依赖库。使用pip工具安装该库如下图：
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sW12s6ADXm8tvNIjKibVWDgRCCckPAcf7n3tE9viaB5kI3fcsFUicg5jhQ.jpg)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sW12s6ADXm8tvNIjKibVWDgRCCckPAcf7n3tE9viaB5kI3fcsFUicg5jhQ.jpg)
 
 再次是安装下一步是安装Microsoft Visual C++ Redistributables for Visual Studio 2019。你可以从https://go.microsoft.com/fwlink/?LinkId=746572获得安装程序。这是一个标准的Windows安装程序，双击运行就可以了。
 
@@ -51,13 +51,13 @@ MemProcFS的运行需要一些依赖的库。
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sgLY4RTUKlRr2IOFxXlFWrlpzib4JN9Lpgz0UG5pYJAGJUzkGGMyLd4Q.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sgLY4RTUKlRr2IOFxXlFWrlpzib4JN9Lpgz0UG5pYJAGJUzkGGMyLd4Q.png)
 
 请下载如上图红框标注的版本，下载后解压缩，如图所示：
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sQMyIHq7qHdadGmiaiazsaqVzZnKiaNZCojejQrDuhrlHNcN6JKHLdjZgA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sQMyIHq7qHdadGmiaiazsaqVzZnKiaNZCojejQrDuhrlHNcN6JKHLdjZgA.png)
 
 现在就可以使用这个框架了。
 
@@ -75,31 +75,31 @@ MemProcFS的运行需要一些依赖的库。
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sO4NRh6FFc146e1YURiahJ5zeQNPR6LUPEcQ06zToibXjUIfiaIIV4jWxg.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sO4NRh6FFc146e1YURiahJ5zeQNPR6LUPEcQ06zToibXjUIfiaIIV4jWxg.png)
 
 然后我们可以运行以下命令来使用MemProcFS分析刚刚制作的内存镜像，e:\\Develop\\memprocfs\\MemProcFS.exe -device memdump.dd，如下图所示：
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sf1NPBBXxicnVHmDCFdiaojebWayibhSuW789VknuvKlQmEhsgVxL8VAgw.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sf1NPBBXxicnVHmDCFdiaojebWayibhSuW789VknuvKlQmEhsgVxL8VAgw.png)
 
 这里我们可以看到MemProcFS识别出来我们这个内存镜像的操作系统是: Windows 6.1.7601 (X64)，并且在创建了一个虚拟文件系统，并挂载到了系统的M:\\盘。在不指定挂载点的时候，MemProcFS缺省挂载到M:\\盘。如果M:\\已经存在，则会报错，如下图：
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sfkr8ssibBexANXItysn4ibf5zSmIFk6ibHmfIrYfiaY8EPMRoJLNAGZRDA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sfkr8ssibBexANXItysn4ibf5zSmIFk6ibHmfIrYfiaY8EPMRoJLNAGZRDA.png)
 
 指定其他挂载点，比如Q:\\，可以使用选项-mount Q。如下图所示：
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03s60ic4cowicvUiaSLtib4twVHibNB1vjGC1dScg9azWKyeWKgPEFfH4oQv2Q.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03s60ic4cowicvUiaSLtib4twVHibNB1vjGC1dScg9azWKyeWKgPEFfH4oQv2Q.png)
 
 好了，现在我们把使用内存镜像制作的虚拟文件系统挂载到了M:\\，我们可以打开资源管理器，直接访问M:\\，如下图：
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sTc98q8o9Dib9ib0rweYHZibIVISZ7LmphRmXYgRoficFjsH2KckgvawzjA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sTc98q8o9Dib9ib0rweYHZibIVISZ7LmphRmXYgRoficFjsH2KckgvawzjA.png)
 
 我们以内存里的注册表分析为例，来显示如何进行内存分析。
 
@@ -107,7 +107,7 @@ MemProcFS的运行需要一些依赖的库。
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sdP34DmjUaciczVBJSkYGFgAzCKPaOJROHUQ3ac8KwbAAnv2GVc1WzoA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sdP34DmjUaciczVBJSkYGFgAzCKPaOJROHUQ3ac8KwbAAnv2GVc1WzoA.png)
 
 我们可以直接使用注册表配置单元工具进行分析，比如使用内置注册表编辑器Regedit进行分析。
 
@@ -115,35 +115,35 @@ MemProcFS的运行需要一些依赖的库。
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sS3UtuysXic7ppIy8b0ZXnziasBfibOuJpvctaib5r06XM31MuTiaomYVicKg.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sS3UtuysXic7ppIy8b0ZXnziasBfibOuJpvctaib5r06XM31MuTiaomYVicKg.png)
 
 我们运行Regedit.exe，如图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sYWia81bABvManpvT95LDibAp8B71ib26aMfmnicHkHepWiakXRiatCzibOFPg.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sYWia81bABvManpvT95LDibAp8B71ib26aMfmnicHkHepWiakXRiatCzibOFPg.png)
 
 我们选择“文件”菜单->”加载配置单元“，如图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sVGqhE8hicXqpynQ4zLXZAUNug6dz7vBRW1CibpMF42ECtWPNOCb9tibvA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sVGqhE8hicXqpynQ4zLXZAUNug6dz7vBRW1CibpMF42ECtWPNOCb9tibvA.png)
 
 我们选择加载SOFTWARE配置单元，如下图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03s7Igs9lrDOAnnGSOYEKbU47cFCjWicw67cAnmXqku581qmZ531dARaYA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03s7Igs9lrDOAnnGSOYEKbU47cFCjWicw67cAnmXqku581qmZ531dARaYA.png)
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sfHA8UPOJBCupepjlnyMk3gIdTnjzy7dpibdtOGpFFGxX8Ah5nWQQ5Iw.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sfHA8UPOJBCupepjlnyMk3gIdTnjzy7dpibdtOGpFFGxX8Ah5nWQQ5Iw.png)
 
 加载完成如下图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sHmj2DuBXKjF6mFf58JhenI3DoFNZdYdPX9DNV66AoiahdH0tRCrwDFQ.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sHmj2DuBXKjF6mFf58JhenI3DoFNZdYdPX9DNV66AoiahdH0tRCrwDFQ.png)
 
 可以看到在HKU下挂载了一个名为SOFT的注册表键，可以像正常注册表那样访问里面的键和值。
 
 我们也可以使用取证软件比如Registry Explorer（https://ericzimmerman.github.io/#!index.md）加载分析，如图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sjH8ibdQ7L1ic0rciazjfhwXBdQC86owftBZ3sr92EyDVo4E0enaS5aGQQ.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sjH8ibdQ7L1ic0rciazjfhwXBdQC86owftBZ3sr92EyDVo4E0enaS5aGQQ.png)
 
 当我们完成内存分析工作时，只要在运行MemProcFs的窗口按Ctrk+C即可退出。如图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sXlUVKQVFOlbjGiavfxhQmDPzLrWgndOYrg58mb3jF5uXPDDUCLsxicyA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sXlUVKQVFOlbjGiavfxhQmDPzLrWgndOYrg58mb3jF5uXPDDUCLsxicyA.png)
 
 **0x03. MemProcFS能做什么**
 
@@ -155,41 +155,41 @@ MemProcFS的运行需要一些依赖的库。
 
   
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sG6HBALefgLV3icmb02WxSrhQ3JjmGebaVnoibM8Q9A7DFOY8MTjcHkRg.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sG6HBALefgLV3icmb02WxSrhQ3JjmGebaVnoibM8Q9A7DFOY8MTjcHkRg.png)
 
 进程名字后面的数字是进程的pid。
 
 另外一个目录是根目录下pid目录，里面是按进程 pid 列出的每个进程目录。如下图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03shU6KGevTTKAGibBHUMfd1gdyH0qUOzPUkFichWbaaPzsA8SPsyCiagOkw.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03shU6KGevTTKAGibBHUMfd1gdyH0qUOzPUkFichWbaaPzsA8SPsyCiagOkw.png)
 
 这些子目录里可以查看进程的相关信息，比如命令行：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sJ4sGibUIFUyaKQMbWAMXXjotwcdXGNq3xJCWmSzvrRrAIEG9cnzj5hQ.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sJ4sGibUIFUyaKQMbWAMXXjotwcdXGNq3xJCWmSzvrRrAIEG9cnzj5hQ.png)
 
 **2\. 系统信息**
 
 系统信息在根目录下的sys目录，如图所示：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sz8Zn7u8ibpmZO3w7KMWibn8c1VyZG4KEwKZFbhm7g2a7jzxYVfcoNwgA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sz8Zn7u8ibpmZO3w7KMWibn8c1VyZG4KEwKZFbhm7g2a7jzxYVfcoNwgA.png)
 
 这里面的内容包括：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03saW15Vn2Cx2xcAIoRiabOjQNOib6wCn799l6roCN2icLG1yHaShHayupLw.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03saW15Vn2Cx2xcAIoRiabOjQNOib6wCn799l6roCN2icLG1yHaShHayupLw.png)
 
 比如操作系统版本如下图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sicqZJRFj0icNzz2bI0cRXRqcBuw5wmib5VpVI5mvfcBDQNRmaBf1qBUyA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sicqZJRFj0icNzz2bI0cRXRqcBuw5wmib5VpVI5mvfcBDQNRmaBf1qBUyA.png)
 
 **3\. 其他系统信息**
 
 Sys目录下还有一些子目录，代表不同的系统信息，比如证书、驱动、进程、网络、内核对象等，如下图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sic8TtvzWM5p6NMwgGTZcgpTSbicibBcqxqkr2TJiaWRRZhybjOMNp40XCA.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03sic8TtvzWM5p6NMwgGTZcgpTSbicibBcqxqkr2TJiaWRRZhybjOMNp40XCA.png)
 
 比如我们可以看看users目录，下面是用户信息，如图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03s1sSn1H7L52EFQfJib73yu51rcMG68KiaJxVzUf2ZibqLG8vTrsDgp38og.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03s1sSn1H7L52EFQfJib73yu51rcMG68KiaJxVzUf2ZibqLG8vTrsDgp38og.png)
 
 **4\. 取证相关信息**
 
@@ -209,7 +209,7 @@ Sys目录下还有一些子目录，代表不同的系统信息，比如证书�
 
 其中包括：bitlocker相关信息、检测到恶意软件信息、内存地址和物理地址映射表、浏览器相关信息等。这个目录下也有一个全局进程列表文件，如下图：
 
-![](imgs\4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03s2Cu8mwibicSiaVvLgzG7sunK3POq9VAbFAyZanfTdPwdFJiaFTmsuiaa2Fw.png)
+![](imgs/4ic1PjqhJrM7qjQyD0LdJib8AZZxbFN03s2Cu8mwibicSiaVvLgzG7sunK3POq9VAbFAyZanfTdPwdFJiaFTmsuiaa2Fw.png)
 
 **6\. 其他**
 
