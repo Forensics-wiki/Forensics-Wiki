@@ -23,6 +23,9 @@ comments: true
     - [基础命令](./linux/basecommand.md)
     - [CDN基础知识](./linux/cdn.md)
     - [宝塔面板取证](./linux/bt.md)
+    - [常见webshell工具流量特征](./linux/webshell.md)
+    - [通过.frm和.idb文件恢复mysql数据库](./linux/sql.md)
+    - [新版宝塔加密数据解密](./linux/newbt.md)
 
 - 内存取证
     - [简介](./volatility/js.md)
