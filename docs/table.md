@@ -26,6 +26,7 @@ comments: true
     - [常见webshell工具流量特征](./linux/webshell.md)
     - [通过.frm和.idb文件恢复mysql数据库](./linux/sql.md)
     - [新版宝塔加密数据解密](./linux/newbt.md)
+    - [PVE 7.2 iso 镜像重置 pve root密码](./linux/pvere.md)
 
 - 内存取证
     - [简介](./volatility/js.md)
