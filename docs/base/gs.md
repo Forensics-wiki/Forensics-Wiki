@@ -14,7 +14,7 @@ comments: true
 
 - L01
 - Lx01
-- AD1
+- AD1   ---ctf赛事中常出现，使用FTK Imager打开
 
 ## 虚拟磁盘
 
