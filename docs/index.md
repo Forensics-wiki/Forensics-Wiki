@@ -4,6 +4,10 @@ comments: true
 
 # Forensics-Wiki
 
+## 公告🔈
+
+> 因 电子数据取证靶场 服务器到期，目前正在协商中......   2024年11月10日
+
 ## 项目简介🔎
 
 Forensics-Wiki是一个关于电子数据取证的维基百科，网址：https://www.forensics-wiki.com/ 。旨在为国内的取证从业者提供高质量的学习平台。
