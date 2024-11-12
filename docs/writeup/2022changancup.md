@@ -24,13 +24,13 @@ VeraCrypt使用参考：[Forensics-Wiki](https://www.forensics-wiki.com)
 
 直接使用火眼即可得到
 
-![image-20221031203013152](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031203013152.png)
+![image-20221031203013152](https://alioss.zhangz.cc/post/image-20221031203013152.png)
 
 ### 2. 分析检材1，搭建该服务器的技术员IP地址是多少？用该地址解压检材2
 
 可以在登录日志中查看IP都是为同一个，所以确定为技术员的IP地址即：**172.16.80.100**
 
-![image-20221031203904582](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031203904582.png)
+![image-20221031203904582](https://alioss.zhangz.cc/post/image-20221031203904582.png)
 
 ### 3. 检材1中，操作系统发行版本号为
 
@@ -40,7 +40,7 @@ VeraCrypt使用参考：[Forensics-Wiki](https://www.forensics-wiki.com)
 cat /etc/redhat-release
 ```
 
-![image-20221031204532795](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031204532795.png)
+![image-20221031204532795](https://alioss.zhangz.cc/post/image-20221031204532795.png)
 
 
 
@@ -52,13 +52,13 @@ cat /etc/redhat-release
 ifconfig
 ```
 
-![image-20221031204920519](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031204920519.png)
+![image-20221031204920519](https://alioss.zhangz.cc/post/image-20221031204920519.png)
 
 ### 5. 检材1中，网站jar包所存放的目录是(答案为绝对路径，如“/home/honglian/”)
 
 查看历史命令，发现多次进入`/web/app`目录，并执行npm等指令，进入后发现有多个jar包，确定为网站jar包所存放目录
 
-![image-20221031205135523](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031205135523.png)
+![image-20221031205135523](https://alioss.zhangz.cc/post/image-20221031205135523.png)
 
 ### 6. 检材1中，监听7000端口的进程对应文件名为
 
@@ -66,7 +66,7 @@ ifconfig
 
 将jar包全部导出，逐个分析，查看是哪个jar包使用了7000端口
 
-![image-20221031210228367](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031210228367.png)
+![image-20221031210228367](https://alioss.zhangz.cc/post/image-20221031210228367.png)
 
 在`cloud.jar`中发现使用7000端口
 
@@ -78,25 +78,25 @@ ifconfig
 
 检材2 D盘中的start_web.sh 即启动脚本
 
-![image-20221031213016579](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031213016579.png)
+![image-20221031213016579](https://alioss.zhangz.cc/post/image-20221031213016579.png)
 
-![image-20221031220959669](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031220959669.png)
+![image-20221031220959669](https://alioss.zhangz.cc/post/image-20221031220959669.png)
 
 完全启动后查看端口使用情况
 
-![image-20221031221301002](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031221301002.png)
+![image-20221031221301002](https://alioss.zhangz.cc/post/image-20221031221301002.png)
 
 在进入9090的时候发现为网站的后台
 
-![image-20221031221330898](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031221330898.png)
+![image-20221031221330898](https://alioss.zhangz.cc/post/image-20221031221330898.png)
 
 ### 8. 检材1中，网站前台页面里给出的APK的下载地址是（答案格式如下：“https://www.forensix.cn/abc/def”)
 
 依上题，查看3000端口后发现为网站前端，找到APP下载地址，扫描即可得到答案
 
-![image-20221031221525710](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031221525710.png)
+![image-20221031221525710](https://alioss.zhangz.cc/post/image-20221031221525710.png)
 
-![image-20221031221709834](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031221709834.png)
+![image-20221031221709834](https://alioss.zhangz.cc/post/image-20221031221709834.png)
 
 ### 9. 检材1中，网站管理后台页面调用的用户表(admin)里的密码字段加密方式为?
 
@@ -112,7 +112,7 @@ ifconfig
 
 通过搜索md5，发现对md5的调用
 
-![image-20221031222612209](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031222612209.png)
+![image-20221031222612209](https://alioss.zhangz.cc/post/image-20221031222612209.png)
 
 #### 方法四
 
@@ -122,11 +122,11 @@ ifconfig
 http://172.16.80.133:6010/admin/system/employee/googleAuth/sign/in
 ```
 
-![image-20221031222810213](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031222810213.png)
+![image-20221031222810213](https://alioss.zhangz.cc/post/image-20221031222810213.png)
 
 其中的`/sign/in`在admin-api.jar包中也出现了，同时后面的账号验证机制也使用到了md5key
 
-![image-20221031233006229](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031233006229.png)
+![image-20221031233006229](https://alioss.zhangz.cc/post/image-20221031233006229.png)
 
 #### 10. 分析检材1，网站管理后台登录密码加密算法中所使用的盐值是
 
@@ -151,7 +151,7 @@ bdtop.system.data-center-id=1
 
 通过火眼分析即可得到
 
-![image-20221031234044249](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031234044249.png)
+![image-20221031234044249](https://alioss.zhangz.cc/post/image-20221031234044249.png)
 
 ### 12. 检材2中，除检材1以外，还远程连接过哪个IP地址？并用该地址解压检材3
 
@@ -159,7 +159,7 @@ bdtop.system.data-center-id=1
 
 所以在分析结果中排除172.16.80.133，另一个IP即是答案
 
-![image-20221031234223097](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031234223097.png)
+![image-20221031234223097](https://alioss.zhangz.cc/post/image-20221031234223097.png)
 
 ### 13. 检材2中，powershell中输入的最后一条命令是
 
@@ -167,13 +167,13 @@ bdtop.system.data-center-id=1
 
 而Windows中的Powershell位置是`%USERPROFILE%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt`
 
-![image-20221031234531861](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031234531861.png)
+![image-20221031234531861](https://alioss.zhangz.cc/post/image-20221031234531861.png)
 
 ### 14. 检材2中，下载的涉案网站源代码文件名为
 
 将镜像仿真起来，发现在`下载`中有多个zip
 
-![image-20221031235008404](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221031235008404.png)
+![image-20221031235008404](https://alioss.zhangz.cc/post/image-20221031235008404.png)
 
 通过在github搜索[ZTuoExchange_framework](https://github.com/sengeiou/ZTuoExchange_framework)发现符合本次比赛的案情。
 
@@ -181,7 +181,7 @@ bdtop.system.data-center-id=1
 
 在解析出的Google浏览器中直接发现了保存的密码
 
-![image-20221101000122797](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101000122797.png)
+![image-20221101000122797](https://alioss.zhangz.cc/post/image-20221101000122797.png)
 
 ### 16. 检材2中，技术员使用的WSL子系统发行版本是
 
@@ -189,17 +189,17 @@ bdtop.system.data-center-id=1
 
 首先在开始菜单中，发现两个子系统
 
-![image-20221101000312555](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101000312555.png)
+![image-20221101000312555](https://alioss.zhangz.cc/post/image-20221101000312555.png)
 
 但是题目要的是技术员使用的，就说明是有其他数据的
 
 通过搜索得知WSL的位置是：`C:\Users\Web King\AppData\Local\Packages`，在目录下找到这两个的文件
 
-![image-20221101000454314](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101000454314.png)
+![image-20221101000454314](https://alioss.zhangz.cc/post/image-20221101000454314.png)
 
 通过对比两个文件大小，发现20.04的版本明显大于22.04的，所以确定20.04是技术员试用的子系统
 
-![image-20221101000636930](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101000636930.png)
+![image-20221101000636930](https://alioss.zhangz.cc/post/image-20221101000636930.png)
 
 #### 方法二
 
@@ -213,25 +213,25 @@ bdtop.system.data-center-id=1
 wsl -l -v
 ```
 
-![image-20221101001052352](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101001052352.png)
+![image-20221101001052352](https://alioss.zhangz.cc/post/image-20221101001052352.png)
 
 ### 17. 检材2中，运行的数据库服务版本号是
 
 在启动mysql后，使用命令直接得到
 
-![image-20221101002019150](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101002019150.png)
+![image-20221101002019150](https://alioss.zhangz.cc/post/image-20221101002019150.png)
 
 ### 18. 上述数据库debian-sys-maint用户的初始密码是
 
 通过搜索得知debian-sys-maint用户的初始密码位于/etc/mysql/debian.cnf中
 
-![image-20221101002205932](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101002205932.png)
+![image-20221101002205932](https://alioss.zhangz.cc/post/image-20221101002205932.png)
 
 ### 19. 检材3服务器root账号的密码是
 
 在检材2的系统SSH历史输入命令中，发现曾使用sshpass对172.16.80.128进行连接，连接密码为`h123456`
 
-![image-20221101002342400](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101002342400.png)
+![image-20221101002342400](https://alioss.zhangz.cc/post/image-20221101002342400.png)
 
 ## 检材三
 
@@ -245,15 +245,15 @@ wsl -l -v
 
 进入目录后，查看docker-compose.yml配置文件，发现使用了33050，尝试启动后发现program name
 
-![image-20221101120302903](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101120302903.png)
+![image-20221101120302903](https://alioss.zhangz.cc/post/image-20221101120302903.png)
 
-![image-20221101120543991](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101120543991.png)
+![image-20221101120543991](https://alioss.zhangz.cc/post/image-20221101120543991.png)
 
 ### 21. 除MySQL外，该网站还依赖以下哪种数据库
 
 在分析检材一时，对于admin-api.jar的分析中，发现他使用了redis以及mongo
 
-![image-20221101120831194](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101120831194.png)
+![image-20221101120831194](https://alioss.zhangz.cc/post/image-20221101120831194.png)
 
 ### 22.  检材3中，MySQL数据库root账号的密码是
 
@@ -261,13 +261,13 @@ wsl -l -v
 
 同样在admin-api.jar中也可分析出密码
 
-![image-20221101121005822](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101121005822.png)
+![image-20221101121005822](https://alioss.zhangz.cc/post/image-20221101121005822.png)
 
 #### 方法二
 
 在docker-compose配置文件中也能找到
 
-![image-20221101121231075](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101121231075.png)
+![image-20221101121231075](https://alioss.zhangz.cc/post/image-20221101121231075.png)
 
 ### 23. 检材3中，MySQL数据库在容器内部的数据目录为
 
@@ -275,7 +275,7 @@ wsl -l -v
 
 通过对docker-compose.yml的分析，可以看到它是将`/data/mysql/db`目录，挂载到了容器的`/var/lib/mysql`中，所以`/var/lib/mysql`就是他的数据目录
 
-![image-20221101121352048](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101121352048.png)
+![image-20221101121352048](https://alioss.zhangz.cc/post/image-20221101121352048.png)
 
 #### 方法二
 
@@ -285,13 +285,13 @@ wsl -l -v
 docker exec -it 8eda4cb0b452 bash
 ```
 
-![image-20221101121705555](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101121705555.png)
+![image-20221101121705555](https://alioss.zhangz.cc/post/image-20221101121705555.png)
 
 ### 24. 涉案网站调用的MySQL数据库名为
 
 通过对于admin-api.jar包的分析，发现他连接的数据库名是b1
 
-![image-20221101121918839](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101121918839.png)
+![image-20221101121918839](https://alioss.zhangz.cc/post/image-20221101121918839.png)
 
 ### 25. 勒索者在数据库中修改了多少个用户的手机号？
 
@@ -316,7 +316,7 @@ docker exec -it 8eda4cb0b452 bash
 
 在该日志中搜索`DELETE`发现他删除了`b1`数据库的`member表`的内容，从973一直删到了1000，所以删除了28个用户
 
-![image-20221101123732257](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101123732257.png)
+![image-20221101123732257](https://alioss.zhangz.cc/post/image-20221101123732257.png)
 
 ### 27. 还原被破坏的数据库，分析除技术员以外，还有哪个IP地址登录过管理后台网站？用该地址解压 检材4
 
@@ -324,15 +324,15 @@ docker exec -it 8eda4cb0b452 bash
 
 首先还原被破坏的数据库，b1数据库在检材三中被删除了，因为需要将检材二中的b1放进去，然后启动mysql
 
-![image-20221101124621763](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101124621763.png)
+![image-20221101124621763](https://alioss.zhangz.cc/post/image-20221101124621763.png)
 
 之后连接数据库，在admin表中发现了登录的历史IP
 
-![image-20221101125006270](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101125006270.png)
+![image-20221101125006270](https://alioss.zhangz.cc/post/image-20221101125006270.png)
 
 #### 方法二 使用火眼数据库分析工具分析b1数据库
 
-![image-20221101125100662](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101125100662.png)
+![image-20221101125100662](https://alioss.zhangz.cc/post/image-20221101125100662.png)
 
 ### 28. 还原全部被删改数据，用户id为500的注册会员的HT币钱包地址为
 
@@ -340,13 +340,13 @@ docker exec -it 8eda4cb0b452 bash
 
 > cee631121c2ec9232f3a2f028ad5c89b
 
-![image-20221101130236339](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101130236339.png)
+![image-20221101130236339](https://alioss.zhangz.cc/post/image-20221101130236339.png)
 
 ### 29. 还原全部被删改数据，共有多少名用户的会员等级为'LV3'
 
 `member`表中会找到答案，member_grade_id`为3的情况下数据库中有158个
 
-![image-20221101131643580](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101131643580.png)
+![image-20221101131643580](https://alioss.zhangz.cc/post/image-20221101131643580.png)
 
 然而并未考虑被删除的用户中LV=3的用户数量
 
@@ -416,7 +416,7 @@ docker exec -it 8eda4cb0b452 bash
 2022-10-19T03:12:08.113211Z	   12 Query	INSERT INTO `member` VALUES (1000, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, '中国', NULL, NULL, 0, 0, NULL, 0, '13811451000', 'ee455f8f8e5d321861ed7ef5bde6dbc5', 'U000001Lo1000', 1, NULL, 0, '2022-10-18 17:6:59', '353233323433333238363833323439363634', 0, b'1', 0, 0, 'c3d54ed7-b20f-430b-8f9a-b517c11000', '2022-10-18 17:6:59', 1, NULL, 0, '13811451000', NULL, NULL, '中国', 0, 6, 0, 0, NULL)
 ```
 
-![image-20221101131437204](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101131437204.png)
+![image-20221101131437204](https://alioss.zhangz.cc/post/image-20221101131437204.png)
 
 再把这6个人加上，所以一共是158+6=164人
 
@@ -430,21 +430,21 @@ docker exec -it 8eda4cb0b452 bash
 SELECT member_id , COUNT(id),SUM(amount) FROM member_transaction GROUP BY member_id
 ```
 
-![image-20221101132128845](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101132128845.png)
+![image-20221101132128845](https://alioss.zhangz.cc/post/image-20221101132128845.png)
 
 #### 方法一
 
 导入Excel中，看从哪里开始，Excel的行数和数值不一样了。
 
-![image-20221101132333636](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101132333636.png)
+![image-20221101132333636](https://alioss.zhangz.cc/post/image-20221101132333636.png)
 
-![image-20221101132443286](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101132443286.png)
+![image-20221101132443286](https://alioss.zhangz.cc/post/image-20221101132443286.png)
 
 #### 方法二
 
 `member_wallet`中的`balance`就是他的充值记录，找到为0的就是没有充值的。
 
-![image-20221101132735075](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101132735075.png)
+![image-20221101132735075](https://alioss.zhangz.cc/post/image-20221101132735075.png)
 
 ### 31. 还原全部被删改数据，2022年10月17日总计产生多少笔交易记录？
 
@@ -454,7 +454,7 @@ SELECT member_id , COUNT(id),SUM(amount) FROM member_transaction GROUP BY member
 SELECT * FROM `member_transaction` WHERE create_time BETWEEN "2022-10-17  00:00:00" AND "2022-10-17 23:59:59"
 ```
 
-![image-20221101133059205](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101133059205.png)
+![image-20221101133059205](https://alioss.zhangz.cc/post/image-20221101133059205.png)
 
 ### 32. 还原全部被删改数据，该网站中充值的USDT总额为
 
@@ -462,7 +462,7 @@ SELECT * FROM `member_transaction` WHERE create_time BETWEEN "2022-10-17  00:00:
 SELECT SUM(amount) FROM member_transaction
 ```
 
-![image-20221101133542896](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101133542896.png)
+![image-20221101133542896](https://alioss.zhangz.cc/post/image-20221101133542896.png)
 
 ## 检材四
 
@@ -474,37 +474,37 @@ SELECT SUM(amount) FROM member_transaction
 
 搜索npbk文件，发现是夜神模拟器
 
-![image-20221101135221865](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101135221865.png)
+![image-20221101135221865](https://alioss.zhangz.cc/post/image-20221101135221865.png)
 
 ### 34. 检材4中，“老板”的阿里云账号是
 
-![image-20221101135452879](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101135452879.png)
+![image-20221101135452879](https://alioss.zhangz.cc/post/image-20221101135452879.png)
 
 ### 35.检材4中安装的VPN工具的软件名称是
 
 使用火眼直接分析得到
 
-![image-20221101135257781](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101135257781.png)
+![image-20221101135257781](https://alioss.zhangz.cc/post/image-20221101135257781.png)
 
-![image-20221101135908455](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101135908455.png)
+![image-20221101135908455](https://alioss.zhangz.cc/post/image-20221101135908455.png)
 
 ### 36. 上述VPN工具中记录的节点IP是
 
 #### 方法一
 
-![image-20221101135531549](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101135531549.png)
+![image-20221101135531549](https://alioss.zhangz.cc/post/image-20221101135531549.png)
 
 #### 方法二
 
-![image-20221101135853446](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101135853446.png)
+![image-20221101135853446](https://alioss.zhangz.cc/post/image-20221101135853446.png)
 
 ### 37. 检材4中，录屏软件安装时间为
 
 通过apk的位置找到软件的包名
 
-![image-20221101140649170](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101140649170.png)
+![image-20221101140649170](https://alioss.zhangz.cc/post/image-20221101140649170.png)
 
-![image-20221101140437417](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101140437417.png)
+![image-20221101140437417](https://alioss.zhangz.cc/post/image-20221101140437417.png)
 
 >2022-10-19 10:50:27
 
@@ -512,7 +512,7 @@ SELECT SUM(amount) FROM member_transaction
 
 在`Nox_2-disk2.vmdk/分区4/data/com.jiadi.luping/databases/record.db`中分析该数据库，发现保存有文件的相关信息
 
-![image-20221101141104263](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101141104263.png)
+![image-20221101141104263](https://alioss.zhangz.cc/post/image-20221101141104263.png)
 
 > 0c2f5dd4a9bc6f34873fb3c0ee9b762b98e8c46626410be7191b11710117a12d
 
@@ -520,7 +520,7 @@ SELECT SUM(amount) FROM member_transaction
 
 通过导出record.db还有record.db-wal文件，导入DB Brower中分析得到
 
-![image-20221101142013326](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101142013326.png)
+![image-20221101142013326](https://alioss.zhangz.cc/post/image-20221101142013326.png)
 
 > 18645091802
 
@@ -528,7 +528,7 @@ SELECT SUM(amount) FROM member_transaction
 
 火眼直接分析得到
 
-![image-20221101142058008](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101142058008.png)
+![image-20221101142058008](https://alioss.zhangz.cc/post/image-20221101142058008.png)
 
 > skterran@163.com
 
@@ -542,13 +542,13 @@ SELECT SUM(amount) FROM member_transaction
 
 使用Detect It Easy可以直接分析出
 
-![image-20221101143618187](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101143618187.png)
+![image-20221101143618187](https://alioss.zhangz.cc/post/image-20221101143618187.png)
 
 #### 方法二
 
 IDA分析得到为python
 
-![image-20221101144111978](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101144111978.png)
+![image-20221101144111978](https://alioss.zhangz.cc/post/image-20221101144111978.png)
 
 ### 42. 分析加密程序，它会加密哪些扩展名的文件？
 
@@ -564,7 +564,7 @@ IDA分析得到为python
 python pyinstxtractor.py encrypt_file.exe
 ```
 
-![image-20221101152213649](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101152213649.png)
+![image-20221101152213649](https://alioss.zhangz.cc/post/image-20221101152213649.png)
 
 之后安装uncompyle6
 
@@ -721,7 +721,7 @@ pubkey = '-----BEGIN PUBLIC KEY-----\nMIIBIzANBgkqhkiG9w0BAQEFAAOCARAAMIIBCwKCAQ
 
 通过相同的方法，对decrypt_file.exe进行逆向
 
-![image-20221101153641606](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101153641606.png)
+![image-20221101153641606](https://alioss.zhangz.cc/post/image-20221101153641606.png)
 
 ```powershell
 PS E:\1762326648\Deskop\长安杯\文件文档_20221101_142818\火眼-文件导出> uncompyle6.exe E:\1762326648\Deskop\长安杯\文件文档_20221101_142818\火眼-文件导出\decrypt_file.exe_extracted\decrypt_file_1.pyc
@@ -790,9 +790,9 @@ run_decrypt()
 
 使用该密码解密
 
-![image-20221101153933213](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101153933213.png)
+![image-20221101153933213](https://alioss.zhangz.cc/post/image-20221101153933213.png)
 
-![image-20221101153949542](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101153949542.png)
+![image-20221101153949542](https://alioss.zhangz.cc/post/image-20221101153949542.png)
 
 > FLAG1:TREFWGFS
 
@@ -804,25 +804,25 @@ run_decrypt()
 
 雷电直接获取到包名
 
-![image-20221101210423239](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101210423239.png)
+![image-20221101210423239](https://alioss.zhangz.cc/post/image-20221101210423239.png)
 
 ### 47. APK调用的权限包括
 
 在静态权限中直接获取，也可在`AndroidManifest.xml`中得到
 
-![image-20221101210731955](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101210731955.png)
+![image-20221101210731955](https://alioss.zhangz.cc/post/image-20221101210731955.png)
 
-![image-20221101210741809](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101210741809.png)
+![image-20221101210741809](https://alioss.zhangz.cc/post/image-20221101210741809.png)
 
 ### 48. 解锁第一关所使用的FLAG2值为
 
 首先对APK进行脱壳处理。
 
-![3](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/3.png)
+![3](https://alioss.zhangz.cc/post/3.png)
 
 反编译后之后搜索FLAG，得到FLAG2
 
-![image-20221101215745940](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101215745940.png)
+![image-20221101215745940](https://alioss.zhangz.cc/post/image-20221101215745940.png)
 
 ### 49.解锁第二关所使用的FLAG3值为(FLAG为8位字符串，如需在apk中输入FLAG，请输入完整内容，如输入"FLAG9:QWERT123")
 
@@ -853,7 +853,7 @@ run_decrypt()
 
 解析代码发现是把输入的值转为字符串之后，使用equals函数和前面的作比较，比较正确后返回`true`，所以`OooO0oo`应当是他所要对比的值，搜索在哪里对这个值进行了定义
 
-![image-20221101230159603](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101230159603.png)
+![image-20221101230159603](https://alioss.zhangz.cc/post/image-20221101230159603.png)
 
 ```java
 this.OooO0oo = new String(decrypt(OooO0O0.OooO0O0("ffd4d7459ad24cd035611b014a2cccac")));
@@ -888,7 +888,7 @@ this.OooO0oo = new String(decrypt(OooO0O0.OooO0O0("ffd4d7459ad24cd035611b014a2cc
 
 `init`函数调用了`libcipher.so`对密文进行了解密，与输入的值进行比较，最终判断是否正确
 
-![image-20221101230636170](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221101230636170.png)
+![image-20221101230636170](https://alioss.zhangz.cc/post/image-20221101230636170.png)
 
 所以将他执行的函数调用出来，执行一下，就可得到`OooO0O0`的输出，直接调用一个安卓的工程，把代码执行下来
 
@@ -927,30 +927,30 @@ public class App extends Application {
 
 最后连接模拟器，将此apk推送到模拟器中，查看日志，即可找到FLAG3
 
-![24](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/24.png)
+![24](https://alioss.zhangz.cc/post/24.png)
 
 ### 50.解锁第三关所需的KEY值由ASCII可显示字符组成，请请分析获取该KEY值
 
 进入第三关，要输入Key值，查看代码
 
-![17](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/17.png)
+![17](https://alioss.zhangz.cc/post/17.png)
 
 找到(i2 & 4) == 0的地方
 
-![18](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/18.png)
+![18](https://alioss.zhangz.cc/post/18.png)
 
 也是做了输入字符串的判断   
 跳转到声明处，可以看到一系列比较复杂的算法
 
-![19](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/19.png)
+![19](https://alioss.zhangz.cc/post/19.png)
 
 思路是用键盘可输入的字符串制作字典，进行暴力破解   
 再次使用Android Studio，编写代码，遍历六组数，通过算法，for循环，跑字典，算值，跑出有哪些字符可对应相应数组
 
-![20](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/20.png)
+![20](https://alioss.zhangz.cc/post/20.png)
 
 得到结果，按照六祖数的顺序，进行排序即可得到最终的key
 
-![21](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/21.png)
+![21](https://alioss.zhangz.cc/post/21.png)
 
-![22](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/22.png)
+![22](https://alioss.zhangz.cc/post/22.png)

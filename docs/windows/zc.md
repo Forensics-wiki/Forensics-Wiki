@@ -125,7 +125,7 @@ E.选项：根据下面的link，知道`First Install Date`就是`首次插入�
 
 在找到后可以发现是匹配的。
 
-![](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/Writeup/image-20221013225204591.png)
+![](https://alioss.zhangz.cc/Writeup/image-20221013225204591.png)
 
 
 ### 总结
@@ -134,8 +134,8 @@ E.选项：根据下面的link，知道`First Install Date`就是`首次插入�
 
 Link：https://www.doc88.com/p-9107655008710.html?r=1
 
-![](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/Writeup/image-20221013224354993.png)
-![](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/Writeup/image-20221013224427613.png)
+![](https://alioss.zhangz.cc/Writeup/image-20221013224354993.png)
+![](https://alioss.zhangz.cc/Writeup/image-20221013224427613.png)
 
 
 另外如果分析结果中是`usbstor`则是连接着的USB，如果是`usbhub`则是未连接的USB

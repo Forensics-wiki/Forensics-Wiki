@@ -78,7 +78,7 @@ $ python vol.py -f [image] imageinfo
 
 随后你就会获得如下的信息
 
-![image-20221119200027149](https://didctf-blog-post.oss-cn-beijing.aliyuncs.com/post/image-20221119200027149.png)
+![image-20221119200027149](https://alioss.zhangz.cc/post/image-20221119200027149.png)
 
 `Suggested Profile` 也就是他的电脑版本号，只有这个版本号才能进行之后的步骤。
 
