@@ -45,11 +45,11 @@ comments: true
 
 - 工具介绍:
     - [介绍](./tools/index.md)
+    - [面板一把梭](./tools/PanelForensics.md)
     - [Autopsy](./tools/autopsy.md)
     - [DumpIt](./tools/dumpit.md)
     - [Everything](./tools/everything.md)
     - [FTK Imager](./tools/ftkimager.md)
-    - [Navicat Premium](./tools/navicat.md)
     - [R-Studio Network](./tools/rstudio.md)
 
 - 赛题解析

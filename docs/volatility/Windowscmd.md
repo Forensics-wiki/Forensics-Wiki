@@ -287,7 +287,7 @@ comments: true
     0x000007fefd860000            0x9f000             0xffff C:\Windows\system32\msvcrt.dll
     [snip]
 
-要显示特定进程的DLL而不是所有进程的DLL，可以使用`-p`或`--pid`过滤器，如下所示。此外，在以下输出中，请注意我们正在分析一个Wow64进程。Wow64进程在PEB列表中有有限的DLL列表，但这并不意味着它们是进程地址空间中加载的*唯一* DLL。因此，Volatility会提醒您对于这些进程使用[ldrmodules](#ldrmodules)插件。
+要显示特定进程的DLL而不是所有进程的DLL，可以使用`-p`或`--pid`过滤器，如下所示。此外，在以下输出中，请注意我们正在分析一个Wow64进程。Wow64进程在PEB列表中有有限的DLL列表，但这并不意味着它们是进程地址空间中加载的*唯一* DLL。因此，Volatility会提醒您对于这些进程使用[ldrmodules]插件。
 
     $ python vol.py -f ~/Desktop/win7_trial_64bit.raw --profile=Win7SP0x64 dlllist -p 1892
     Volatility Foundation Volatility Framework 2.4
@@ -694,7 +694,7 @@ I 如果提取失败，就像上面提到的几个DLL一样，这可能意味着
 
 #### enumfunc
 
-这个插件枚举进程、DLL和内核驱动程序中的导入和导出函数。具体来说，它处理按名称或序号导入的函数、按名称或序号导出的函数以及转发导出。在大多数情况下，输出会非常详细（仅ntdll、msvcrt和kernel32导出的函数就可能达到1000+）。因此，你可以通过命令行选项（如下所示）过滤标准来减少输出的详细程度，或者你可以查看`enumfunc.py`中的代码，将其作为如何在你自己的插件中使用IAT（导入地址表）和EAT（导出地址表）解析API函数的示例。例如，[apihooks](#apihooks)插件利用导入和导出API来在检查钩子时在内存中查找函数。
+这个插件枚举进程、DLL和内核驱动程序中的导入和导出函数。具体来说，它处理按名称或序号导入的函数、按名称或序号导出的函数以及转发导出。在大多数情况下，输出会非常详细（仅ntdll、msvcrt和kernel32导出的函数就可能达到1000+）。因此，你可以通过命令行选项（如下所示）过滤标准来减少输出的详细程度，或者你可以查看`enumfunc.py`中的代码，将其作为如何在你自己的插件中使用IAT（导入地址表）和EAT（导出地址表）解析API函数的示例。例如，[apihooks]插件利用导入和导出API来在检查钩子时在内存中查找函数。
 
 还要注意，这个插件位于contrib目录中，所以你可以通过`--plugins`参数传递它，如下所示：
 
@@ -1097,7 +1097,7 @@ I 如果提取失败，就像上面提到的几个DLL一样，这可能意味着
 
 - 在内存中定位SSDT有多种方法。大多数工具通过在NT模块中查找导出的KeServiceDescriptorTable符号来实现，但这并不是Volatility的工作方式。
 
-- 对于x86系统，Volatility扫描ETHREAD对象（参见[thrdscan](#thrdscan)命令）并收集所有唯一的ETHREAD.Tcb.ServiceTable指针。这种方法更加健壮和完整，因为它可以检测到rootkits何时复制现有的SSDT并将其分配给特定线程。也请参见[threads](#threads)命令。
+- 对于x86系统，Volatility扫描ETHREAD对象（参见[thrdscan](#thrdscan)命令）并收集所有唯一的ETHREAD.Tcb.ServiceTable指针。这种方法更加健壮和完整，因为它可以检测到rootkits何时复制现有的SSDT并将其分配给特定线程。也请参见[threads]命令。
 
 - 对于x64系统（没有ETHREAD.Tcb.ServiceTable成员），Volatility反汇编ntKeAddSystemServiceTable中的代码并找到其对KeServiceDescriptorTable和KeServiceDescriptorTableShadow符号的引用。
 
