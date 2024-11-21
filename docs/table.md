@@ -56,6 +56,7 @@ comments: true
     - [首届盘古石电子数据取证大赛晋级赛解析](./writeup/2023pgs.md)
     - [第四届长安杯电子数据取证大赛解析](./writeup/2022changancup.md)
     - [2023龙信杯电子数据取证竞赛](./writeup/2023lxb.md)
+    - [2024龙信杯电子数据取证竞赛](./writeup/2024lxb.md)
     - [2024第四届FIC Writeup](./writeup/2024fic.md)
     - [2024盘古石杯Writeup](./writeup/2024pgs.md)
     - [2024第一届獬豸杯Writeup](./writeup/2024xzb.md)
