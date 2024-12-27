@@ -1,1 +1,7 @@
-document.write("<script>!(function () {'use strict';var w = window, d = document, u = \"//statistics.didctf.com/script.js\", s = document.createElement('script'), r = document.getElementsByTagName('script')[0];s.type = 'text/javascript';s.defer = true;s.src = u;s.setAttribute('data-website-id', '47454777-1b77-4c84-920d-470cc8b85de3');r.parentNode.insertBefore(s, r)})();</script>");
+(function() {
+    var script = document.createElement('script');
+    script.src = "https://statistics.didctf.com/script.js";
+    script.setAttribute('data-website-id', 'e8774b1e-7d08-4f30-b6e2-af5040da535d');
+    script.defer = true;
+    document.head.appendChild(script);
+})();
