@@ -14,7 +14,7 @@ copyright: CC BY-NC-SA 4.0 协议
 
 # 自定义百度统计统计
 extra_javascript:
-  - js/bird.js
+  - js/clarity.js
 
 extra:
   generator: false
