@@ -12,7 +12,7 @@ edit_uri: https://github.com/Forensics-wiki/Forensics-Wiki/tree/main/docs/
 # 版权
 copyright: CC BY-NC-SA 4.0 协议
 
-# 自定义百度统计统计
+# 自定义统计
 extra_javascript:
   - js/clarity.js
 
